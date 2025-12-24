@@ -30,18 +30,19 @@ export default function CookieBanner() {
 
   return (
     <div 
-      className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-cream border-t border-charcoal/10 shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-cream border-t hairline"
+      style={{ padding: 'var(--gutter-desktop)' }}
       role="dialog"
       aria-label="Cookie consent"
     >
-      <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex-1 pr-4">
-          <p className="text-sm text-charcoal/70">
+          <p className="text-charcoal/70">
             We use cookies to enhance your experience and analyze site usage. 
             By continuing, you agree to our{' '}
             <Link 
               to={createPageUrl('Privacy')} 
-              className="text-olive hover:underline"
+              className="text-olive hover:underline transition-all duration-150"
             >
               Privacy Policy
             </Link>.
@@ -50,16 +51,14 @@ export default function CookieBanner() {
         <div className="flex items-center gap-3 flex-shrink-0">
           <Button 
             variant="outline" 
-            size="sm"
             onClick={handleDecline}
-            className="border-charcoal/20 text-charcoal/70 hover:bg-charcoal/5"
+            className="border-charcoal/20 text-charcoal/70 hover:bg-charcoal/5 h-11 px-5 transition-colors duration-150"
           >
             Decline
           </Button>
           <Button 
-            size="sm"
             onClick={handleAccept}
-            className="bg-charcoal hover:bg-charcoal/90 text-cream"
+            className="bg-charcoal hover:bg-charcoal/90 text-cream h-11 px-5 transition-colors duration-150"
           >
             Accept All
           </Button>

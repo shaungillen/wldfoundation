@@ -5,9 +5,10 @@ export function H1({ children, className, ...props }) {
   return (
     <h1 
       className={cn(
-        "font-serif text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-charcoal leading-tight",
+        "font-serif text-charcoal font-light tracking-tight",
         className
-      )} 
+      )}
+      style={{ fontSize: 'var(--text-h1)', lineHeight: 'var(--line-h1)' }}
       {...props}
     >
       {children}
@@ -19,9 +20,10 @@ export function H2({ children, className, ...props }) {
   return (
     <h2 
       className={cn(
-        "font-serif text-3xl md:text-4xl font-light tracking-tight text-charcoal leading-tight",
+        "font-serif text-charcoal font-light tracking-tight",
         className
-      )} 
+      )}
+      style={{ fontSize: 'var(--text-h2)', lineHeight: 'var(--line-h2)' }}
       {...props}
     >
       {children}
@@ -33,9 +35,10 @@ export function H3({ children, className, ...props }) {
   return (
     <h3 
       className={cn(
-        "font-serif text-2xl md:text-3xl font-light text-charcoal leading-snug",
+        "font-serif text-charcoal font-light",
         className
-      )} 
+      )}
+      style={{ fontSize: 'var(--text-h3)', lineHeight: 'var(--line-h3)' }}
       {...props}
     >
       {children}
@@ -61,9 +64,10 @@ export function Lead({ children, className, ...props }) {
   return (
     <p 
       className={cn(
-        "text-lg md:text-xl text-charcoal/80 leading-relaxed font-light",
+        "text-charcoal/80 font-light",
         className
-      )} 
+      )}
+      style={{ fontSize: '20px', lineHeight: '1.6', maxWidth: '65ch' }}
       {...props}
     >
       {children}
@@ -75,9 +79,10 @@ export function Body({ children, className, ...props }) {
   return (
     <p 
       className={cn(
-        "text-base text-charcoal/70 leading-relaxed",
+        "text-charcoal/70",
         className
-      )} 
+      )}
+      style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--line-body)' }}
       {...props}
     >
       {children}
@@ -89,9 +94,10 @@ export function Small({ children, className, ...props }) {
   return (
     <p 
       className={cn(
-        "text-sm text-charcoal/60 leading-relaxed",
+        "text-charcoal/60",
         className
-      )} 
+      )}
+      style={{ fontSize: 'var(--text-small)', lineHeight: '1.55' }}
       {...props}
     >
       {children}
