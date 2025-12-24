@@ -14,6 +14,10 @@ import News from './pages/News';
 import ArticleDetail from './pages/ArticleDetail';
 import GetInvolved from './pages/GetInvolved';
 import HarlemChildrensZone from './pages/HarlemChildrensZone';
+import Governance from './pages/Governance';
+import Contact from './pages/Contact';
+import LoanInquiry from './pages/LoanInquiry';
+import Search from './pages/Search';
 import __Layout from './Layout.jsx';
 
 
@@ -34,6 +38,10 @@ export const PAGES = {
     "ArticleDetail": ArticleDetail,
     "GetInvolved": GetInvolved,
     "HarlemChildrensZone": HarlemChildrensZone,
+    "Governance": Governance,
+    "Contact": Contact,
+    "LoanInquiry": LoanInquiry,
+    "Search": Search,
 }
 
 export const pagesConfig = {
