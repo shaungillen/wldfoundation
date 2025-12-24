@@ -23,42 +23,40 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
         className
       )}
     >
-      <div className="relative aspect-[4/5] bg-beige/50 overflow-hidden mb-4">
+      <div className="relative aspect-[4/5] bg-beige/30 overflow-hidden mb-3 border hairline">
         {artwork.image_url ? (
           <img 
             src={artwork.image_url} 
             alt={`${artwork.title} by ${artwork.artist_name}`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
             loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-charcoal/20 font-serif text-lg">No Image</span>
+            <span className="text-charcoal/20 text-xs uppercase tracking-wider">Image unavailable</span>
           </div>
         )}
         
         {showStatus && artwork.status && (
           <Badge 
             className={cn(
-              "absolute top-3 left-3 text-xs font-normal",
+              "absolute top-2 left-2 text-xs font-normal border hairline",
               status.className
             )}
           >
             {status.label}
           </Badge>
         )}
-        
-        <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/5 transition-colors duration-300" />
       </div>
       
       <div className="space-y-1">
-        <p className="text-sm text-charcoal/60">
+        <p className="text-charcoal/60" style={{ fontSize: 'var(--text-small)' }}>
           {artwork.artist_name}
         </p>
-        <h3 className="font-serif text-lg text-charcoal group-hover:text-olive transition-colors line-clamp-2">
+        <h3 className="font-serif text-charcoal group-hover:underline transition-all duration-150 line-clamp-2" style={{ fontSize: '18px', lineHeight: '1.4' }}>
           {artwork.title}
         </h3>
-        <p className="text-sm text-charcoal/50">
+        <p className="text-charcoal/50" style={{ fontSize: 'var(--text-small)' }}>
           {artwork.year && artwork.year}
           {artwork.year && artwork.medium && ' · '}
           {artwork.medium && artwork.medium}
