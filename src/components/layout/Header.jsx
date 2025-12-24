@@ -49,24 +49,27 @@ export default function Header() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 bg-cream border-b",
         isScrolled 
-          ? "bg-cream/95 backdrop-blur-sm shadow-sm py-3" 
-          : "bg-transparent py-5"
+          ? "border-charcoal/15" 
+          : "border-transparent"
       )}
+      style={{ height: '72px' }}
     >
-      <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-6 h-full"
+        style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}
+      >
+        <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link 
             to={createPageUrl('Home')} 
             className="flex-shrink-0 group"
           >
             <div className="flex flex-col">
-              <span className="font-serif text-lg md:text-xl text-charcoal tracking-tight leading-none">
+              <span className="font-serif text-xl text-charcoal tracking-tight leading-none">
                 William Louis-Dreyfus
               </span>
-              <span className="text-xs uppercase tracking-[0.2em] text-olive mt-0.5">
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mt-1">
                 Foundation
               </span>
             </div>
@@ -79,13 +82,16 @@ export default function Header() {
                 key={item.href}
                 to={createPageUrl(item.href)}
                 className={cn(
-                  "px-3 py-2 text-sm transition-colors duration-200",
+                  "px-3 py-2 text-sm transition-colors duration-150 relative",
                   isActive(item.href)
                     ? "text-olive"
                     : "text-charcoal/70 hover:text-charcoal"
                 )}
               >
                 {item.label}
+                {isActive(item.href) && (
+                  <span className="absolute bottom-0 left-3 right-3 h-px bg-olive" />
+                )}
               </Link>
             ))}
           </nav>
@@ -94,7 +100,7 @@ export default function Header() {
           <div className="flex items-center space-x-2">
             <Link
               to={createPageUrl('Search')}
-              className="p-2 text-charcoal/70 hover:text-charcoal transition-colors"
+              className="p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -104,47 +110,48 @@ export default function Header() {
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild className="xl:hidden">
                 <button 
-                  className="p-2 text-charcoal/70 hover:text-charcoal transition-colors"
+                  className="p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
                   aria-label="Open menu"
                 >
                   <Menu className="w-6 h-6" />
                 </button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full sm:w-[400px] bg-cream p-0">
+              <SheetContent side="right" className="w-full sm:w-[400px] bg-cream p-0 border-l hairline">
                 <div className="flex flex-col h-full">
-                  <div className="flex items-center justify-between p-6 border-b border-charcoal/10">
-                    <span className="font-serif text-lg text-charcoal">Menu</span>
+                  <div className="flex items-center justify-between px-6 py-6 border-b hairline">
+                    <span className="font-serif text-xl text-charcoal">Menu</span>
                     <SheetClose asChild>
-                      <button className="p-2 -mr-2 text-charcoal/70 hover:text-charcoal">
+                      <button className="p-2 -mr-2 text-charcoal/70 hover:text-charcoal" style={{ minHeight: '44px', minWidth: '44px' }}>
                         <X className="w-5 h-5" />
                       </button>
                     </SheetClose>
                   </div>
-                  <nav className="flex-1 overflow-y-auto py-6">
+                  <nav className="flex-1 overflow-y-auto py-8 px-2">
                     {navItems.map((item) => (
                       <SheetClose asChild key={item.href}>
                         <Link
                           to={createPageUrl(item.href)}
                           className={cn(
-                            "block px-6 py-3 text-lg transition-colors",
+                            "block px-6 py-4 text-lg transition-colors duration-150 rounded-sm",
                             isActive(item.href)
-                              ? "text-olive bg-olive/5"
-                              : "text-charcoal/70 hover:text-charcoal hover:bg-charcoal/5"
+                              ? "text-olive"
+                              : "text-charcoal/70 hover:text-charcoal"
                           )}
+                          style={{ minHeight: '56px' }}
                         >
                           {item.label}
                         </Link>
                       </SheetClose>
                     ))}
                   </nav>
-                  <div className="p-6 border-t border-charcoal/10">
+                  <div className="px-6 py-6 border-t hairline">
                     <Link
                       to={createPageUrl('Search')}
-                      className="flex items-center space-x-3 text-charcoal/70 hover:text-charcoal"
+                      className="flex items-center space-x-3 text-charcoal/70 hover:text-charcoal py-2"
                       onClick={() => setMobileOpen(false)}
                     >
                       <Search className="w-5 h-5" />
-                      <span>Search Collection</span>
+                      <span className="text-base">Search Collection</span>
                     </Link>
                   </div>
                 </div>
