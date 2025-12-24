@@ -18,6 +18,9 @@ import Governance from './pages/Governance';
 import Contact from './pages/Contact';
 import LoanInquiry from './pages/LoanInquiry';
 import Search from './pages/Search';
+import Privacy from './pages/Privacy';
+import Accessibility from './pages/Accessibility';
+import NotFound from './pages/NotFound';
 import __Layout from './Layout.jsx';
 
 
@@ -42,6 +45,9 @@ export const PAGES = {
     "Contact": Contact,
     "LoanInquiry": LoanInquiry,
     "Search": Search,
+    "Privacy": Privacy,
+    "Accessibility": Accessibility,
+    "NotFound": NotFound,
 }
 
 export const pagesConfig = {
