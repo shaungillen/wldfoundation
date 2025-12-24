@@ -56,14 +56,14 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-cream/80">
       {/* Newsletter Section */}
-      <div className="border-b border-cream/10">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16">
+      <div className="border-b hairline-light">
+        <div className="max-w-[1200px] mx-auto py-12 md:py-16" style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="font-serif text-2xl md:text-3xl text-cream mb-2">
+              <h3 className="font-serif text-3xl text-cream mb-2">
                 Stay Connected
               </h3>
-              <p className="text-cream/60 text-sm">
+              <p className="text-cream/60">
                 Receive occasional updates on exhibitions, new acquisitions, and foundation news.
               </p>
             </div>
@@ -73,13 +73,13 @@ export default function Footer() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-cream/10 border-cream/20 text-cream placeholder:text-cream/40 focus:border-olive"
+                className="bg-cream/10 border-cream/20 text-cream placeholder:text-cream/40 focus:border-olive h-11"
                 required
               />
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="bg-olive hover:bg-olive/90 text-cream flex-shrink-0"
+                className="bg-cream/10 hover:bg-cream/20 text-cream border border-cream/20 flex-shrink-0 h-11 px-6 transition-colors duration-150"
               >
                 Subscribe
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -90,7 +90,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16">
+      <div className="max-w-[1200px] mx-auto py-12 md:py-16" style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Logo Column */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0">
@@ -120,7 +120,7 @@ export default function Footer() {
 
           {/* Link Columns */}
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-cream/40 mb-4">
+            <h4 className="text-xs uppercase tracking-[0.15em] text-cream/40 mb-5">
               Explore
             </h4>
             <ul className="space-y-3">
@@ -138,7 +138,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-cream/40 mb-4">
+            <h4 className="text-xs uppercase tracking-[0.15em] text-cream/40 mb-5">
               Visit
             </h4>
             <ul className="space-y-3">
@@ -156,7 +156,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-cream/40 mb-4">
+            <h4 className="text-xs uppercase tracking-[0.15em] text-cream/40 mb-5">
               About
             </h4>
             <ul className="space-y-3">
@@ -174,7 +174,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-cream/40 mb-4">
+            <h4 className="text-xs uppercase tracking-[0.15em] text-cream/40 mb-5">
               Legal
             </h4>
             <ul className="space-y-3">
@@ -194,8 +194,8 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-cream/10">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-6">
+      <div className="border-t hairline-light">
+        <div className="max-w-[1200px] mx-auto py-6" style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}>
           <div className="flex flex-col md:flex-row justify-between items-center text-xs text-cream/40 space-y-4 md:space-y-0">
             <p>
               © {new Date().getFullYear()} William Louis-Dreyfus Foundation. All rights reserved.
