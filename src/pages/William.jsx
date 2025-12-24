@@ -32,13 +32,16 @@ export default function William() {
               </H1>
               <p className="text-charcoal/50 text-lg mb-6">1932 – 2016</p>
               <Lead>
-                Businessman, poet, philanthropist, and one of America's most 
-                dedicated private collectors of contemporary art.
+                Lawyer, businessman, and a principal of the Louis Dreyfus Group 
+                from 1969 until his retirement in 2006. A passionate supporter 
+                of the arts who received the Smithsonian American Art Museum's 
+                Robert and Betsy Feinberg Prize for the Advancement of American 
+                Art award in 2014.
               </Lead>
             </div>
             <div className="aspect-[4/5] bg-beige/50 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
+                src="https://wldfoundation.org/images/image-foundation.jpg"
                 alt="William Louis-Dreyfus"
                 className="w-full h-full object-cover"
               />
