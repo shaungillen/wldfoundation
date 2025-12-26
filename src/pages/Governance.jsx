@@ -82,19 +82,10 @@ export default function Governance() {
           <H2 className="mb-12">Board of Directors</H2>
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {leadership.map((person) => (
-              <div key={person.name} className="bg-white border border-charcoal/10 overflow-hidden">
-                <div className="aspect-[4/5] bg-beige/50 overflow-hidden">
-                  <img 
-                    src={person.image}
-                    alt={person.name}
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <H3 className="mb-1">{person.name}</H3>
-                  <p className="text-olive text-sm mb-4">{person.role}</p>
-                  <Body className="text-sm">{person.bio}</Body>
-                </div>
+              <div key={person.name} className="bg-white border border-charcoal/10 p-6">
+                <H3 className="mb-1">{person.name}</H3>
+                <p className="text-olive text-sm mb-4">{person.role}</p>
+                <Body className="text-sm">{person.bio}</Body>
               </div>
             ))}
           </div>

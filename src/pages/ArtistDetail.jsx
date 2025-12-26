@@ -183,7 +183,7 @@ export default function ArtistDetail() {
               <div className="flex gap-8 py-6 border-t border-charcoal/10">
                 <div>
                   <p className="font-serif text-3xl text-charcoal">{artworks.length}</p>
-                  <Caption>Works in Collection</Caption>
+                  <Caption>Works Acquired</Caption>
                 </div>
                 {artistLoans.length > 0 && (
                   <div>
@@ -201,7 +201,7 @@ export default function ArtistDetail() {
       {artworks.length > 0 && (
         <section className="py-16 md:py-24 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <H2 className="mb-8">Works in Collection</H2>
+            <H2 className="mb-8">Works Acquired</H2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
               {artworks.map((artwork) => (
                 <ArtworkCard key={artwork.id} artwork={artwork} />
