@@ -10,6 +10,8 @@ import { ArrowLeft, ArrowRight, ExternalLink, Play } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import ArticleCard from '@/components/cards/ArticleCard';
+import ArtistTimeline from '@/components/artist/ArtistTimeline';
+import RelatedArtists from '@/components/artist/RelatedArtists';
 
 export default function ArtistDetail() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -41,11 +43,90 @@ export default function ArtistDetail() {
     enabled: !!artistId,
   });
 
+  const { data: allArtists = [] } = useQuery({
+    queryKey: ['artists'],
+    queryFn: () => base44.entities.Artist.list('name', 500),
+  });
+
   // Filter loans that include works by this artist
   const artistLoans = loans.filter(loan => {
     const loanArtworkIds = loan.artwork_ids || [];
     return artworks.some(aw => loanArtworkIds.includes(aw.id));
   });
+
+  // Get related artists
+  const relatedArtists = allArtists.filter(a => {
+    if (a.id === artistId) return false;
+    if (artist?.related_artist_ids?.includes(a.id)) return true;
+    
+    // Find artists with similar tags/medium focus
+    const artistTags = artist?.tags || [];
+    const artistMediums = artist?.medium_focus || [];
+    const otherTags = a.tags || [];
+    const otherMediums = a.medium_focus || [];
+    
+    const hasCommonTag = artistTags.some(tag => otherTags.includes(tag));
+    const hasCommonMedium = artistMediums.some(m => otherMediums.includes(m));
+    
+    return hasCommonTag || hasCommonMedium;
+  }).slice(0, 6);
+
+  // Generate timeline from artist data and artworks
+  const generateTimeline = () => {
+    if (!artist) return [];
+    
+    const events = [];
+    
+    // Birth/start
+    if (artist.lifespan) {
+      const birthYear = artist.lifespan.match(/\d{4}/)?.[0];
+      if (birthYear) {
+        events.push({
+          year: birthYear,
+          title: 'Born',
+          description: `${artist.name} was born`,
+          location: artist.nationality || ''
+        });
+      }
+    }
+    
+    // Add major works from collection
+    const significantWorks = artworks
+      .filter(aw => aw.year)
+      .sort((a, b) => {
+        const yearA = parseInt(a.year);
+        const yearB = parseInt(b.year);
+        return yearA - yearB;
+      })
+      .slice(0, 5);
+    
+    significantWorks.forEach(work => {
+      events.push({
+        year: work.year,
+        title: work.title,
+        description: `Created ${work.medium}`,
+        location: ''
+      });
+    });
+    
+    // Add exhibition history
+    artistLoans.slice(0, 3).forEach(loan => {
+      const year = loan.start_date?.split('-')[0];
+      if (year) {
+        events.push({
+          year: year,
+          title: `Exhibition: ${loan.title}`,
+          description: loan.overview || `Work exhibited at ${loan.institution}`,
+          location: loan.location
+        });
+      }
+    });
+    
+    // Sort by year
+    return events.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+  };
+
+  const timeline = generateTimeline();
 
   if (artistLoading) {
     return (
@@ -197,11 +278,48 @@ export default function ArtistDetail() {
         </div>
       </section>
 
-      {/* Works */}
-      {artworks.length > 0 && (
+      {/* Biography Section */}
+      {artist.bio_long && (
+        <section className="py-16 md:py-24 bg-cream">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                Biography
+              </span>
+              <H2 className="mb-8">Life & Work</H2>
+              <div className="prose prose-lg prose-charcoal max-w-none">
+                <Body className="text-lg leading-relaxed whitespace-pre-line">
+                  {artist.bio_long}
+                </Body>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Timeline */}
+      {timeline.length > 0 && (
         <section className="py-16 md:py-24 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <H2 className="mb-8">Works Acquired</H2>
+            <div className="max-w-4xl">
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                Timeline
+              </span>
+              <H2 className="mb-12">Career Highlights</H2>
+              <ArtistTimeline events={timeline} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Works Gallery */}
+      {artworks.length > 0 && (
+        <section className="py-16 md:py-24 bg-cream">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+            <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+              Collection
+            </span>
+            <H2 className="mb-8">Works in the Louis-Dreyfus Collection</H2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
               {artworks.map((artwork) => (
                 <ArtworkCard key={artwork.id} artwork={artwork} />
@@ -257,6 +375,24 @@ export default function ArtistDetail() {
                 <ArticleCard key={article.id} article={article} />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related Artists */}
+      {relatedArtists.length > 0 && (
+        <section className="py-16 md:py-24 bg-beige/30">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+            <div className="mb-12">
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                Related Artists
+              </span>
+              <H2 className="mb-2">Explore Similar Artists</H2>
+              <Body className="text-charcoal/60">
+                Discover other artists with similar styles, movements, or mediums
+              </Body>
+            </div>
+            <RelatedArtists artists={relatedArtists} />
           </div>
         </section>
       )}
