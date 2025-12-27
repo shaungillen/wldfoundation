@@ -28,7 +28,7 @@ export default function Gallery() {
 
       {/* Visitor Info */}
       <section className="py-16 md:py-24">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
             {/* Main Info */}
             <div className="lg:col-span-2">
@@ -131,7 +131,7 @@ export default function Gallery() {
 
       {/* Currently On View */}
       <section className="py-16 md:py-24 bg-beige/30">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
               <span className="text-xs uppercase tracking-[0.2em] text-olive mb-2 block">
@@ -180,7 +180,7 @@ export default function Gallery() {
 
       {/* Virtual Tour CTA */}
       <section className="py-16 md:py-24 bg-cream">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 text-center">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <H2 className="mb-6">Can't Visit in Person?</H2>
           <Lead className="mb-8 max-w-2xl mx-auto">
             Explore the gallery from anywhere with our immersive 360° virtual tour, 
