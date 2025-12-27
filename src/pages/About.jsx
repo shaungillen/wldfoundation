@@ -35,7 +35,7 @@ const heroSlides = [
       { label: 'Explore the Collection', url: 'Collection', primary: true },
       { label: 'Plan a Visit', url: 'Visit', primary: false },
     ],
-    image: 'https://images.unsplash.com/photo-1577083300638-f9f0bfd4be7c?w=1600&q=80',
+    image: 'https://wldfoundation.org/images/gallery/MKG_005.jpg',
   },
   {
     id: 'william',
