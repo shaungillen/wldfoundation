@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
+import LanguageSelector from '@/components/LanguageSelector';
 import { cn } from "@/lib/utils";
 import {
   Sheet,
@@ -16,19 +18,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const navItems = [
-  { label: 'Explore', href: 'Explore' },
-  { label: 'Collection', href: 'Collection' },
-  { label: 'Programs', href: 'Programs' },
-  { label: 'Visit', href: 'Visit' },
-  { label: 'News', href: 'News' },
-  { label: 'Get Involved', href: 'GetInvolved' },
-];
-
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { label: t('nav.explore'), href: 'Explore' },
+    { label: t('nav.collection'), href: 'Collection' },
+    { label: t('nav.programs'), href: 'Programs' },
+    { label: t('nav.visit'), href: 'Visit' },
+    { label: t('nav.news'), href: 'News' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,8 +95,10 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Search + Mobile Menu */}
+          {/* Search + Language + Mobile Menu */}
           <div className="flex items-center space-x-2">
+            <LanguageSelector />
+            
             <Link
               to={createPageUrl('Search')}
               className="p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"

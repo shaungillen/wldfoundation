@@ -4,8 +4,11 @@ import { createPageUrl } from '@/utils';
 import { H2, Lead } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { Play, MapPin } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function VirtualTourPreview() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 md:py-24 bg-cream">
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
@@ -44,27 +47,19 @@ export default function VirtualTourPreview() {
           {/* Content */}
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              Virtual Experience
+              {t('home.virtualTour.eyebrow')}
             </span>
             <H2 className="mb-6">
-              Explore the Gallery from Anywhere
+              {t('home.virtualTour.title')}
             </H2>
             <Lead className="mb-6">
-              Step inside our Mount Kisco Gallery through an immersive 
-              360° virtual tour. Navigate through the collection at your 
-              own pace, zooming in on works that capture your attention.
+              {t('home.virtualTour.body')}
             </Lead>
-            <p className="text-charcoal/60 mb-8">
-              Our virtual tour includes curatorial audio guides, detailed 
-              artwork information, and thematic pathways through the collection. 
-              Perfect for educators, researchers, and art enthusiasts who 
-              cannot visit in person.
-            </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream">
                 <Link to={createPageUrl('VirtualTour')}>
                   <Play className="w-4 h-4 mr-2" />
-                  Start Virtual Tour
+                  {t('home.virtualTour.cta')}
                 </Link>
               </Button>
               <Button asChild variant="outline" className="border-charcoal/20">

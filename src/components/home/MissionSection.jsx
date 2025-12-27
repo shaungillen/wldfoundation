@@ -4,8 +4,11 @@ import { createPageUrl } from '@/utils';
 import { H2, Lead, Quote } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function MissionSection() {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 md:py-24 bg-cream">
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
@@ -13,22 +16,14 @@ export default function MissionSection() {
           {/* Text Content */}
           <div className="order-2 lg:order-1">
             <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              Our Mission
+              {t('home.mission.eyebrow')}
             </span>
             <H2 className="mb-6">
-              Preserving & Sharing a Lifetime of Collecting
+              {t('home.mission.title')}
             </H2>
             <Lead className="mb-6">
-              The William Louis-Dreyfus Foundation is dedicated to the stewardship, 
-              study, and public sharing of a significant private collection of 
-              contemporary art assembled over four decades.
+              {t('home.mission.body')}
             </Lead>
-            <p className="text-charcoal/60 mb-8">
-              Through our Art Loan Program, educational initiatives, and the Mount Kisco 
-              Gallery, we honor William's vision of art as a living, breathing dialogue 
-              between artists, works, and viewers. Every loan, every tour, every encounter 
-              extends the reach of these remarkable works.
-            </p>
             <Button asChild variant="outline" className="border-charcoal/20 hover:bg-charcoal/5">
               <Link to={createPageUrl('About')}>
                 About the Foundation

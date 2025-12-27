@@ -7,12 +7,14 @@ import { H2, Lead, Quote } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function ArtistSpotlight() {
   const { data: artists = [], isLoading } = useQuery({
     queryKey: ['artists', 'featured'],
     queryFn: () => base44.entities.Artist.filter({ featured: true }, '-created_date', 3),
   });
+  const { t } = useLanguage();
 
   const displayArtists = artists.length > 0 ? artists : [
     {
@@ -47,15 +49,15 @@ export default function ArtistSpotlight() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              Artists
+              {t('home.artists.eyebrow')}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-cream">
-              Artist Spotlight
+              {t('home.artists.eyebrow')}
             </h2>
           </div>
           <Button asChild variant="outline" className="self-start md:self-auto border-cream/30 text-cream hover:bg-cream/10">
             <Link to={createPageUrl('Artists')}>
-              View All Artists
+              {t('home.artists.cta')}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </Button>

@@ -16,6 +16,7 @@ import {
 import { Search, ArrowRight } from 'lucide-react';
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function CollectionExplorer() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,6 +24,7 @@ export default function CollectionExplorer() {
     medium: 'all',
     status: 'all',
   });
+  const { t } = useLanguage();
 
   const { data: artworks = [], isLoading } = useQuery({
     queryKey: ['artworks', 'featured'],
@@ -45,13 +47,13 @@ export default function CollectionExplorer() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              Collection
+              {t('home.collection.eyebrow')}
             </span>
-            <H2>Explore the Collection</H2>
+            <H2>{t('home.collection.title')}</H2>
           </div>
           <Button asChild variant="outline" className="self-start md:self-auto border-charcoal/20">
             <Link to={createPageUrl('Collection')}>
-              View All
+              {t('home.collection.cta')}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </Button>

@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Mail, Calendar, Heart } from 'lucide-react';
 import { toast } from 'sonner';
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function GetInvolvedSection() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,16 +34,9 @@ export default function GetInvolvedSection() {
     <section className="py-16 md:py-24 bg-beige/40">
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-            Get Involved
-          </span>
           <H2 className="mb-4">
-            Join Our Community
+            {t('home.getInvolved.title')}
           </H2>
-          <Lead>
-            Stay connected with the Foundation through our newsletter, 
-            visit the gallery, or support our mission.
-          </Lead>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -51,11 +46,10 @@ export default function GetInvolvedSection() {
               <Mail className="w-6 h-6 text-olive" />
             </div>
             <h3 className="font-serif text-xl text-charcoal mb-2">
-              Newsletter
+              {t('home.getInvolved.newsletter.title')}
             </h3>
             <p className="text-sm text-charcoal/60 mb-6">
-              Receive occasional updates on exhibitions, new acquisitions, 
-              and foundation activities.
+              {t('home.getInvolved.newsletter.description')}
             </p>
             <form onSubmit={handleSubmit} className="space-y-3">
               <Input
@@ -71,7 +65,7 @@ export default function GetInvolvedSection() {
                 disabled={isSubmitting}
                 className="w-full bg-charcoal hover:bg-charcoal/90 text-cream"
               >
-                Subscribe
+                {t('home.getInvolved.newsletter.cta')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </form>
@@ -83,15 +77,14 @@ export default function GetInvolvedSection() {
               <Calendar className="w-6 h-6 text-olive" />
             </div>
             <h3 className="font-serif text-xl text-charcoal mb-2">
-              Visit the Gallery
+              {t('home.getInvolved.visit.title')}
             </h3>
             <p className="text-sm text-charcoal/60 mb-6">
-              Schedule a guided tour of the Mount Kisco Gallery and 
-              experience the collection in person.
+              {t('home.getInvolved.visit.description')}
             </p>
             <Button asChild variant="outline" className="w-full border-charcoal/20">
               <Link to={createPageUrl('Tours')}>
-                Book a Tour
+                {t('home.getInvolved.visit.cta')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
@@ -103,15 +96,14 @@ export default function GetInvolvedSection() {
               <Heart className="w-6 h-6 text-olive" />
             </div>
             <h3 className="font-serif text-xl text-charcoal mb-2">
-              Support Our Partners
+              {t('home.getInvolved.loan.title')}
             </h3>
             <p className="text-sm text-charcoal/60 mb-6">
-              Learn about our longstanding partnership with Harlem Children's 
-              Zone and other educational initiatives.
+              {t('home.getInvolved.loan.description')}
             </p>
             <Button asChild variant="outline" className="w-full border-charcoal/20">
-              <Link to={createPageUrl('HarlemChildrensZone')}>
-                Learn More
+              <Link to={createPageUrl('LoanInquiry')}>
+                {t('home.getInvolved.loan.cta')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>

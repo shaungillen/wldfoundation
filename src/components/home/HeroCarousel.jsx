@@ -5,34 +5,33 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
-
-const slides = [
-  {
-    image: 'https://wldfoundation.org/images/gallery/MKG_001.jpg',
-    title: 'A Living Collection',
-    subtitle: 'Four decades of contemporary art, in dialogue with the world',
-    cta1: { label: 'Explore Collection', href: 'Collection' },
-    cta2: { label: 'Take a Virtual Tour', href: 'VirtualTour' },
-  },
-  {
-    image: 'https://wldfoundation.org/images/gallery/MKG_015.jpg',
-    title: 'Art in Motion',
-    subtitle: 'Sharing the collection with museums and institutions worldwide',
-    cta1: { label: 'Art Loan Program', href: 'ArtLoanProgram' },
-    cta2: { label: 'View Exhibitions', href: 'ArtLoanProgram' },
-  },
-  {
-    image: 'https://wldfoundation.org/images/gallery/MKG_008.jpg',
-    title: 'Mount Kisco Gallery',
-    subtitle: 'Experience the collection in an intimate setting',
-    cta1: { label: 'Plan Your Visit', href: 'Gallery' },
-    cta2: { label: 'Book a Tour', href: 'Tours' },
-  },
-];
+import { useLanguage } from '@/components/LanguageContext';
 
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const { t } = useLanguage();
+
+  const slides = [
+    {
+      image: 'https://wldfoundation.org/images/gallery/MKG_001.jpg',
+      title: t('home.hero1.title'),
+      subtitle: t('home.hero1.subtitle'),
+      cta1: { label: t('home.hero1.cta1'), href: 'Collection' },
+    },
+    {
+      image: 'https://wldfoundation.org/images/gallery/MKG_015.jpg',
+      title: t('home.hero2.title'),
+      subtitle: t('home.hero2.subtitle'),
+      cta1: { label: t('home.hero2.cta'), href: 'William' },
+    },
+    {
+      image: 'https://wldfoundation.org/images/gallery/MKG_008.jpg',
+      title: t('home.hero3.title'),
+      subtitle: t('home.hero3.subtitle'),
+      cta1: { label: t('home.hero3.cta'), href: 'ArtLoanProgram' },
+    },
+  ];
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
