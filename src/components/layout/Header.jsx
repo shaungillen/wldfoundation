@@ -52,7 +52,7 @@ export default function Header() {
       )}
     >
       {/* Top Utility Bar */}
-      <div className="border-b border-charcoal/10">
+      <div>
         <div className="max-w-[1200px] mx-auto px-6 md:px-6"
           style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}
         >
