@@ -532,7 +532,7 @@ export default function Explore() {
                       <Link
                         key={chapter.id}
                         to={createPageUrl('William')}
-                        className="block py-6 border-b hairline last:border-b-0 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive focus-visible:-outline-offset-2"
+                        className="block py-6 last:border-b-0 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive focus-visible:-outline-offset-2"
                       >
                         <div className="flex items-start gap-4">
                           <span className="text-xs font-mono text-charcoal/30 mt-1.5 flex-shrink-0 group-hover:text-olive transition-colors">
@@ -642,7 +642,7 @@ export default function Explore() {
                       <Link
                         key={index}
                         to={createPageUrl(program.link)}
-                        className="flex-shrink-0 w-[280px] md:w-[320px] snap-start border-b hairline pb-6 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                        className="flex-shrink-0 w-[280px] md:w-[320px] snap-start pb-6 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       >
                         <H3 className="mb-3 group-hover:text-olive transition-colors">{program.title}</H3>
                         <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">{program.description}</Body>
