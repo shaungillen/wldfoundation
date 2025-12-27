@@ -24,19 +24,6 @@ export default function Gallery() {
           alt="Mount Kisco Gallery"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-          <div className="max-w-[1440px] mx-auto">
-            <span className="text-xs uppercase tracking-[0.2em] text-cream/70 mb-4 block">
-              Visit
-            </span>
-            <H1 className="text-cream mb-4">Mount Kisco Gallery</H1>
-            <p className="text-cream/80 text-lg max-w-2xl">
-              Experience the collection in an intimate setting designed 
-              for contemplation and discovery.
-            </p>
-          </div>
-        </div>
       </section>
 
       {/* Visitor Info */}
