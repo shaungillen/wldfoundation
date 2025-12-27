@@ -36,17 +36,6 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
             <span className="text-charcoal/20 text-xs uppercase tracking-wider">Image unavailable</span>
           </div>
         )}
-        
-        {showStatus && artwork.status && (
-          <Badge 
-            className={cn(
-              "absolute top-2 left-2 text-xs font-normal border hairline",
-              status.className
-            )}
-          >
-            {status.label}
-          </Badge>
-        )}
       </div>
       
       <div className="space-y-1">
@@ -61,6 +50,16 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
           {artwork.year && artwork.medium && ' · '}
           {artwork.medium && artwork.medium}
         </p>
+        {showStatus && artwork.status && (
+          <Badge 
+            className={cn(
+              "text-xs font-normal border hairline mt-2",
+              status.className
+            )}
+          >
+            {status.label}
+          </Badge>
+        )}
       </div>
     </Link>
   );
