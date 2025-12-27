@@ -42,7 +42,7 @@ export default function MissionSection() {
             <div className="relative">
               <div className="aspect-[4/5] bg-beige/50 overflow-hidden">
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
+                  src="https://wldfoundation.org/images/image-foundation.jpg"
                   alt="William Louis-Dreyfus"
                   className="w-full h-full object-cover"
                 />
