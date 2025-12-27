@@ -528,7 +528,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN E: Collection - Mosaic media grid inside light band */}
-              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-beige/30">
+              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-beige">
                 <div className="max-w-[1400px] mx-auto">
                   <div className="mb-14">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
