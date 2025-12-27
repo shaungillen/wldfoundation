@@ -97,53 +97,33 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                to={createPageUrl(item.href)}
-                className={cn(
-                  "px-3 py-2 text-sm transition-colors duration-150 relative",
-                  isActive(item.href)
-                    ? "text-olive"
-                    : "text-charcoal/70 hover:text-charcoal"
-                )}
-              >
-                {item.label}
-                {isActive(item.href) && (
-                  <span className="absolute bottom-0 left-3 right-3 h-px bg-olive" />
-                )}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Search Input + Mobile Menu */}
+          {/* Right Side: Navigation + Search + Mobile Menu */}
           <div className="flex items-center gap-3">
-            <form 
-              onSubmit={(e) => {
-                e.preventDefault();
-                const searchValue = e.target.search.value;
-                if (searchValue) {
-                  window.location.href = createPageUrl(`Search?q=${encodeURIComponent(searchValue)}`);
-                }
-              }}
-              className="hidden lg:flex items-center"
-            >
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-charcoal/40" />
-                <input
-                  type="text"
-                  name="search"
-                  placeholder="Search collection..."
-                  className="pl-9 pr-4 py-1.5 text-sm border border-charcoal/10 rounded-sm bg-cream hover:border-charcoal/20 focus:border-olive focus:outline-none transition-colors w-48"
-                />
-              </div>
-            </form>
-            
+            {/* Desktop Navigation */}
+            <nav className="hidden xl:flex items-center space-x-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  to={createPageUrl(item.href)}
+                  className={cn(
+                    "px-3 py-2 text-sm transition-colors duration-150 relative",
+                    isActive(item.href)
+                      ? "text-olive"
+                      : "text-charcoal/70 hover:text-charcoal"
+                  )}
+                >
+                  {item.label}
+                  {isActive(item.href) && (
+                    <span className="absolute bottom-0 left-3 right-3 h-px bg-olive" />
+                  )}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Search Icon */}
             <Link
               to={createPageUrl('Search')}
-              className="lg:hidden p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
+              className="p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
