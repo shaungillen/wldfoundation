@@ -107,35 +107,6 @@ const programs = [
   },
 ];
 
-// Providence Data
-const providenceChips = [
-  {
-    id: 'choice',
-    label: 'Choice',
-    content: 'William believed that every acquisition should reflect genuine conviction, not trend or speculation. Each work in the collection was chosen because it spoke to him personally—a practice of discernment over decades.',
-  },
-  {
-    id: 'attention',
-    label: 'Attention',
-    content: 'True appreciation requires sustained looking. William spent time with works, returned to them, and understood that meaning deepens with repeated engagement.',
-  },
-  {
-    id: 'responsibility',
-    label: 'Responsibility',
-    content: 'Collectors bear responsibility to artists, to the public, and to future generations. William saw himself as a temporary caretaker of works that would outlive him.',
-  },
-  {
-    id: 'access',
-    label: 'Access',
-    content: 'Great art should not be hidden. From the beginning, William lent works to institutions and welcomed visitors.',
-  },
-  {
-    id: 'care',
-    label: 'Care',
-    content: 'Stewardship means rigorous conservation, proper documentation, and thoughtful presentation. The Foundation maintains the highest standards.',
-  },
-];
-
 // Board & Staff Members
 const boardMembers = [
   { name: 'Julia Louis-Dreyfus', role: 'Board Chair' },
@@ -153,7 +124,6 @@ export default function Explore() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHoveringHero, setIsHoveringHero] = useState(false);
   const [expandedPrinciple, setExpandedPrinciple] = useState(null);
-  const [selectedProvidence, setSelectedProvidence] = useState('choice');
   const [showHCZExpanded, setShowHCZExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState('mission');
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -215,9 +185,8 @@ export default function Explore() {
     { id: 'william', number: '03', label: 'William' },
     { id: 'collection', number: '04', label: 'Collection' },
     { id: 'programs', number: '05', label: 'Programs' },
-    { id: 'providence', number: '06', label: 'Providence' },
-    { id: 'governance', number: '07', label: 'Governance' },
-    { id: 'community', number: '08', label: 'Community' },
+    { id: 'governance', number: '06', label: 'Governance' },
+    { id: 'community', number: '07', label: 'Community' },
   ];
 
   return (
@@ -679,55 +648,6 @@ export default function Explore() {
                   >
                     Browse all programs <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
-                </div>
-              </section>
-
-              {/* PATTERN G: Providence - Quiet text toggles */}
-              <section id="providence" className="scroll-mt-28 pt-20">
-                <div className="max-w-3xl mx-auto">
-                  <div className="text-center mb-12">
-                    <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                      A Lens
-                    </span>
-                    <H2 className="mb-4">Providence</H2>
-                    <Body className="text-charcoal/70">
-                      Core values that shaped William's approach to collecting and continue to guide 
-                      the Foundation's work.
-                    </Body>
-                  </div>
-
-                  {/* Text toggles - quieter than chips */}
-                  <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mb-10">
-                    {providenceChips.map((chip) => (
-                      <button
-                        key={chip.id}
-                        onClick={() => setSelectedProvidence(chip.id)}
-                        className={cn(
-                          "text-sm transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
-                          selectedProvidence === chip.id
-                            ? 'text-charcoal underline underline-offset-4 decoration-olive decoration-2'
-                            : 'text-charcoal/50 hover:text-charcoal hover:underline hover:underline-offset-4'
-                        )}
-                      >
-                        {chip.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Content between rules */}
-                  <div className="py-12 min-h-[180px] flex items-center">
-                    {providenceChips.map((chip) => (
-                      <div
-                        key={chip.id}
-                        className={cn(
-                          "transition-opacity duration-300 w-full",
-                          selectedProvidence === chip.id ? 'opacity-100' : 'opacity-0 hidden'
-                        )}
-                      >
-                        <Body className="leading-relaxed text-charcoal/80 max-w-2xl mx-auto">{chip.content}</Body>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </section>
 
