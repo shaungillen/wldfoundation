@@ -51,7 +51,7 @@ const heroSlides = [
     id: 'governance',
     eyebrow: 'Leadership',
     title: 'Caretakers & Governance',
-    description: 'The Foundation is guided by family members and professionals dedicated to preserving William\'s legacy and ensuring the collection serves the public good.',
+    description: "The Foundation is guided by family members and professionals dedicated to preserving William's legacy and ensuring the collection serves the public good.",
     ctas: [
       { label: 'View Governance', url: 'Governance', primary: true },
     ],
@@ -60,8 +60,8 @@ const heroSlides = [
   {
     id: 'community',
     eyebrow: 'Community Partner',
-    title: 'Harlem Children's Zone',
-    description: 'William\'s longtime commitment to education and equity lives on through the Foundation\'s continued support of HCZ\'s transformative work.',
+    title: "Harlem Children's Zone",
+    description: "William's longtime commitment to education and equity lives on through the Foundation's continued support of HCZ's transformative work.",
     ctas: [
       { label: 'Learn More', url: 'HarlemChildrensZone', primary: true },
     ],
@@ -80,7 +80,7 @@ const williamChapters = [
   },
   {
     id: 'poet',
-    title: 'The Poet\'s Eye',
+    title: "The Poet's Eye",
     teaser: 'Published poet and literary sensibility',
     content: 'Beyond collecting, William was a devoted poet. He published several volumes of poetry and found in verse a complement to his engagement with visual art. Both, he believed, required attention, patience, and a willingness to see beyond the surface.',
     anchor: '#poetry',
@@ -88,8 +88,8 @@ const williamChapters = [
   {
     id: 'collecting',
     title: 'On Collecting',
-    teaser: 'Philosophy: look where others don\'t',
-    content: 'Unlike many collectors of his generation, William was never drawn to the market\'s darlings. Instead, he followed his own eye, acquiring work by artists who were often undervalued—many of them women, artists of color, or those working in unfashionable mediums.',
+    teaser: "Philosophy: look where others don't",
+    content: "Unlike many collectors of his generation, William was never drawn to the market's darlings. Instead, he followed his own eye, acquiring work by artists who were often undervalued—many of them women, artists of color, or those working in unfashionable mediums.",
     anchor: '#philosophy',
   },
   {
@@ -103,7 +103,7 @@ const williamChapters = [
     id: 'legacy',
     title: 'Legacy',
     teaser: 'Continuing his vision of art as public good',
-    content: 'Following William\'s passing, the Foundation was established to ensure his collection would continue to be shared and studied. Today, works travel to institutions worldwide, embodying his belief that art fulfills its purpose when it is seen, studied, and loved.',
+    content: "Following William's passing, the Foundation was established to ensure his collection would continue to be shared and studied. Today, works travel to institutions worldwide, embodying his belief that art fulfills its purpose when it is seen, studied, and loved.",
     anchor: '',
   },
 ];
