@@ -528,8 +528,8 @@ export default function Explore() {
               </section>
 
               {/* PATTERN E: Collection - Mosaic media grid inside light band */}
-              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-[calc(2rem+13rem)] lg:-ml-[calc(2rem+13rem)] px-4 md:px-6 lg:px-8 py-24 bg-beige">
-                <div className="max-w-[1400px] mx-auto">
+              <section id="collection" className="scroll-mt-28 py-24 bg-beige" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
+                <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
                   <div className="mb-14">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                       Explore
