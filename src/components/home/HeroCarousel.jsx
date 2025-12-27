@@ -96,7 +96,7 @@ export default function HeroCarousel() {
                 <Button 
                   asChild
                   size="lg"
-                  className="bg-cream text-charcoal hover:bg-cream/90"
+                  className="bg-olive text-cream hover:bg-olive/90 border-0"
                 >
                   <Link to={createPageUrl(slide.cta1.href)}>
                     {slide.cta1.label}
@@ -106,7 +106,7 @@ export default function HeroCarousel() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-cream text-cream hover:bg-cream/10"
+                  className="border-2 border-cream text-cream hover:bg-cream hover:text-charcoal"
                 >
                   <Link to={createPageUrl(slide.cta2.href)}>
                     {slide.cta2.label}
