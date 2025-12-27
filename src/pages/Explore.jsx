@@ -302,7 +302,7 @@ export default function Explore() {
       </section>
 
       {/* Mobile Index */}
-      <div className="lg:hidden border-b hairline bg-cream">
+      <div className="lg:hidden bg-cream">
         <div className="px-4 py-4">
           <button
             onClick={() => setShowMobileNav(!showMobileNav)}
@@ -313,7 +313,7 @@ export default function Explore() {
           </button>
           
           {showMobileNav && (
-            <nav className="mt-4 space-y-2 border-t hairline pt-4">
+            <nav className="mt-4 space-y-2 pt-4">
               {navItems.map((item) => (
                 <a
                   key={item.id}
@@ -337,11 +337,9 @@ export default function Explore() {
 
       {/* Main Content Grid with Vertical Rail */}
       <div className="relative">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-[160px_1fr] lg:gap-20 py-12 lg:py-16">
-            {/* Desktop Vertical Sticky Rail - Book Index Style */}
-            <aside className="hidden lg:block">
-              <nav className="sticky top-32 pl-4 border-l hairline">
+        {/* Desktop Vertical Sticky Rail - Book Index Style - Overlays content */}
+        <aside className="hidden lg:block fixed left-8 top-32 z-30 w-[160px]">
+          <nav className="sticky top-32 pl-4 border-l border-charcoal/10">
                 <p className="text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-5 font-normal" style={{ fontSize: '10px', letterSpacing: '0.12em' }}>
                   Explore Index
                 </p>
@@ -377,6 +375,8 @@ export default function Explore() {
               </nav>
             </aside>
 
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="py-12 lg:py-16 lg:pl-52">
             {/* Main Content */}
             <div className="space-y-24 md:space-y-28">
               {/* PATTERN A: Mission - "Pulitzer sentence" with inline links */}
@@ -397,7 +397,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN C: Principles - Numbered editorial columns (01/02/03) */}
-              <section id="principles" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="principles" className="scroll-mt-28 pt-20">
                 <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                     Our Values
@@ -420,7 +420,7 @@ export default function Explore() {
                       generations. We maintain rigorous conservation standards.
                     </Body>
                     {expandedPrinciple === 'stewardship' && (
-                      <div className="border-t hairline pt-4 mb-4">
+                      <div className="pt-4 mb-4">
                         <Body className="text-sm text-charcoal/70 leading-relaxed">
                           We work with leading conservators, maintain climate-controlled storage, and 
                           carefully vet all loan requests to ensure works are handled with the highest care.
@@ -449,7 +449,7 @@ export default function Explore() {
                       the collection with diverse audiences worldwide.
                     </Body>
                     {expandedPrinciple === 'access' && (
-                      <div className="border-t hairline pt-4 mb-4">
+                      <div className="pt-4 mb-4">
                         <Body className="text-sm text-charcoal/70 leading-relaxed">
                           Through loans, gallery tours, virtual experiences, and online resources, we make 
                           contemporary art accessible to students, scholars, and the public.
@@ -478,7 +478,7 @@ export default function Explore() {
                       understanding of the artists and movements in the collection.
                     </Body>
                     {expandedPrinciple === 'education' && (
-                      <div className="border-t hairline pt-4 mb-4">
+                      <div className="pt-4 mb-4">
                         <Body className="text-sm text-charcoal/70 leading-relaxed">
                           We publish essays, support curatorial research, and offer educational programs 
                           to foster deeper engagement with contemporary art.
@@ -496,7 +496,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN D+H: William - Asymmetric split with editorial list */}
-              <section id="william" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="william" className="scroll-mt-28 pt-20">
                 <div className="mb-4 flex items-end justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive block">
                     The Collector
@@ -527,7 +527,7 @@ export default function Explore() {
                   </div>
 
                   {/* Right: Chapter List with vertical spine */}
-                  <div className="relative pl-6 border-l hairline">
+                  <div className="relative pl-6">
                     {williamChapters.map((chapter, index) => (
                       <Link
                         key={chapter.id}
@@ -615,7 +615,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN F: Programs - Horizontal scroller */}
-              <section id="programs" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="programs" className="scroll-mt-28 pt-20">
                 <div className="flex items-end justify-between mb-10">
                   <div>
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
@@ -657,14 +657,14 @@ export default function Explore() {
                   <div className="hidden md:flex justify-end gap-2 mt-6">
                     <button
                       onClick={() => scrollCarousel(programsScrollRef, 'prev')}
-                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                      className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       aria-label="Scroll left"
                     >
                       <ChevronLeft className="w-4 h-4 text-charcoal" />
                     </button>
                     <button
                       onClick={() => scrollCarousel(programsScrollRef, 'next')}
-                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                      className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       aria-label="Scroll right"
                     >
                       <ChevronRight className="w-4 h-4 text-charcoal" />
@@ -683,7 +683,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN G: Providence - Quiet text toggles */}
-              <section id="providence" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="providence" className="scroll-mt-28 pt-20">
                 <div className="max-w-3xl mx-auto">
                   <div className="text-center mb-12">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
@@ -715,7 +715,7 @@ export default function Explore() {
                   </div>
 
                   {/* Content between rules */}
-                  <div className="border-t border-b hairline py-12 min-h-[180px] flex items-center">
+                  <div className="py-12 min-h-[180px] flex items-center">
                     {providenceChips.map((chip) => (
                       <div
                         key={chip.id}
@@ -732,7 +732,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN B: Governance - Definition list */}
-              <section id="governance" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="governance" className="scroll-mt-28 pt-20">
                 <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                     Leadership
@@ -753,7 +753,7 @@ export default function Explore() {
                     </h3>
                     <dl className="space-y-4">
                       {boardMembers.map((member) => (
-                        <div key={member.name} className="flex items-baseline gap-8 border-b hairline pb-4">
+                        <div key={member.name} className="flex items-baseline gap-8 pb-4">
                           <dt className="text-sm text-charcoal/50 w-32 flex-shrink-0">{member.role}</dt>
                           <dd className="font-medium text-charcoal">{member.name}</dd>
                         </div>
@@ -768,7 +768,7 @@ export default function Explore() {
                     </h3>
                     <dl className="space-y-4">
                       {staffMembers.map((member) => (
-                        <div key={member.name} className="flex items-baseline gap-8 border-b hairline pb-4">
+                        <div key={member.name} className="flex items-baseline gap-8 pb-4">
                           <dt className="text-sm text-charcoal/50 w-32 flex-shrink-0">{member.role}</dt>
                           <dd className="font-medium text-charcoal">{member.name}</dd>
                         </div>
@@ -788,7 +788,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN D-lite: Community Partner - Split layout with stats */}
-              <section id="community" className="scroll-mt-28 border-t hairline pt-20">
+              <section id="community" className="scroll-mt-28 pt-20">
                 <div className="mb-4">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive block">
                     Community
@@ -806,7 +806,7 @@ export default function Explore() {
                     </Body>
                     
                     {showHCZExpanded && (
-                      <div className="space-y-4 mb-4 border-t hairline pt-6 mt-6">
+                      <div className="space-y-4 mb-4 pt-6 mt-6">
                         <Body>
                           His involvement went beyond financial support. He served on the board, visited 
                           programs regularly, and championed the organization's work within his network.
@@ -846,19 +846,19 @@ export default function Explore() {
 
                   {/* Right: Stats - minimal tiles */}
                   <div className="space-y-6">
-                    <div className="border-b hairline pb-6">
+                    <div className="pb-6">
                       <div className="text-3xl font-serif text-charcoal mb-2">27,000+</div>
                       <p className="text-sm text-charcoal/60">Served annually</p>
                     </div>
-                    <div className="border-b hairline pb-6">
+                    <div className="pb-6">
                       <div className="text-3xl font-serif text-charcoal mb-2">97 Blocks</div>
                       <p className="text-sm text-charcoal/60">Of Central Harlem</p>
                     </div>
-                    <div className="border-b hairline pb-6">
+                    <div className="pb-6">
                       <div className="text-3xl font-serif text-charcoal mb-2">50+ Years</div>
                       <p className="text-sm text-charcoal/60">Of service</p>
                     </div>
-                    <div className="border-b hairline pb-6">
+                    <div className="pb-6">
                       <div className="text-3xl font-serif text-charcoal mb-2">90%+</div>
                       <p className="text-sm text-charcoal/60">Graduation rate</p>
                     </div>
