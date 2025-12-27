@@ -20,7 +20,10 @@ export default function Collection() {
     medium: 'all',
     status: 'all',
     period: 'all',
+    movement: 'all',
   });
+  const [sortBy, setSortBy] = useState('date-desc');
+  const [yearRange, setYearRange] = useState([1900, 2025]);
 
   const { data: artworks = [], isLoading: artworksLoading } = useQuery({
     queryKey: ['artworks'],
@@ -33,7 +36,7 @@ export default function Collection() {
   });
 
   const filteredArtworks = useMemo(() => {
-    return artworks.filter((artwork) => {
+    let results = artworks.filter((artwork) => {
       // Search filter
       if (search) {
         const searchLower = search.toLowerCase();
@@ -41,7 +44,8 @@ export default function Collection() {
           artwork.title?.toLowerCase().includes(searchLower) ||
           artwork.artist_name?.toLowerCase().includes(searchLower) ||
           artwork.themes?.some(t => t.toLowerCase().includes(searchLower)) ||
-          artwork.medium?.toLowerCase().includes(searchLower);
+          artwork.medium?.toLowerCase().includes(searchLower) ||
+          artwork.description?.toLowerCase().includes(searchLower);
         if (!matchesSearch) return false;
       }
 
@@ -60,10 +64,24 @@ export default function Collection() {
         return false;
       }
 
+      // Movement filter
+      if (filters.movement !== 'all') {
+        const artworkThemes = artwork.themes?.map(t => t.toLowerCase()) || [];
+        if (!artworkThemes.includes(filters.movement.replace(/_/g, ' '))) {
+          return false;
+        }
+      }
+
+      // Year range filter
+      const year = parseInt(artwork.year);
+      if (year && (year < yearRange[0] || year > yearRange[1])) {
+        return false;
+      }
+
       // Period filter
       if (filters.period !== 'all') {
-        const year = parseInt(artwork.year);
-        if (!year) return false;
+        const artworkYear = parseInt(artwork.year);
+        if (!artworkYear) return false;
         
         const periodRanges = {
           'pre-1950': [0, 1949],
@@ -78,14 +96,38 @@ export default function Collection() {
         };
         
         const [start, end] = periodRanges[filters.period] || [0, 9999];
-        if (year < start || year > end) return false;
+        if (artworkYear < start || artworkYear > end) return false;
       }
 
       return true;
     });
-  }, [artworks, search, filters]);
 
-  const activeFilterCount = Object.values(filters).filter(v => v !== 'all').length + (search ? 1 : 0);
+    // Apply sorting
+    results.sort((a, b) => {
+      switch (sortBy) {
+        case 'date-desc':
+          return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+        case 'date-asc':
+          return (parseInt(a.year) || 0) - (parseInt(b.year) || 0);
+        case 'title-asc':
+          return (a.title || '').localeCompare(b.title || '');
+        case 'title-desc':
+          return (b.title || '').localeCompare(a.title || '');
+        case 'artist-asc':
+          return (a.artist_name || '').localeCompare(b.artist_name || '');
+        case 'artist-desc':
+          return (b.artist_name || '').localeCompare(a.artist_name || '');
+        default:
+          return 0;
+      }
+    });
+
+    return results;
+  }, [artworks, search, filters, sortBy, yearRange]);
+
+  const activeFilterCount = Object.values(filters).filter(v => v !== 'all').length + 
+    (search ? 1 : 0) + 
+    (yearRange[0] !== 1900 || yearRange[1] !== 2025 ? 1 : 0);
 
   const clearFilters = () => {
     setSearch('');
@@ -94,7 +136,10 @@ export default function Collection() {
       medium: 'all',
       status: 'all',
       period: 'all',
+      movement: 'all',
     });
+    setSortBy('date-desc');
+    setYearRange([1900, 2025]);
   };
 
   return (
@@ -137,6 +182,10 @@ export default function Collection() {
             artists={artists}
             activeFilterCount={activeFilterCount}
             onClear={clearFilters}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            yearRange={yearRange}
+            setYearRange={setYearRange}
           />
 
           {/* Results count */}
