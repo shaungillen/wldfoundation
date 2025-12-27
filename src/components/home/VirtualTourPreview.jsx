@@ -14,7 +14,7 @@ export default function VirtualTourPreview() {
           <div className="relative group">
             <div className="aspect-[4/3] bg-beige/50 overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1577083300638-f9f0bfd4be7c?w=1200&q=80"
+                src="https://wldfoundation.org/images/gallery/MKG_003.jpg"
                 alt="Mount Kisco Gallery interior"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />

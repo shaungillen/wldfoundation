@@ -20,7 +20,7 @@ export default function Gallery() {
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[400px] max-h-[600px] overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1577083300638-f9f0bfd4be7c?w=1920&q=80"
+          src="https://wldfoundation.org/images/gallery/MKG_005.jpg"
           alt="Mount Kisco Gallery"
           className="w-full h-full object-cover"
         />

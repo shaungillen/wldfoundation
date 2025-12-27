@@ -8,21 +8,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1577083300638-f9f0bfd4be7c?w=1920&q=80',
+    image: 'https://wldfoundation.org/images/gallery/MKG_001.jpg',
     title: 'A Living Collection',
     subtitle: 'Four decades of contemporary art, in dialogue with the world',
     cta1: { label: 'Explore Collection', href: 'Collection' },
     cta2: { label: 'Take a Virtual Tour', href: 'VirtualTour' },
   },
   {
-    image: 'https://images.unsplash.com/photo-1541367777708-7905fe3296c0?w=1920&q=80',
+    image: 'https://wldfoundation.org/images/gallery/MKG_015.jpg',
     title: 'Art in Motion',
     subtitle: 'Sharing the collection with museums and institutions worldwide',
     cta1: { label: 'Art Loan Program', href: 'ArtLoanProgram' },
     cta2: { label: 'View Exhibitions', href: 'ArtLoanProgram' },
   },
   {
-    image: 'https://images.unsplash.com/photo-1545989253-02cc26577f88?w=1920&q=80',
+    image: 'https://wldfoundation.org/images/gallery/MKG_008.jpg',
     title: 'Mount Kisco Gallery',
     subtitle: 'Experience the collection in an intimate setting',
     cta1: { label: 'Plan Your Visit', href: 'Gallery' },
