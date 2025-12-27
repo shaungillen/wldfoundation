@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
@@ -6,9 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { H1, H2, Body, Caption } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, MapPin, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, MapPin, ExternalLink, ZoomIn, Calendar, Building } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
 import ArtworkCard from '@/components/cards/ArtworkCard';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 const statusConfig = {
   in_collection: { label: 'In Collection', className: 'bg-beige text-charcoal/70' },
@@ -21,6 +23,7 @@ const statusConfig = {
 export default function ArtworkDetail() {
   const urlParams = new URLSearchParams(window.location.search);
   const artworkId = urlParams.get('id');
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const { data: artwork, isLoading: artworkLoading } = useQuery({
     queryKey: ['artwork', artworkId],
@@ -106,16 +109,56 @@ export default function ArtworkDetail() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Image */}
             <div>
-              <div className="aspect-[4/5] bg-beige/50 overflow-hidden sticky top-24">
-                {artwork.image_url ? (
-                  <img 
-                    src={artwork.image_url}
-                    alt={`${artwork.title} by ${artwork.artist_name}`}
-                    className="w-full h-full object-contain"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-serif text-2xl text-charcoal/20">No Image Available</span>
+              <div className="space-y-4 sticky top-24">
+                {/* Main Image */}
+                <div className="aspect-[4/5] bg-beige/50 overflow-hidden relative group border border-charcoal/10">
+                  {artwork.image_url ? (
+                    <>
+                      <Zoom>
+                        <img 
+                          src={artwork.image_url}
+                          alt={`${artwork.title} by ${artwork.artist_name}`}
+                          className="w-full h-full object-contain"
+                        />
+                      </Zoom>
+                      <div className="absolute bottom-4 right-4 bg-charcoal/80 text-cream px-3 py-2 rounded-sm text-sm flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn className="w-4 h-4" />
+                        Click to zoom
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="font-serif text-2xl text-charcoal/20">No Image Available</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Additional Images Thumbnails */}
+                {artwork.additional_images?.length > 0 && (
+                  <div className="grid grid-cols-4 gap-2">
+                    <button
+                      onClick={() => setSelectedImage(0)}
+                      className={`aspect-square border-2 transition-colors ${selectedImage === 0 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
+                    >
+                      <img 
+                        src={artwork.image_url}
+                        alt="Main view"
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                    {artwork.additional_images.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedImage(idx + 1)}
+                        className={`aspect-square border-2 transition-colors ${selectedImage === idx + 1 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
+                      >
+                        <img 
+                          src={img}
+                          alt={`View ${idx + 2}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
@@ -178,18 +221,44 @@ export default function ArtworkDetail() {
               )}
 
               {/* Acquisition / Provenance */}
-              {(artwork.acquisition_year || artwork.provenance) && (
-                <div className="bg-beige/30 p-6 mb-8">
-                  <Caption className="block mb-3">Provenance</Caption>
-                  {artwork.acquisition_year && (
-                    <p className="text-sm text-charcoal/70 mb-2">
-                      Acquired {artwork.acquisition_year}
-                      {artwork.acquisition_source && ` from ${artwork.acquisition_source}`}
-                    </p>
-                  )}
-                  {artwork.provenance && (
-                    <p className="text-sm text-charcoal/60">{artwork.provenance}</p>
-                  )}
+              {(artwork.acquisition_year || artwork.acquisition_source || artwork.provenance) && (
+                <div className="bg-beige/30 p-6 mb-8 rounded-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Building className="w-4 h-4 text-olive" />
+                    <Caption>Provenance & History</Caption>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {artwork.acquisition_year && (
+                      <div className="flex items-start gap-3">
+                        <Calendar className="w-4 h-4 text-charcoal/40 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-charcoal/70">
+                            Acquired {artwork.acquisition_year}
+                          </p>
+                          {artwork.acquisition_source && (
+                            <p className="text-sm text-charcoal/60 mt-1">
+                              {artwork.acquisition_source}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {artwork.provenance && (
+                      <div className="pt-3 border-t border-charcoal/10">
+                        <p className="text-sm text-charcoal/70 leading-relaxed whitespace-pre-line">
+                          {artwork.provenance}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {!artwork.acquisition_year && !artwork.acquisition_source && !artwork.provenance && (
+                      <p className="text-sm text-charcoal/50 italic">
+                        Part of the William Louis-Dreyfus Foundation Collection
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -235,22 +304,46 @@ export default function ArtworkDetail() {
       {relatedLoans.length > 0 && (
         <section className="py-16 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <H2 className="mb-8">Exhibition History</H2>
+            <div className="mb-8">
+              <H2 className="mb-2">Exhibition History</H2>
+              <Body className="text-charcoal/60">
+                This work has been featured in {relatedLoans.length} exhibition{relatedLoans.length !== 1 ? 's' : ''} as part of our Art Loan Program.
+              </Body>
+            </div>
             <div className="space-y-4">
               {relatedLoans.map((loan) => (
                 <Link 
                   key={loan.id}
                   to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
-                  className="block bg-white p-4 md:p-6 border border-charcoal/10 hover:border-olive/30 transition-colors"
+                  className="block bg-white p-6 border border-charcoal/10 hover:border-olive/30 transition-all duration-200 group"
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-serif text-lg text-charcoal">{loan.title}</p>
-                      <p className="text-sm text-charcoal/60">
-                        {loan.institution}, {loan.location}
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <p className="font-serif text-xl text-charcoal group-hover:text-olive transition-colors mb-2">
+                        {loan.title}
                       </p>
+                      <div className="flex flex-col gap-1 text-sm text-charcoal/60">
+                        <div className="flex items-center gap-2">
+                          <Building className="w-4 h-4" />
+                          <span>{loan.institution}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          <span>{loan.location}</span>
+                        </div>
+                        {(loan.start_date || loan.end_date) && (
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span>
+                              {loan.start_date && new Date(loan.start_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                              {loan.start_date && loan.end_date && ' – '}
+                              {loan.end_date && new Date(loan.end_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <ExternalLink className="w-5 h-5 text-charcoal/40" />
+                    <ExternalLink className="w-5 h-5 text-charcoal/40 group-hover:text-olive transition-colors flex-shrink-0" />
                   </div>
                 </Link>
               ))}
