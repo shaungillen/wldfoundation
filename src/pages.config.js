@@ -23,6 +23,7 @@ import VirtualTour from './pages/VirtualTour';
 import William from './pages/William';
 import Programs from './pages/Programs';
 import Visit from './pages/Visit';
+import Explore from './pages/Explore';
 import __Layout from './Layout.jsx';
 
 
@@ -52,6 +53,7 @@ export const PAGES = {
     "William": William,
     "Programs": Programs,
     "Visit": Visit,
+    "Explore": Explore,
 }
 
 export const pagesConfig = {
