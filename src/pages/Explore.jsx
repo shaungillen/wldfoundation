@@ -56,41 +56,36 @@ const williamChapters = [
     id: 'life',
     title: 'A Life in Art',
     teaser: 'From commodities trader to visionary collector',
-    content: 'William Louis-Dreyfus was born into a family of commodities traders, but his true passions lay elsewhere—in poetry, in art, and in the quiet observation of human creativity.',
   },
   {
     id: 'poet',
     title: "The Poet's Eye",
     teaser: 'Published poet and literary sensibility',
-    content: 'Beyond collecting, William was a devoted poet. He published several volumes of poetry and found in verse a complement to his engagement with visual art.',
   },
   {
     id: 'collecting',
     title: 'On Collecting',
     teaser: "Philosophy: look where others don't",
-    content: "Unlike many collectors of his generation, William was never drawn to the market's darlings. Instead, he followed his own eye, acquiring work by artists who were often undervalued.",
   },
   {
     id: 'timeline',
     title: 'Timeline',
     teaser: 'Key milestones from 1932 to present',
-    content: 'Born in 1932, William began collecting in the 1960s and expanded the collection systematically over five decades. The Foundation was established following his passing in 2016.',
   },
   {
     id: 'legacy',
     title: 'Legacy',
     teaser: 'Continuing his vision of art as public good',
-    content: "Following William's passing, the Foundation was established to ensure his collection would continue to be shared and studied.",
   },
 ];
 
 // Collection Movement Data
 const collectionMovement = [
-  { title: 'On View', description: 'Experience works at our Mount Kisco Gallery', link: 'Gallery' },
-  { title: 'On Loan', description: 'Artworks traveling to museums worldwide', link: 'ArtLoanProgram' },
-  { title: 'Virtual Tour', description: 'Explore the gallery from anywhere', link: 'VirtualTour' },
-  { title: 'Writing & Scholarship', description: 'Essays, research, and curatorial insights', link: 'News' },
-  { title: 'Artists', description: 'Discover the creators behind the collection', link: 'Artists' },
+  { title: 'On View', description: 'Experience works at our Mount Kisco Gallery', link: 'Gallery', image: 'https://wldfoundation.org/images/gallery/MKG_005.jpg' },
+  { title: 'On Loan', description: 'Artworks traveling to museums worldwide', link: 'ArtLoanProgram', image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80' },
+  { title: 'Virtual Tour', description: 'Explore the gallery from anywhere', link: 'VirtualTour', image: 'https://images.unsplash.com/photo-1577083300638-f9f0bfd4be7c?w=800&q=80' },
+  { title: 'Writing & Scholarship', description: 'Essays, research, and curatorial insights', link: 'News', image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80' },
+  { title: 'Artists', description: 'Discover the creators behind the collection', link: 'Artists', image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80' },
 ];
 
 // Programs Data
@@ -112,7 +107,7 @@ const programs = [
   },
 ];
 
-// Providence Chips Data
+// Providence Data
 const providenceChips = [
   {
     id: 'choice',
@@ -141,14 +136,13 @@ const providenceChips = [
   },
 ];
 
-// Board Members
+// Board & Staff Members
 const boardMembers = [
   { name: 'Julia Louis-Dreyfus', role: 'Board Chair' },
   { name: 'Robert Charles Louis-Dreyfus', role: 'Vice Chair' },
   { name: 'Marjorie Louis-Dreyfus', role: 'Secretary' },
 ];
 
-// Staff Members
 const staffMembers = [
   { name: 'Dr. Catherine Wells', role: 'Executive Director' },
   { name: 'Michael Torres', role: 'Director of Collections' },
@@ -165,12 +159,13 @@ export default function Explore() {
   const [showMobileNav, setShowMobileNav] = useState(false);
   
   const heroIntervalRef = useRef(null);
-  const chaptersScrollRef = useRef(null);
-  const movementScrollRef = useRef(null);
+  const programsScrollRef = useRef(null);
 
   // Hero Carousel Auto-play
   useEffect(() => {
-    if (!isHoveringHero) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (!isHoveringHero && !prefersReducedMotion) {
       heroIntervalRef.current = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
       }, 6000);
@@ -180,8 +175,6 @@ export default function Explore() {
 
   // Intersection Observer for Active Section
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -262,7 +255,7 @@ export default function Explore() {
                       <Link
                         key={ctaIndex}
                         to={createPageUrl(cta.url)}
-                        className="text-cream hover:text-cream/80 text-sm inline-flex items-center underline underline-offset-4 transition-colors"
+                        className="text-cream hover:text-cream/80 text-sm inline-flex items-center underline underline-offset-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
                       >
                         {cta.label}
                         <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
@@ -279,7 +272,7 @@ export default function Explore() {
         <div className="absolute bottom-6 right-6 z-10 flex items-center gap-3">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors"
+            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -290,7 +283,7 @@ export default function Explore() {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={cn(
-                  "h-2 rounded-full transition-all",
+                  "h-2 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream",
                   index === currentSlide ? 'bg-cream w-8' : 'bg-cream/40 hover:bg-cream/60 w-2'
                 )}
                 aria-label={`Go to slide ${index + 1}`}
@@ -300,7 +293,7 @@ export default function Explore() {
           </div>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors"
+            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5" />
@@ -313,7 +306,7 @@ export default function Explore() {
         <div className="px-4 py-4">
           <button
             onClick={() => setShowMobileNav(!showMobileNav)}
-            className="flex items-center gap-2 text-sm text-charcoal/70 hover:text-charcoal"
+            className="flex items-center gap-2 text-sm text-charcoal/70 hover:text-charcoal focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
           >
             {showMobileNav ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             On this page
@@ -327,7 +320,7 @@ export default function Explore() {
                   href={`#${item.id}`}
                   onClick={() => setShowMobileNav(false)}
                   className={cn(
-                    "flex items-center gap-3 py-2 text-sm transition-colors",
+                    "flex items-center gap-3 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
                     activeSection === item.id
                       ? 'text-charcoal font-medium'
                       : 'text-charcoal/60 hover:text-charcoal'
@@ -346,9 +339,9 @@ export default function Explore() {
       <div className="relative">
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-[160px_1fr] lg:gap-20 py-12 lg:py-16">
-            {/* Desktop Vertical Sticky Rail */}
+            {/* Desktop Vertical Sticky Rail - Book Index Style */}
             <aside className="hidden lg:block">
-              <nav className="sticky top-32 pl-4 border-l hairline relative">
+              <nav className="sticky top-32 pl-4 border-l hairline">
                 <p className="text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-5 font-normal" style={{ fontSize: '10px', letterSpacing: '0.12em' }}>
                   Explore Index
                 </p>
@@ -357,9 +350,9 @@ export default function Explore() {
                     key={item.id}
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center gap-3 py-1.5 transition-all relative group",
+                      "flex items-center gap-3 py-1.5 transition-all relative group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
                       activeSection === item.id
-                        ? 'text-charcoal'
+                        ? 'text-charcoal font-medium'
                         : 'text-charcoal/40 hover:text-charcoal/70'
                     )}
                     style={{ fontSize: '13px', lineHeight: '1.4' }}
@@ -386,65 +379,24 @@ export default function Explore() {
 
             {/* Main Content */}
             <div className="space-y-24 md:space-y-28">
-              {/* Mission Module */}
+              {/* PATTERN A: Mission - "Pulitzer sentence" with inline links */}
               <section id="mission" className="scroll-mt-28">
-                <div className="max-w-3xl">
-                  <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                <div className="max-w-4xl">
+                  <span className="text-xs uppercase tracking-[0.2em] text-olive mb-6 block">
                     Our Mission
                   </span>
-                  <H2 className="mb-6">A Collection in Service of the Public Good</H2>
-                  <Lead className="mb-6">
-                    For over four decades, William Louis-Dreyfus assembled one of the most significant 
-                    private collections of contemporary art in the United States.
-                  </Lead>
                   
-                  <div className="space-y-4 mb-8">
-                    <Body>
-                      His approach was distinctive: he collected not for status or speculation, but out of 
-                      genuine passion for the work and deep respect for artists. The Foundation continues 
-                      this legacy through active stewardship.
-                    </Body>
-                    
-                    {expandedPrinciple === 'mission' && (
-                      <div className="space-y-4 border-t hairline pt-6 mt-6">
-                        <Body>
-                          We believe that great art should be accessible. Through our programs, thousands 
-                          of people each year encounter these works, whether in person at a partner 
-                          institution, through our virtual tours, or in scholarly publications.
-                        </Body>
-                        <ul className="space-y-2 text-charcoal/70" style={{ fontSize: 'var(--text-body)', lineHeight: 'var(--line-body)' }}>
-                          <li><strong>Stewardship:</strong> Rigorous conservation and documentation</li>
-                          <li><strong>Access:</strong> Active loan program and public engagement</li>
-                          <li><strong>Education:</strong> Research support and programming</li>
-                        </ul>
-                      </div>
-                    )}
-                    
-                    <button
-                      onClick={() => setExpandedPrinciple(expandedPrinciple === 'mission' ? null : 'mission')}
-                      className="text-olive hover:underline text-sm"
-                    >
-                      {expandedPrinciple === 'mission' ? 'Show less' : 'Read more'}
-                    </button>
+                  <div className="font-serif text-3xl md:text-4xl lg:text-5xl leading-tight text-charcoal mb-8">
+                    For over four decades, William Louis-Dreyfus assembled one of the most significant private collections of contemporary art in the United States—focusing on <Link to={createPageUrl('Artists')} className="underline decoration-1 underline-offset-4 hover:text-olive transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive">emerging artists</Link> and <Link to={createPageUrl('Collection')} className="underline decoration-1 underline-offset-4 hover:text-olive transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive">self-taught creators</Link> who followed their own vision.
                   </div>
-
-                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                    <Link to={createPageUrl('Collection')} className="text-olive hover:underline inline-flex items-center">
-                      Explore Collection <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </Link>
-                    <span className="text-charcoal/20">·</span>
-                    <Link to={createPageUrl('ArtLoanProgram')} className="text-olive hover:underline inline-flex items-center">
-                      Art Loan Program <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </Link>
-                    <span className="text-charcoal/20">·</span>
-                    <Link to={createPageUrl('Visit')} className="text-olive hover:underline inline-flex items-center">
-                      Plan a Visit <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                    </Link>
-                  </div>
+                  
+                  <Lead className="text-charcoal/70 mb-8">
+                    The Foundation continues this legacy through active stewardship, ensuring these works remain accessible through <Link to={createPageUrl('ArtLoanProgram')} className="text-olive hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive">museum loans</Link>, <Link to={createPageUrl('Tours')} className="text-olive hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive">educational programs</Link>, and <Link to={createPageUrl('Gallery')} className="text-olive hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive">gallery visits</Link>.
+                  </Lead>
                 </div>
               </section>
 
-              {/* Principles - 3 Column Editorial Layout */}
+              {/* PATTERN C: Principles - Numbered editorial columns (01/02/03) */}
               <section id="principles" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
@@ -453,74 +405,89 @@ export default function Explore() {
                   <H2>Principles That Guide Us</H2>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-12 md:gap-0 md:divide-x hairline">
-                  {/* Stewardship */}
-                  <div className="md:pr-10">
-                    <span className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-3 block">
-                      Stewardship
-                    </span>
-                    <H3 className="mb-4">Caretakers, Not Owners</H3>
-                    <Body className="text-sm mb-4 text-charcoal/70">
+                <div className="grid md:grid-cols-3 gap-12 md:gap-16">
+                  {/* 01 Stewardship */}
+                  <div>
+                    <div className="flex items-baseline gap-4 mb-4">
+                      <span className="text-xl font-mono text-olive">01</span>
+                      <H3>Stewardship</H3>
+                    </div>
+                    <p className="text-charcoal/60 mb-4 leading-relaxed">
+                      Caretakers, Not Owners
+                    </p>
+                    <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">
                       Every decision considers long-term preservation and accessibility for future 
                       generations. We maintain rigorous conservation standards.
                     </Body>
                     {expandedPrinciple === 'stewardship' && (
-                      <Body className="text-sm mb-4 border-t hairline pt-4 text-charcoal/70">
-                        We work with leading conservators, maintain climate-controlled storage, and 
-                        carefully vet all loan requests to ensure works are handled with the highest care.
-                      </Body>
+                      <div className="border-t hairline pt-4 mb-4">
+                        <Body className="text-sm text-charcoal/70 leading-relaxed">
+                          We work with leading conservators, maintain climate-controlled storage, and 
+                          carefully vet all loan requests to ensure works are handled with the highest care.
+                        </Body>
+                      </div>
                     )}
                     <button
                       onClick={() => setExpandedPrinciple(expandedPrinciple === 'stewardship' ? null : 'stewardship')}
-                      className="text-olive hover:underline text-sm"
+                      className="text-sm text-charcoal/50 hover:text-olive underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                     >
                       {expandedPrinciple === 'stewardship' ? 'Close' : 'Expand'}
                     </button>
                   </div>
 
-                  {/* Access */}
-                  <div className="md:px-10">
-                    <span className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-3 block">
-                      Access
-                    </span>
-                    <H3 className="mb-4">Art Should Be Shared</H3>
-                    <Body className="text-sm mb-4 text-charcoal/70">
+                  {/* 02 Access */}
+                  <div>
+                    <div className="flex items-baseline gap-4 mb-4">
+                      <span className="text-xl font-mono text-olive">02</span>
+                      <H3>Access</H3>
+                    </div>
+                    <p className="text-charcoal/60 mb-4 leading-relaxed">
+                      Art Should Be Shared
+                    </p>
+                    <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">
                       Great art should not be hidden away. We continually seek new ways to share 
                       the collection with diverse audiences worldwide.
                     </Body>
                     {expandedPrinciple === 'access' && (
-                      <Body className="text-sm mb-4 border-t hairline pt-4 text-charcoal/70">
-                        Through loans, gallery tours, virtual experiences, and online resources, we make 
-                        contemporary art accessible to students, scholars, and the public.
-                      </Body>
+                      <div className="border-t hairline pt-4 mb-4">
+                        <Body className="text-sm text-charcoal/70 leading-relaxed">
+                          Through loans, gallery tours, virtual experiences, and online resources, we make 
+                          contemporary art accessible to students, scholars, and the public.
+                        </Body>
+                      </div>
                     )}
                     <button
                       onClick={() => setExpandedPrinciple(expandedPrinciple === 'access' ? null : 'access')}
-                      className="text-olive hover:underline text-sm"
+                      className="text-sm text-charcoal/50 hover:text-olive underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                     >
                       {expandedPrinciple === 'access' ? 'Close' : 'Expand'}
                     </button>
                   </div>
 
-                  {/* Education */}
-                  <div className="md:pl-10">
-                    <span className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-3 block">
-                      Education
-                    </span>
-                    <H3 className="mb-4">Deepening Understanding</H3>
-                    <Body className="text-sm mb-4 text-charcoal/70">
+                  {/* 03 Education */}
+                  <div>
+                    <div className="flex items-baseline gap-4 mb-4">
+                      <span className="text-xl font-mono text-olive">03</span>
+                      <H3>Education</H3>
+                    </div>
+                    <p className="text-charcoal/60 mb-4 leading-relaxed">
+                      Deepening Understanding
+                    </p>
+                    <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">
                       We support scholarship, publish research, and create resources that deepen 
                       understanding of the artists and movements in the collection.
                     </Body>
                     {expandedPrinciple === 'education' && (
-                      <Body className="text-sm mb-4 border-t hairline pt-4 text-charcoal/70">
-                        We publish essays, support curatorial research, and offer educational programs 
-                        to foster deeper engagement with contemporary art.
-                      </Body>
+                      <div className="border-t hairline pt-4 mb-4">
+                        <Body className="text-sm text-charcoal/70 leading-relaxed">
+                          We publish essays, support curatorial research, and offer educational programs 
+                          to foster deeper engagement with contemporary art.
+                        </Body>
+                      </div>
                     )}
                     <button
                       onClick={() => setExpandedPrinciple(expandedPrinciple === 'education' ? null : 'education')}
-                      className="text-olive hover:underline text-sm"
+                      className="text-sm text-charcoal/50 hover:text-olive underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                     >
                       {expandedPrinciple === 'education' ? 'Close' : 'Expand'}
                     </button>
@@ -528,7 +495,7 @@ export default function Explore() {
                 </div>
               </section>
 
-              {/* William Module */}
+              {/* PATTERN D+H: William - Asymmetric split with editorial list */}
               <section id="william" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="mb-4 flex items-end justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive block">
@@ -536,40 +503,44 @@ export default function Explore() {
                   </span>
                   <Link 
                     to={createPageUrl('William')}
-                    className="hidden lg:inline-flex text-sm text-olive hover:underline items-center"
+                    className="hidden lg:inline-flex text-sm text-olive hover:underline items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                   >
                     Explore William's Page <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
                 </div>
                 
-                <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16">
+                <div className="grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
                   {/* Left: Intro */}
                   <div>
                     <H2 className="mb-6">William Louis-Dreyfus</H2>
-                    <Lead className="text-charcoal/70">
+                    <Lead className="text-charcoal/70 mb-8">
                       A lawyer and businessman who became one of the most discerning collectors 
                       of contemporary art—following his own eye and believing that art should be shared.
                     </Lead>
+                    
+                    <div className="border-l-2 border-olive pl-6 py-4">
+                      <p className="font-serif text-lg text-charcoal/80 italic leading-relaxed">
+                        "Unlike many collectors of his generation, William was never drawn to the market's darlings. 
+                        Instead, he followed his own eye."
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Right: Chapter List (Desktop) */}
-                  <div className="hidden lg:block space-y-0 divide-y hairline">
+                  {/* Right: Chapter List with vertical spine */}
+                  <div className="relative pl-6 border-l hairline">
                     {williamChapters.map((chapter, index) => (
                       <Link
                         key={chapter.id}
                         to={createPageUrl('William')}
-                        className="block py-5 group hover:bg-beige/20 transition-colors -mx-4 px-4"
+                        className="block py-6 border-b hairline last:border-b-0 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive focus-visible:-outline-offset-2"
                       >
                         <div className="flex items-start gap-4">
-                          <span className="text-xs font-mono text-charcoal/30 mt-1 flex-shrink-0">
+                          <span className="text-xs font-mono text-charcoal/30 mt-1.5 flex-shrink-0 group-hover:text-olive transition-colors">
                             Chapter {String(index + 1).padStart(2, '0')}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <H4 className="mb-1 group-hover:text-olive transition-colors">{chapter.title}</H4>
-                            <p className="text-sm text-charcoal/60 leading-relaxed mb-2">{chapter.teaser}</p>
-                            <span className="text-xs text-olive inline-flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                              Read more <ArrowRight className="w-3 h-3 ml-1" />
-                            </span>
+                            <H4 className="mb-2 group-hover:underline transition-all">{chapter.title}</H4>
+                            <p className="text-sm text-charcoal/60 leading-relaxed">{chapter.teaser}</p>
                           </div>
                         </div>
                       </Link>
@@ -577,60 +548,17 @@ export default function Explore() {
                   </div>
                 </div>
 
-                {/* Horizontal Scroll (Mobile/Tablet) */}
-                <div className="lg:hidden mt-10 relative">
-                  <div 
-                    ref={chaptersScrollRef}
-                    className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                  >
-                    {williamChapters.map((chapter, index) => (
-                      <Link
-                        key={chapter.id}
-                        to={createPageUrl('William')}
-                        className="flex-shrink-0 w-[280px] snap-start border-b hairline pb-6 group"
-                      >
-                        <span className="text-xs font-mono text-charcoal/40 mb-2 block">
-                          Chapter {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <H3 className="mb-2 group-hover:text-olive transition-colors">{chapter.title}</H3>
-                        <p className="text-sm text-charcoal/60 mb-4 leading-relaxed">{chapter.teaser}</p>
-                        <span className="text-sm text-olive inline-flex items-center">
-                          Read more <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-end gap-2 mt-6">
-                    <button
-                      onClick={() => scrollCarousel(chaptersScrollRef, 'prev')}
-                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors"
-                      aria-label="Scroll left"
-                    >
-                      <ChevronLeft className="w-4 h-4 text-charcoal" />
-                    </button>
-                    <button
-                      onClick={() => scrollCarousel(chaptersScrollRef, 'next')}
-                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors"
-                      aria-label="Scroll right"
-                    >
-                      <ChevronRight className="w-4 h-4 text-charcoal" />
-                    </button>
-                  </div>
-                </div>
-
                 <div className="mt-8 lg:hidden">
                   <Link 
                     to={createPageUrl('William')}
-                    className="text-olive hover:underline inline-flex items-center"
+                    className="text-olive hover:underline inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                   >
                     Explore William's Page <ArrowRight className="w-4 h-4 ml-1" />
                   </Link>
                 </div>
               </section>
 
-              {/* Collection as Public Good */}
+              {/* PATTERN E: Collection - Mosaic media grid inside dark band */}
               <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-charcoal text-cream">
                 <div className="max-w-[1200px]">
                   <div className="mb-14">
@@ -644,50 +572,51 @@ export default function Explore() {
                     </p>
                   </div>
 
-                  <div className="relative">
-                    <div 
-                      ref={movementScrollRef}
-                      className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  {/* Mosaic Grid: 1 large + 4 smaller */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {/* Large featured */}
+                    <Link
+                      to={createPageUrl(collectionMovement[0].link)}
+                      className="col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-square overflow-hidden group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                     >
-                      {collectionMovement.map((item, index) => (
-                        <Link
-                          key={index}
-                          to={createPageUrl(item.link)}
-                          className="flex-shrink-0 w-[280px] snap-start border-b hairline-light pb-6 hover:border-cream/40 transition-colors group"
-                        >
-                          <H4 className="text-cream mb-2 group-hover:text-cream/80 transition-colors">{item.title}</H4>
-                          <p className="text-sm text-cream/60 mb-4 leading-relaxed">{item.description}</p>
-                          <span className="text-sm text-olive inline-flex items-center">
-                            Learn more <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
+                      <img 
+                        src={collectionMovement[0].image}
+                        alt={collectionMovement[0].title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <H3 className="text-cream mb-2">{collectionMovement[0].title}</H3>
+                        <p className="text-cream/70 text-sm">{collectionMovement[0].description}</p>
+                      </div>
+                    </Link>
 
-                    <div className="flex justify-end gap-2 mt-6">
-                      <button
-                        onClick={() => scrollCarousel(movementScrollRef, 'prev')}
-                        className="w-9 h-9 rounded-full border hairline-light flex items-center justify-center hover:bg-cream/10 transition-colors"
-                        aria-label="Scroll left"
+                    {/* Smaller tiles */}
+                    {collectionMovement.slice(1).map((item, index) => (
+                      <Link
+                        key={index}
+                        to={createPageUrl(item.link)}
+                        className="relative aspect-square overflow-hidden group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       >
-                        <ChevronLeft className="w-4 h-4 text-cream" />
-                      </button>
-                      <button
-                        onClick={() => scrollCarousel(movementScrollRef, 'next')}
-                        className="w-9 h-9 rounded-full border hairline-light flex items-center justify-center hover:bg-cream/10 transition-colors"
-                        aria-label="Scroll right"
-                      >
-                        <ChevronRight className="w-4 h-4 text-cream" />
-                      </button>
-                    </div>
+                        <img 
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <p className="text-cream font-medium mb-1 text-sm">{item.title}</p>
+                          <p className="text-cream/60 text-xs line-clamp-2">{item.description}</p>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </section>
 
-              {/* Programs */}
+              {/* PATTERN F: Programs - Horizontal scroller */}
               <section id="programs" className="scroll-mt-28 border-t hairline pt-20">
-                <div className="flex items-end justify-between mb-14">
+                <div className="flex items-end justify-between mb-10">
                   <div>
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                       Explore
@@ -696,38 +625,64 @@ export default function Explore() {
                   </div>
                   <Link 
                     to={createPageUrl('Programs')}
-                    className="hidden md:inline-flex text-sm text-olive hover:underline items-center"
+                    className="hidden md:inline-flex text-sm text-olive hover:underline items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                   >
                     Browse all <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
                 </div>
 
-                <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-12">
-                  {programs.map((program, index) => (
-                    <div key={index} className="border-t hairline pt-8 md:border-t-0 md:pt-0 first:border-t-0 first:pt-0">
-                      <H3 className="mb-4">{program.title}</H3>
-                      <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">{program.description}</Body>
-                      <Link 
+                {/* Horizontal scroll strip */}
+                <div className="relative -mx-4 md:mx-0">
+                  <div 
+                    ref={programsScrollRef}
+                    className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 px-4 md:px-0"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                    {programs.map((program, index) => (
+                      <Link
+                        key={index}
                         to={createPageUrl(program.link)}
-                        className="text-sm text-olive hover:underline inline-flex items-center"
+                        className="flex-shrink-0 w-[280px] md:w-[320px] snap-start border-b hairline pb-6 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       >
-                        Learn more <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                        <H3 className="mb-3 group-hover:text-olive transition-colors">{program.title}</H3>
+                        <Body className="text-sm text-charcoal/70 mb-4 leading-relaxed">{program.description}</Body>
+                        <span className="text-sm text-olive inline-flex items-center">
+                          Learn more <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                        </span>
                       </Link>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+
+                  {/* Scroll controls */}
+                  <div className="hidden md:flex justify-end gap-2 mt-6">
+                    <button
+                      onClick={() => scrollCarousel(programsScrollRef, 'prev')}
+                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                      aria-label="Scroll left"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-charcoal" />
+                    </button>
+                    <button
+                      onClick={() => scrollCarousel(programsScrollRef, 'next')}
+                      className="w-9 h-9 rounded-full border hairline flex items-center justify-center hover:bg-beige/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                      aria-label="Scroll right"
+                    >
+                      <ChevronRight className="w-4 h-4 text-charcoal" />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-8 md:hidden">
                   <Link 
                     to={createPageUrl('Programs')}
-                    className="text-sm text-olive hover:underline inline-flex items-center"
+                    className="text-sm text-olive hover:underline inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                   >
                     Browse all programs <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
                 </div>
               </section>
 
-              {/* Providence */}
+              {/* PATTERN G: Providence - Quiet text toggles */}
               <section id="providence" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="max-w-3xl mx-auto">
                   <div className="text-center mb-12">
@@ -741,17 +696,17 @@ export default function Explore() {
                     </Body>
                   </div>
 
-                  {/* Chips */}
-                  <div className="flex flex-wrap justify-center gap-2 mb-10">
+                  {/* Text toggles - quieter than chips */}
+                  <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mb-10">
                     {providenceChips.map((chip) => (
                       <button
                         key={chip.id}
                         onClick={() => setSelectedProvidence(chip.id)}
                         className={cn(
-                          "px-4 py-1.5 text-sm border hairline transition-all",
+                          "text-sm transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
                           selectedProvidence === chip.id
-                            ? 'text-charcoal border-charcoal underline underline-offset-4'
-                            : 'text-charcoal/60 border-charcoal/15 hover:border-charcoal/30 hover:text-charcoal'
+                            ? 'text-charcoal underline underline-offset-4 decoration-olive decoration-2'
+                            : 'text-charcoal/50 hover:text-charcoal hover:underline hover:underline-offset-4'
                         )}
                       >
                         {chip.label}
@@ -759,24 +714,24 @@ export default function Explore() {
                     ))}
                   </div>
 
-                  {/* Content Panel */}
-                  <div className="border-t border-b hairline py-10 min-h-[140px]">
+                  {/* Content between rules */}
+                  <div className="border-t border-b hairline py-12 min-h-[180px] flex items-center">
                     {providenceChips.map((chip) => (
                       <div
                         key={chip.id}
                         className={cn(
-                          "transition-opacity duration-300",
+                          "transition-opacity duration-300 w-full",
                           selectedProvidence === chip.id ? 'opacity-100' : 'opacity-0 hidden'
                         )}
                       >
-                        <Body className="text-center leading-relaxed">{chip.content}</Body>
+                        <Body className="leading-relaxed text-charcoal/80 max-w-2xl mx-auto">{chip.content}</Body>
                       </div>
                     ))}
                   </div>
                 </div>
               </section>
 
-              {/* Governance */}
+              {/* PATTERN B: Governance - Definition list */}
               <section id="governance" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
@@ -789,63 +744,69 @@ export default function Explore() {
                   </Body>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-12 mb-12">
+                {/* Definition list style */}
+                <div className="max-w-3xl space-y-8 mb-12">
                   {/* Board */}
                   <div>
-                    <H3 className="mb-8">Board of Directors</H3>
-                    <div className="space-y-5">
+                    <h3 className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-6">
+                      Board of Directors
+                    </h3>
+                    <dl className="space-y-4">
                       {boardMembers.map((member) => (
-                        <div key={member.name} className="border-b hairline pb-5">
-                          <H4 className="mb-1">{member.name}</H4>
-                          <p className="text-olive text-sm">{member.role}</p>
+                        <div key={member.name} className="flex items-baseline gap-8 border-b hairline pb-4">
+                          <dt className="text-sm text-charcoal/50 w-32 flex-shrink-0">{member.role}</dt>
+                          <dd className="font-medium text-charcoal">{member.name}</dd>
                         </div>
                       ))}
-                    </div>
+                    </dl>
                   </div>
 
                   {/* Staff */}
                   <div>
-                    <H3 className="mb-8">Foundation Staff</H3>
-                    <div className="space-y-5">
+                    <h3 className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-6">
+                      Foundation Staff
+                    </h3>
+                    <dl className="space-y-4">
                       {staffMembers.map((member) => (
-                        <div key={member.name} className="border-b hairline pb-5">
-                          <p className="font-medium text-charcoal mb-1">{member.name}</p>
-                          <p className="text-sm text-charcoal/60">{member.role}</p>
+                        <div key={member.name} className="flex items-baseline gap-8 border-b hairline pb-4">
+                          <dt className="text-sm text-charcoal/50 w-32 flex-shrink-0">{member.role}</dt>
+                          <dd className="font-medium text-charcoal">{member.name}</dd>
                         </div>
                       ))}
-                    </div>
+                    </dl>
                   </div>
                 </div>
 
                 <div>
                   <Link 
                     to={createPageUrl('Governance')}
-                    className="text-olive hover:underline inline-flex items-center"
+                    className="text-olive hover:underline inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                   >
                     View Caretakers & Governance <ArrowRight className="w-4 h-4 ml-1" />
                   </Link>
                 </div>
               </section>
 
-              {/* Community Partner - HCZ */}
+              {/* PATTERN D-lite: Community Partner - Split layout with stats */}
               <section id="community" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="mb-4">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive block">
                     Community
                   </span>
                 </div>
-                <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16">
-                  {/* Narrative */}
+                
+                <div className="grid lg:grid-cols-[2fr_1fr] gap-12 lg:gap-20">
+                  {/* Left: Narrative */}
                   <div>
                     <H2 className="mb-6">Harlem Children's Zone</H2>
-                    <Body className="mb-4">
+                    <Body className="mb-4 leading-relaxed">
                       William Louis-Dreyfus was an early and steadfast supporter of Harlem Children's 
                       Zone, drawn to its ambitious vision and evidence-based approach. He believed that 
                       investing in children was the most meaningful contribution one could make.
                     </Body>
                     
                     {showHCZExpanded && (
-                      <div className="space-y-4 mb-4 border-t hairline pt-4">
+                      <div className="space-y-4 mb-4 border-t hairline pt-6 mt-6">
                         <Body>
                           His involvement went beyond financial support. He served on the board, visited 
                           programs regularly, and championed the organization's work within his network.
@@ -859,7 +820,7 @@ export default function Explore() {
                     
                     <button
                       onClick={() => setShowHCZExpanded(!showHCZExpanded)}
-                      className="text-olive hover:underline text-sm mb-6"
+                      className="text-sm text-charcoal/50 hover:text-olive underline mb-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                     >
                       {showHCZExpanded ? 'Show less' : 'Read more'}
                     </button>
@@ -869,36 +830,36 @@ export default function Explore() {
                         href="https://hcz.org" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-olive hover:underline inline-flex items-center"
+                        className="text-olive hover:underline inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       >
                         Visit HCZ <ExternalLink className="w-3.5 h-3.5 ml-1" />
                       </a>
                       <span className="text-charcoal/20">·</span>
                       <Link 
                         to={createPageUrl('HarlemChildrensZone')}
-                        className="text-olive hover:underline inline-flex items-center"
+                        className="text-olive hover:underline inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
                       >
                         Why This Partnership <ArrowRight className="w-3.5 h-3.5 ml-1" />
                       </Link>
                     </div>
                   </div>
 
-                  {/* Stats */}
-                  <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-                    <div className="border-b hairline pb-5">
-                      <H3 className="mb-1">27,000+</H3>
+                  {/* Right: Stats - minimal tiles */}
+                  <div className="space-y-6">
+                    <div className="border-b hairline pb-6">
+                      <div className="text-3xl font-serif text-charcoal mb-2">27,000+</div>
                       <p className="text-sm text-charcoal/60">Served annually</p>
                     </div>
-                    <div className="border-b hairline pb-5">
-                      <H3 className="mb-1">97 Blocks</H3>
+                    <div className="border-b hairline pb-6">
+                      <div className="text-3xl font-serif text-charcoal mb-2">97 Blocks</div>
                       <p className="text-sm text-charcoal/60">Of Central Harlem</p>
                     </div>
-                    <div className="border-b hairline pb-5">
-                      <H3 className="mb-1">50+ Years</H3>
+                    <div className="border-b hairline pb-6">
+                      <div className="text-3xl font-serif text-charcoal mb-2">50+ Years</div>
                       <p className="text-sm text-charcoal/60">Of service</p>
                     </div>
-                    <div className="border-b hairline pb-5">
-                      <H3 className="mb-1">90%+</H3>
+                    <div className="border-b hairline pb-6">
+                      <div className="text-3xl font-serif text-charcoal mb-2">90%+</div>
                       <p className="text-sm text-charcoal/60">Graduation rate</p>
                     </div>
                   </div>
