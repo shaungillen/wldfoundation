@@ -5,11 +5,13 @@ import SkipLink from '@/components/layout/SkipLink';
 import CookieBanner from '@/components/layout/CookieBanner';
 import ScrollToTop from '@/components/layout/ScrollToTop';
 import { Toaster } from 'sonner';
+import { LanguageProvider } from '@/components/LanguageContext';
 
 export default function Layout({ children }) {
   return (
-    <div className="min-h-screen flex flex-col bg-cream">
-      <ScrollToTop />
+    <LanguageProvider>
+      <div className="min-h-screen flex flex-col bg-cream">
+        <ScrollToTop />
       <style>{`
         :root {
           --color-cream: #FDFBF7;
@@ -148,6 +150,7 @@ export default function Layout({ children }) {
       <Footer />
       <CookieBanner />
       <Toaster position="bottom-right" />
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }
