@@ -3,11 +3,13 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SkipLink from '@/components/layout/SkipLink';
 import CookieBanner from '@/components/layout/CookieBanner';
+import ScrollToTop from '@/components/layout/ScrollToTop';
 import { Toaster } from 'sonner';
 
 export default function Layout({ children }) {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
+      <ScrollToTop />
       <style>{`
         :root {
           --color-cream: #FDFBF7;
