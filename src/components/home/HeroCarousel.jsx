@@ -102,16 +102,6 @@ export default function HeroCarousel() {
                     {slide.cta1.label}
                   </Link>
                 </Button>
-                <Button 
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-cream text-cream hover:bg-cream hover:text-charcoal"
-                >
-                  <Link to={createPageUrl(slide.cta2.href)}>
-                    {slide.cta2.label}
-                  </Link>
-                </Button>
               </div>
             </motion.div>
           </AnimatePresence>
