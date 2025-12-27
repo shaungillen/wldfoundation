@@ -21,6 +21,8 @@ import Search from './pages/Search';
 import Tours from './pages/Tours';
 import VirtualTour from './pages/VirtualTour';
 import William from './pages/William';
+import Programs from './pages/Programs';
+import Visit from './pages/Visit';
 import __Layout from './Layout.jsx';
 
 
@@ -48,6 +50,8 @@ export const PAGES = {
     "Tours": Tours,
     "VirtualTour": VirtualTour,
     "William": William,
+    "Programs": Programs,
+    "Visit": Visit,
 }
 
 export const pagesConfig = {

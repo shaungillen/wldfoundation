@@ -18,13 +18,10 @@ import {
 
 const navItems = [
   { label: 'About', href: 'About' },
-  { label: 'William Louis-Dreyfus', href: 'William' },
   { label: 'Collection', href: 'Collection' },
-  { label: 'Gallery', href: 'Gallery' },
-  { label: 'Tours', href: 'Tours' },
-  { label: 'Artists', href: 'Artists' },
-  { label: 'Art Loan Program', href: 'ArtLoanProgram' },
-  { label: 'News & Writing', href: 'News' },
+  { label: 'Programs', href: 'Programs' },
+  { label: 'Visit', href: 'Visit' },
+  { label: 'News', href: 'News' },
   { label: 'Get Involved', href: 'GetInvolved' },
 ];
 
