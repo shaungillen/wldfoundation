@@ -345,11 +345,11 @@ export default function Explore() {
       {/* Main Content Grid with Vertical Rail */}
       <div className="relative">
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-[180px_1fr] lg:gap-16 py-12 lg:py-16">
+          <div className="lg:grid lg:grid-cols-[160px_1fr] lg:gap-20 py-12 lg:py-16">
             {/* Desktop Vertical Sticky Rail */}
             <aside className="hidden lg:block">
-              <nav className="sticky top-32 space-y-1">
-                <p className="text-xs uppercase tracking-[0.15em] text-charcoal/40 mb-6 font-medium">
+              <nav className="sticky top-32 pl-4 border-l hairline relative">
+                <p className="text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-5 font-normal" style={{ fontSize: '10px', letterSpacing: '0.12em' }}>
                   Explore Index
                 </p>
                 {navItems.map((item) => (
@@ -357,22 +357,26 @@ export default function Explore() {
                     key={item.id}
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center gap-3 py-2 text-sm transition-all relative",
+                      "flex items-center gap-3 py-1.5 transition-all relative group",
                       activeSection === item.id
-                        ? 'text-charcoal font-medium'
-                        : 'text-charcoal/50 hover:text-charcoal'
+                        ? 'text-charcoal'
+                        : 'text-charcoal/40 hover:text-charcoal/70'
                     )}
+                    style={{ fontSize: '13px', lineHeight: '1.4' }}
                   >
                     <span className={cn(
-                      "text-xs font-mono transition-colors w-6",
-                      activeSection === item.id ? 'text-olive' : 'text-charcoal/30'
-                    )}>
+                      "font-mono transition-colors w-5",
+                      activeSection === item.id ? 'text-charcoal/50' : 'text-charcoal/25'
+                    )}
+                    style={{ fontSize: '11px' }}>
                       {item.number}
                     </span>
                     <span className="relative">
                       {item.label}
                       {activeSection === item.id && (
-                        <span className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-olive" />
+                        <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
+                          aria-hidden="true"
+                        />
                       )}
                     </span>
                   </a>
@@ -381,7 +385,7 @@ export default function Explore() {
             </aside>
 
             {/* Main Content */}
-            <div className="space-y-20 md:space-y-28">
+            <div className="space-y-24 md:space-y-28">
               {/* Mission Module */}
               <section id="mission" className="scroll-mt-28">
                 <div className="max-w-3xl">
@@ -442,7 +446,7 @@ export default function Explore() {
 
               {/* Principles - 3 Column Editorial Layout */}
               <section id="principles" className="scroll-mt-28 border-t hairline pt-20">
-                <div className="mb-12">
+                <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                     Our Values
                   </span>
@@ -526,41 +530,75 @@ export default function Explore() {
 
               {/* William Module */}
               <section id="william" className="scroll-mt-28 border-t hairline pt-20">
-                <div className="max-w-3xl mb-10">
-                  <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                <div className="mb-4 flex items-end justify-between">
+                  <span className="text-xs uppercase tracking-[0.2em] text-olive block">
                     The Collector
                   </span>
-                  <H2 className="mb-4">William Louis-Dreyfus</H2>
-                  <Lead>
-                    A lawyer and businessman who became one of the most discerning collectors 
-                    of contemporary art—following his own eye and believing that art should be shared.
-                  </Lead>
+                  <Link 
+                    to={createPageUrl('William')}
+                    className="hidden lg:inline-flex text-sm text-olive hover:underline items-center"
+                  >
+                    Explore William's Page <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </Link>
+                </div>
+                
+                <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16">
+                  {/* Left: Intro */}
+                  <div>
+                    <H2 className="mb-6">William Louis-Dreyfus</H2>
+                    <Lead className="text-charcoal/70">
+                      A lawyer and businessman who became one of the most discerning collectors 
+                      of contemporary art—following his own eye and believing that art should be shared.
+                    </Lead>
+                  </div>
+
+                  {/* Right: Chapter List (Desktop) */}
+                  <div className="hidden lg:block space-y-0 divide-y hairline">
+                    {williamChapters.map((chapter, index) => (
+                      <Link
+                        key={chapter.id}
+                        to={createPageUrl('William')}
+                        className="block py-5 group hover:bg-beige/20 transition-colors -mx-4 px-4"
+                      >
+                        <div className="flex items-start gap-4">
+                          <span className="text-xs font-mono text-charcoal/30 mt-1 flex-shrink-0">
+                            Chapter {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <H4 className="mb-1 group-hover:text-olive transition-colors">{chapter.title}</H4>
+                            <p className="text-sm text-charcoal/60 leading-relaxed mb-2">{chapter.teaser}</p>
+                            <span className="text-xs text-olive inline-flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              Read more <ArrowRight className="w-3 h-3 ml-1" />
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Horizontal Scroll Carousel */}
-                <div className="relative">
+                {/* Horizontal Scroll (Mobile/Tablet) */}
+                <div className="lg:hidden mt-10 relative">
                   <div 
                     ref={chaptersScrollRef}
                     className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   >
                     {williamChapters.map((chapter, index) => (
-                      <div
+                      <Link
                         key={chapter.id}
-                        className="flex-shrink-0 w-[300px] snap-start border-b hairline pb-6 group"
+                        to={createPageUrl('William')}
+                        className="flex-shrink-0 w-[280px] snap-start border-b hairline pb-6 group"
                       >
                         <span className="text-xs font-mono text-charcoal/40 mb-2 block">
                           Chapter {String(index + 1).padStart(2, '0')}
                         </span>
                         <H3 className="mb-2 group-hover:text-olive transition-colors">{chapter.title}</H3>
                         <p className="text-sm text-charcoal/60 mb-4 leading-relaxed">{chapter.teaser}</p>
-                        <Link 
-                          to={createPageUrl('William')}
-                          className="text-sm text-olive hover:underline inline-flex items-center"
-                        >
+                        <span className="text-sm text-olive inline-flex items-center">
                           Read more <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                        </Link>
-                      </div>
+                        </span>
+                      </Link>
                     ))}
                   </div>
 
@@ -582,7 +620,7 @@ export default function Explore() {
                   </div>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 lg:hidden">
                   <Link 
                     to={createPageUrl('William')}
                     className="text-olive hover:underline inline-flex items-center"
@@ -593,11 +631,14 @@ export default function Explore() {
               </section>
 
               {/* Collection as Public Good */}
-              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-20 bg-charcoal text-cream">
+              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-charcoal text-cream">
                 <div className="max-w-[1200px]">
-                  <div className="mb-12">
-                    <H2 className="text-cream mb-3">Collection as a Public Good</H2>
-                    <p className="text-cream/70 max-w-2xl leading-relaxed">
+                  <div className="mb-14">
+                    <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                      Explore
+                    </span>
+                    <H2 className="text-cream mb-4">Collection as a Public Good</H2>
+                    <p className="text-cream/70 max-w-2xl leading-relaxed" style={{ fontSize: 'var(--text-body)' }}>
                       Art fulfills its purpose when it is seen, studied, and shared. Discover the many 
                       ways the collection moves through the world.
                     </p>
@@ -646,7 +687,7 @@ export default function Explore() {
 
               {/* Programs */}
               <section id="programs" className="scroll-mt-28 border-t hairline pt-20">
-                <div className="flex items-end justify-between mb-12">
+                <div className="flex items-end justify-between mb-14">
                   <div>
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                       Explore
@@ -689,7 +730,7 @@ export default function Explore() {
               {/* Providence */}
               <section id="providence" className="scroll-mt-28 border-t hairline pt-20">
                 <div className="max-w-3xl mx-auto">
-                  <div className="text-center mb-10">
+                  <div className="text-center mb-12">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                       A Lens
                     </span>
@@ -737,11 +778,11 @@ export default function Explore() {
 
               {/* Governance */}
               <section id="governance" className="scroll-mt-28 border-t hairline pt-20">
-                <div className="mb-12">
+                <div className="mb-14">
                   <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                     Leadership
                   </span>
-                  <H2 className="mb-3">Caretakers & Governance</H2>
+                  <H2 className="mb-4">Caretakers & Governance</H2>
                   <Body className="text-charcoal/70 max-w-2xl">
                     The Foundation is guided by family members and professionals dedicated to preserving 
                     William's legacy and ensuring the collection serves the public good.
@@ -788,12 +829,14 @@ export default function Explore() {
 
               {/* Community Partner - HCZ */}
               <section id="community" className="scroll-mt-28 border-t hairline pt-20">
+                <div className="mb-4">
+                  <span className="text-xs uppercase tracking-[0.2em] text-olive block">
+                    Community
+                  </span>
+                </div>
                 <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16">
                   {/* Narrative */}
                   <div>
-                    <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                      Community
-                    </span>
                     <H2 className="mb-6">Harlem Children's Zone</H2>
                     <Body className="mb-4">
                       William Louis-Dreyfus was an early and steadfast supporter of Harlem Children's 
@@ -863,7 +906,7 @@ export default function Explore() {
               </section>
 
               {/* Quote Section */}
-              <section className="-mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-20 bg-charcoal text-cream">
+              <section className="-mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-charcoal text-cream">
                 <div className="max-w-3xl mx-auto text-center">
                   <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-cream/90 italic leading-relaxed mb-8">
                     "The true value of a collection lies not in what you own, but in what you share. 
