@@ -527,15 +527,15 @@ export default function Explore() {
                 </div>
               </section>
 
-              {/* PATTERN E: Collection - Mosaic media grid inside dark band */}
-              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-charcoal text-cream">
-                <div className="max-w-[1200px]">
+              {/* PATTERN E: Collection - Mosaic media grid inside light band */}
+              <section id="collection" className="scroll-mt-28 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-beige/30">
+                <div className="max-w-[1400px] mx-auto">
                   <div className="mb-14">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                       Explore
                     </span>
-                    <H2 className="text-cream mb-4">Collection as a Public Good</H2>
-                    <p className="text-cream/70 max-w-2xl leading-relaxed" style={{ fontSize: 'var(--text-body)' }}>
+                    <H2 className="mb-4">Collection as a Public Good</H2>
+                    <p className="text-charcoal/70 max-w-2xl leading-relaxed" style={{ fontSize: 'var(--text-body)' }}>
                       Art fulfills its purpose when it is seen, studied, and shared. Discover the many 
                       ways the collection moves through the world.
                     </p>
@@ -553,10 +553,10 @@ export default function Explore() {
                         alt={collectionMovement[0].title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <H3 className="text-cream mb-2">{collectionMovement[0].title}</H3>
-                        <p className="text-cream/70 text-sm">{collectionMovement[0].description}</p>
+                        <p className="text-cream/80 text-sm">{collectionMovement[0].description}</p>
                       </div>
                     </Link>
 
@@ -572,10 +572,10 @@ export default function Explore() {
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-4">
                           <p className="text-cream font-medium mb-1 text-sm">{item.title}</p>
-                          <p className="text-cream/60 text-xs line-clamp-2">{item.description}</p>
+                          <p className="text-cream/70 text-xs line-clamp-2">{item.description}</p>
                         </div>
                       </Link>
                     ))}
