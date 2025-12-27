@@ -143,7 +143,7 @@ export default function Layout({ children }) {
       <SkipLink />
       <Header />
       
-      <main id="main-content" className="flex-1 pt-20">
+      <main id="main-content" className="flex-1 pt-[106px]">
         {children}
       </main>
       

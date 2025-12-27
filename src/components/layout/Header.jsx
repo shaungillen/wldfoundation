@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, Mail } from 'lucide-react';
 import { useLanguage } from '@/components/LanguageContext';
 import LanguageSelector from '@/components/LanguageSelector';
 import { cn } from "@/lib/utils";
@@ -48,17 +48,40 @@ export default function Header() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 bg-cream border-b",
-        isScrolled 
-          ? "border-charcoal/15" 
-          : "border-transparent"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 bg-cream"
       )}
-      style={{ height: '72px' }}
     >
-      <div className="max-w-[1200px] mx-auto px-6 md:px-6 h-full"
-        style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}
+      {/* Top Utility Bar */}
+      <div className="border-b border-charcoal/10">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-6"
+          style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}
+        >
+          <div className="flex items-center justify-end h-10 gap-4">
+            <Link
+              to={createPageUrl('Contact')}
+              className="flex items-center gap-2 text-xs text-charcoal/60 hover:text-charcoal transition-colors"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Contact</span>
+            </Link>
+            <LanguageSelector />
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navigation Bar */}
+      <div 
+        className={cn(
+          "border-b transition-all duration-200",
+          isScrolled 
+            ? "border-charcoal/15" 
+            : "border-transparent"
+        )}
       >
-        <div className="flex items-center justify-between h-full">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-6"
+          style={{ paddingLeft: 'var(--gutter-desktop)', paddingRight: 'var(--gutter-desktop)' }}
+        >
+          <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link 
             to={createPageUrl('Home')} 
@@ -95,13 +118,32 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Search + Language + Mobile Menu */}
-          <div className="flex items-center space-x-2">
-            <LanguageSelector />
+          {/* Search Input + Mobile Menu */}
+          <div className="flex items-center gap-3">
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const searchValue = e.target.search.value;
+                if (searchValue) {
+                  window.location.href = createPageUrl(`Search?q=${encodeURIComponent(searchValue)}`);
+                }
+              }}
+              className="hidden lg:flex items-center"
+            >
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-charcoal/40" />
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Search collection..."
+                  className="pl-9 pr-4 py-1.5 text-sm border border-charcoal/10 rounded-sm bg-cream hover:border-charcoal/20 focus:border-olive focus:outline-none transition-colors w-48"
+                />
+              </div>
+            </form>
             
             <Link
               to={createPageUrl('Search')}
-              className="p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
+              className="lg:hidden p-2 text-charcoal/70 hover:text-charcoal transition-colors duration-150"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -145,7 +187,7 @@ export default function Header() {
                       </SheetClose>
                     ))}
                   </nav>
-                  <div className="px-6 py-6 border-t hairline">
+                  <div className="px-6 py-6 border-t hairline space-y-2">
                     <Link
                       to={createPageUrl('Search')}
                       className="flex items-center space-x-3 text-charcoal/70 hover:text-charcoal py-2"
@@ -153,6 +195,14 @@ export default function Header() {
                     >
                       <Search className="w-5 h-5" />
                       <span className="text-base">Search Collection</span>
+                    </Link>
+                    <Link
+                      to={createPageUrl('Contact')}
+                      className="flex items-center space-x-3 text-charcoal/70 hover:text-charcoal py-2"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <Mail className="w-5 h-5" />
+                      <span className="text-base">Contact</span>
                     </Link>
                   </div>
                 </div>
