@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const navItems = [
-  { label: 'About', href: 'About' },
+  { label: 'Explore', href: 'Explore' },
   { label: 'Collection', href: 'Collection' },
   { label: 'Programs', href: 'Programs' },
   { label: 'Visit', href: 'Visit' },
