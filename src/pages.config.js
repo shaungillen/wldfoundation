@@ -7,6 +7,7 @@ import Artists from './pages/Artists';
 import ArtworkDetail from './pages/ArtworkDetail';
 import Collection from './pages/Collection';
 import Contact from './pages/Contact';
+import Explore from './pages/Explore';
 import Gallery from './pages/Gallery';
 import GetInvolved from './pages/GetInvolved';
 import Governance from './pages/Governance';
@@ -17,13 +18,12 @@ import LoanInquiry from './pages/LoanInquiry';
 import News from './pages/News';
 import NotFound from './pages/NotFound';
 import Privacy from './pages/Privacy';
+import Programs from './pages/Programs';
 import Search from './pages/Search';
 import Tours from './pages/Tours';
 import VirtualTour from './pages/VirtualTour';
-import William from './pages/William';
-import Programs from './pages/Programs';
 import Visit from './pages/Visit';
-import Explore from './pages/Explore';
+import William from './pages/William';
 import __Layout from './Layout.jsx';
 
 
@@ -37,6 +37,7 @@ export const PAGES = {
     "ArtworkDetail": ArtworkDetail,
     "Collection": Collection,
     "Contact": Contact,
+    "Explore": Explore,
     "Gallery": Gallery,
     "GetInvolved": GetInvolved,
     "Governance": Governance,
@@ -47,13 +48,12 @@ export const PAGES = {
     "News": News,
     "NotFound": NotFound,
     "Privacy": Privacy,
+    "Programs": Programs,
     "Search": Search,
     "Tours": Tours,
     "VirtualTour": VirtualTour,
-    "William": William,
-    "Programs": Programs,
     "Visit": Visit,
-    "Explore": Explore,
+    "William": William,
 }
 
 export const pagesConfig = {

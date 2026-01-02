@@ -305,9 +305,9 @@ export default function Explore() {
       </div>
 
       {/* Main Content Grid with Vertical Rail */}
-      <div className="relative">
-        {/* Desktop Vertical Sticky Rail - Book Index Style - Overlays content */}
-        <aside className="hidden lg:block fixed left-8 top-32 z-30 w-[160px]">
+      <div className="relative lg:flex">
+        {/* Desktop Vertical Sticky Rail - Book Index Style */}
+        <aside className="hidden lg:block flex-shrink-0 w-[200px] mr-12">
           <nav className="sticky top-32 pl-4 border-l border-charcoal/10">
                 <p className="text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-5 font-normal" style={{ fontSize: '10px', letterSpacing: '0.12em' }}>
                   Explore Index
@@ -344,8 +344,8 @@ export default function Explore() {
               </nav>
             </aside>
 
-        <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="py-12 lg:py-16 lg:pl-52">
+        <div className="flex-1 max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="py-12 lg:py-16">
             {/* Main Content */}
             <div className="space-y-24 md:space-y-28">
               {/* PATTERN A: Mission - "Pulitzer sentence" with inline links */}
