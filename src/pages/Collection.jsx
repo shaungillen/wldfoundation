@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -9,10 +9,14 @@ import { ArrowRight } from 'lucide-react';
 import CollectionFilters from '@/components/collection/CollectionFilters';
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import { Skeleton } from "@/components/ui/skeleton";
+import Modal from '@/components/modals/Modal';
+import ArtworkModal from '@/components/modals/ArtworkModal';
 
 export default function Collection() {
   const urlParams = new URLSearchParams(window.location.search);
   const initialSearch = urlParams.get('search') || '';
+  const navigate = useNavigate();
+  const { artworkId } = useParams();
 
   const [search, setSearch] = useState(initialSearch);
   const [filters, setFilters] = useState({
@@ -142,8 +146,23 @@ export default function Collection() {
     setYearRange([1900, 2025]);
   };
 
+  const handleArtworkClick = (artworkId) => {
+    navigate(`/collection/${artworkId}`);
+  };
+
+  const handleCloseModal = () => {
+    navigate('/collection');
+  };
+
   return (
     <div className="min-h-screen">
+      <Modal 
+        isOpen={!!artworkId} 
+        onClose={handleCloseModal}
+        size="xl"
+      >
+        {artworkId && <ArtworkModal artworkId={artworkId} />}
+      </Modal>
       {/* Hero */}
       <section className="py-12 md:py-20 bg-cream">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
@@ -209,7 +228,13 @@ export default function Collection() {
               ))
             ) : filteredArtworks.length > 0 ? (
               filteredArtworks.map((artwork) => (
-                <ArtworkCard key={artwork.id} artwork={artwork} />
+                <div
+                  key={artwork.id}
+                  onClick={() => handleArtworkClick(artwork.id)}
+                  className="cursor-pointer"
+                >
+                  <ArtworkCard artwork={artwork} />
+                </div>
               ))
             ) : (
               <div className="col-span-full py-16 text-center">
