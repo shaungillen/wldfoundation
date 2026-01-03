@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
+import { useNavigate, useParams } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { H1, Lead, Body } from '@/components/ui/typography';
@@ -15,10 +14,14 @@ import {
 import { Search } from 'lucide-react';
 import ArtistCard from '@/components/cards/ArtistCard';
 import { Skeleton } from "@/components/ui/skeleton";
+import Modal from '@/components/modals/Modal';
+import ArtistModal from '@/components/modals/ArtistModal';
 
 export default function Artists() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
+  const { artistId } = useParams();
 
   const { data: artists = [], isLoading } = useQuery({
     queryKey: ['artists'],
@@ -65,8 +68,24 @@ export default function Artists() {
 
   const letters = Object.keys(groupedArtists).sort();
 
+  const handleArtistClick = (artistId) => {
+    navigate(`/artists/${artistId}`);
+  };
+
+  const handleCloseModal = () => {
+    navigate('/artists', { replace: true });
+  };
+
   return (
     <div className="min-h-screen bg-cream">
+      <Modal 
+        isOpen={!!artistId} 
+        onClose={handleCloseModal}
+        size="xl"
+      >
+        {artistId && <ArtistModal artistId={artistId} />}
+      </Modal>
+
       {/* Hero */}
       <section className="py-12 md:py-20">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
@@ -153,7 +172,13 @@ export default function Artists() {
                   <h2 className="font-serif text-4xl text-charcoal/20 mb-8">{letter}</h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
                     {groupedArtists[letter].map((artist) => (
-                      <ArtistCard key={artist.id} artist={artist} />
+                      <div
+                        key={artist.id}
+                        onClick={() => handleArtistClick(artist.id)}
+                        className="cursor-pointer"
+                      >
+                        <ArtistCard artist={artist} />
+                      </div>
                     ))}
                   </div>
                 </div>
