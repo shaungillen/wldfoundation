@@ -305,10 +305,10 @@ export default function Explore() {
       </div>
 
       {/* Main Content Grid with Vertical Rail */}
-      <div className="relative lg:flex">
+      <div className="relative lg:flex bg-transparent">
         {/* Desktop Vertical Sticky Rail - Book Index Style */}
-        <aside className="hidden lg:block flex-shrink-0 w-[200px] mr-12">
-          <nav className="sticky top-40 pl-4 border-l border-charcoal/10 mt-8">
+        <aside className="hidden lg:block flex-shrink-0 w-[200px] mr-12 relative z-10">
+          <nav className="sticky top-40 pl-4 border-l border-charcoal/10 mt-8 bg-transparent">
                 <p className="text-xs uppercase tracking-[0.15em] text-charcoal/50 mb-5 font-normal">
                   Explore Index
                 </p>
@@ -317,33 +317,27 @@ export default function Explore() {
                     key={item.id}
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center gap-3 py-1.5 transition-all relative group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
+                      "flex items-center gap-3 py-1.5 text-sm leading-relaxed transition-all relative group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
                       activeSection === item.id
                         ? 'text-charcoal font-medium'
-                        : 'text-charcoal/40 hover:text-charcoal/70'
+                        : 'text-charcoal/60 hover:text-charcoal'
                     )}
-                    className={cn(
-                     "text-sm leading-relaxed",
-                     activeSection === item.id
-                       ? 'text-charcoal font-medium'
-                       : 'text-charcoal/60 hover:text-charcoal'
-                    )}
-                    >
+                  >
                     <span className={cn(
-                     "font-mono transition-colors w-6 text-sm",
-                     activeSection === item.id ? 'text-olive' : 'text-charcoal/40'
+                      "font-mono transition-colors text-xs flex-shrink-0",
+                      activeSection === item.id ? 'text-olive' : 'text-charcoal/40'
                     )}>
-                     {item.number}
+                      {item.number}
                     </span>
                     <span className="relative">
-                     {item.label}
-                     {activeSection === item.id && (
-                       <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
-                         aria-hidden="true"
-                       />
-                     )}
+                      {item.label}
+                      {activeSection === item.id && (
+                        <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
+                          aria-hidden="true"
+                        />
+                      )}
                     </span>
-                    </a>
+                  </a>
                 ))}
               </nav>
             </aside>
@@ -532,7 +526,7 @@ export default function Explore() {
               </section>
 
               {/* PATTERN E: Collection - Mosaic media grid inside light band */}
-              <section id="collection" className="scroll-mt-28 py-24 bg-beige" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
+              <section id="collection" className="scroll-mt-28 py-24 bg-beige -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8" style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem' }}>
                 <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
                   <div className="mb-14">
                     <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
