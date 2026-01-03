@@ -241,7 +241,7 @@ export default function Explore() {
         <div className="absolute bottom-6 right-6 z-10 flex items-center gap-3">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+            className="w-10 h-10 rounded-full bg-charcoal/40 backdrop-blur-sm border border-cream/40 flex items-center justify-center text-cream hover:bg-charcoal/60 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -253,7 +253,7 @@ export default function Explore() {
                 onClick={() => goToSlide(index)}
                 className={cn(
                   "h-2 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream",
-                  index === currentSlide ? 'bg-cream w-8' : 'bg-cream/40 hover:bg-cream/60 w-2'
+                  index === currentSlide ? 'bg-cream w-8' : 'bg-cream/50 hover:bg-cream/70 w-2'
                 )}
                 aria-label={`Go to slide ${index + 1}`}
                 aria-current={index === currentSlide}
@@ -262,7 +262,7 @@ export default function Explore() {
           </div>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 rounded-full bg-cream/10 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream hover:bg-cream/20 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+            className="w-10 h-10 rounded-full bg-charcoal/40 backdrop-blur-sm border border-cream/40 flex items-center justify-center text-cream hover:bg-charcoal/60 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5" />
@@ -308,8 +308,8 @@ export default function Explore() {
       <div className="relative lg:flex">
         {/* Desktop Vertical Sticky Rail - Book Index Style */}
         <aside className="hidden lg:block flex-shrink-0 w-[200px] mr-12">
-          <nav className="sticky top-32 pl-4 border-l border-charcoal/10">
-                <p className="text-xs uppercase tracking-[0.15em] text-charcoal/30 mb-5 font-normal" style={{ fontSize: '10px', letterSpacing: '0.12em' }}>
+          <nav className="sticky top-40 pl-4 border-l border-charcoal/10 mt-8">
+                <p className="text-xs uppercase tracking-[0.15em] text-charcoal/50 mb-5 font-normal">
                   Explore Index
                 </p>
                 {navItems.map((item) => (
@@ -322,24 +322,28 @@ export default function Explore() {
                         ? 'text-charcoal font-medium'
                         : 'text-charcoal/40 hover:text-charcoal/70'
                     )}
-                    style={{ fontSize: '13px', lineHeight: '1.4' }}
-                  >
-                    <span className={cn(
-                      "font-mono transition-colors w-5",
-                      activeSection === item.id ? 'text-charcoal/50' : 'text-charcoal/25'
+                    className={cn(
+                     "text-sm leading-relaxed",
+                     activeSection === item.id
+                       ? 'text-charcoal font-medium'
+                       : 'text-charcoal/60 hover:text-charcoal'
                     )}
-                    style={{ fontSize: '11px' }}>
-                      {item.number}
+                    >
+                    <span className={cn(
+                     "font-mono transition-colors w-6 text-sm",
+                     activeSection === item.id ? 'text-olive' : 'text-charcoal/40'
+                    )}>
+                     {item.number}
                     </span>
                     <span className="relative">
-                      {item.label}
-                      {activeSection === item.id && (
-                        <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
-                          aria-hidden="true"
-                        />
-                      )}
+                     {item.label}
+                     {activeSection === item.id && (
+                       <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
+                         aria-hidden="true"
+                       />
+                     )}
                     </span>
-                  </a>
+                    </a>
                 ))}
               </nav>
             </aside>
