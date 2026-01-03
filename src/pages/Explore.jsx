@@ -190,7 +190,7 @@ export default function Explore() {
   ];
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-stone-50">
       {/* Hero Story Carousel */}
       <section 
         className="relative h-[70vh] min-h-[500px] max-h-[700px] overflow-hidden"
@@ -210,21 +210,21 @@ export default function Explore() {
               alt={slide.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-neutral-900/40 to-transparent" />
             <div className="absolute inset-0 flex items-end">
               <div className="max-w-[1400px] mx-auto w-full px-4 md:px-6 lg:px-8 pb-12 md:pb-16">
                 <div className="max-w-2xl">
-                  <span className="text-xs uppercase tracking-[0.2em] text-cream/80 mb-3 block">
+                  <span className="text-xs uppercase tracking-[0.2em] text-stone-100/80 mb-3 block">
                     {slide.eyebrow}
                   </span>
-                  <H1 className="text-cream mb-4">{slide.title}</H1>
-                  <p className="text-cream/90 text-lg mb-6 leading-relaxed">{slide.description}</p>
+                  <h1 className="font-serif text-stone-50 font-light tracking-tight text-4xl md:text-5xl lg:text-6xl leading-tight mb-4">{slide.title}</h1>
+                  <p className="text-stone-100/90 text-lg mb-6 leading-relaxed">{slide.description}</p>
                   <div className="flex flex-wrap gap-3">
-                    {slide.ctas.map((cta, ctaIndex) => (
+                    {slide.ctas?.map((cta, ctaIndex) => (
                       <Link
                         key={ctaIndex}
                         to={createPageUrl(cta.url)}
-                        className="text-cream hover:text-cream/80 text-sm inline-flex items-center underline underline-offset-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+                        className="text-stone-50 hover:text-stone-100/80 text-sm inline-flex items-center underline underline-offset-4 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-50"
                       >
                         {cta.label}
                         <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
@@ -241,7 +241,7 @@ export default function Explore() {
         <div className="absolute bottom-6 right-6 z-10 flex items-center gap-3">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 rounded-full bg-charcoal/40 backdrop-blur-sm border border-cream/40 flex items-center justify-center text-cream hover:bg-charcoal/60 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+            className="w-10 h-10 rounded-full bg-neutral-900/50 backdrop-blur-sm border border-stone-50/30 flex items-center justify-center text-stone-50 hover:bg-neutral-900/70 transition-colors"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -252,8 +252,8 @@ export default function Explore() {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={cn(
-                  "h-2 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream",
-                  index === currentSlide ? 'bg-cream w-8' : 'bg-cream/50 hover:bg-cream/70 w-2'
+                  "h-2 rounded-full transition-all",
+                  index === currentSlide ? 'bg-stone-50 w-8' : 'bg-stone-50/50 hover:bg-stone-50/70 w-2'
                 )}
                 aria-label={`Go to slide ${index + 1}`}
                 aria-current={index === currentSlide}
@@ -262,7 +262,7 @@ export default function Explore() {
           </div>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 rounded-full bg-charcoal/40 backdrop-blur-sm border border-cream/40 flex items-center justify-center text-cream hover:bg-charcoal/60 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"
+            className="w-10 h-10 rounded-full bg-neutral-900/50 backdrop-blur-sm border border-stone-50/30 flex items-center justify-center text-stone-50 hover:bg-neutral-900/70 transition-colors"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5" />
@@ -304,12 +304,12 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* Main Content Grid with Vertical Rail */}
-      <div className="relative lg:flex bg-transparent">
-        {/* Desktop Vertical Sticky Rail - Book Index Style */}
-        <aside className="hidden lg:block flex-shrink-0 w-[200px] mr-12 relative z-10">
-          <nav className="sticky top-40 pl-4 border-l border-charcoal/10 mt-8 bg-transparent">
-                <p className="text-xs uppercase tracking-[0.15em] text-charcoal/50 mb-5 font-normal">
+      {/* Main Layout - Fixed positioning for rail */}
+      <div className="relative">
+        {/* Desktop Sticky Rail - Fixed position, doesn't affect flow */}
+        <aside className="hidden lg:block fixed left-8 top-40 w-[180px] z-20">
+          <nav className="pl-4 border-l border-neutral-300">
+                <p className="text-xs uppercase tracking-[0.15em] text-neutral-500 mb-5 font-normal">
                   Explore Index
                 </p>
                 {navItems.map((item) => (
@@ -317,22 +317,22 @@ export default function Explore() {
                     key={item.id}
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center gap-3 py-1.5 text-sm leading-relaxed transition-all relative group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive",
+                      "flex items-center gap-2 py-2 text-sm transition-all relative group",
                       activeSection === item.id
-                        ? 'text-charcoal font-medium'
-                        : 'text-charcoal/60 hover:text-charcoal'
+                        ? 'text-neutral-900 font-medium'
+                        : 'text-neutral-600 hover:text-neutral-900'
                     )}
                   >
                     <span className={cn(
-                      "font-mono transition-colors text-xs flex-shrink-0",
-                      activeSection === item.id ? 'text-olive' : 'text-charcoal/40'
+                      "font-mono text-xs w-6 flex-shrink-0",
+                      activeSection === item.id ? 'text-green-700' : 'text-neutral-400'
                     )}>
                       {item.number}
                     </span>
                     <span className="relative">
                       {item.label}
                       {activeSection === item.id && (
-                        <span className="absolute -left-5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-olive" 
+                        <span className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-green-700" 
                           aria-hidden="true"
                         />
                       )}
@@ -342,7 +342,8 @@ export default function Explore() {
               </nav>
             </aside>
 
-        <div className="flex-1 max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8">
+        {/* Main Content - Centered with consistent max-width */}
+        <div className="max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="py-12 lg:py-16">
             {/* Main Content */}
             <div className="space-y-24 md:space-y-28">
@@ -525,58 +526,60 @@ export default function Explore() {
                 </div>
               </section>
 
-              {/* PATTERN E: Collection - Mosaic media grid inside light band */}
-              <section id="collection" className="scroll-mt-28 py-24 bg-beige -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8" style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem' }}>
-                <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
-                  <div className="mb-14">
-                    <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                      Explore
-                    </span>
-                    <H2 className="mb-4">Collection as a Public Good</H2>
-                    <p className="text-charcoal/70 max-w-2xl leading-relaxed" style={{ fontSize: 'var(--text-body)' }}>
-                      Art fulfills its purpose when it is seen, studied, and shared. Discover the many 
-                      ways the collection moves through the world.
-                    </p>
-                  </div>
+              {/* PATTERN E: Collection - Mosaic media grid - Full width background */}
+              <section id="collection" className="scroll-mt-28 relative -mx-4 md:-mx-6 lg:-mx-8 xl:-mx-[calc((100vw-1200px)/2+2rem)]">
+                <div className="bg-stone-100 py-16 md:py-24">
+                  <div className="max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8">
+                    <div className="mb-14">
+                      <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
+                        Explore
+                      </span>
+                      <H2 className="mb-4">Collection as a Public Good</H2>
+                      <p className="text-neutral-700 max-w-2xl leading-relaxed" style={{ fontSize: 'var(--text-body)' }}>
+                        Art fulfills its purpose when it is seen, studied, and shared. Discover the many 
+                        ways the collection moves through the world.
+                      </p>
+                    </div>
 
-                  {/* Mosaic Grid: 1 large + 4 smaller */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* Large featured */}
-                    <Link
-                      to={createPageUrl(collectionMovement[0].link)}
-                      className="col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-square overflow-hidden group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
-                    >
-                      <img 
-                        src={collectionMovement[0].image}
-                        alt={collectionMovement[0].title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <H3 className="text-cream mb-2">{collectionMovement[0].title}</H3>
-                        <p className="text-cream/80 text-sm">{collectionMovement[0].description}</p>
-                      </div>
-                    </Link>
-
-                    {/* Smaller tiles */}
-                    {collectionMovement.slice(1).map((item, index) => (
+                    {/* Mosaic Grid: 1 large + 4 smaller */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {/* Large featured */}
                       <Link
-                        key={index}
-                        to={createPageUrl(item.link)}
-                        className="relative aspect-square overflow-hidden group focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive"
+                        to={createPageUrl(collectionMovement[0].link)}
+                        className="col-span-2 md:row-span-2 relative aspect-[4/3] md:aspect-square overflow-hidden group"
                       >
                         <img 
-                          src={item.image}
-                          alt={item.title}
+                          src={collectionMovement[0].image}
+                          alt={collectionMovement[0].title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4">
-                          <p className="text-cream font-medium mb-1 text-sm">{item.title}</p>
-                          <p className="text-cream/70 text-xs line-clamp-2">{item.description}</p>
+                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-neutral-900/40 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <h3 className="font-serif text-stone-50 text-2xl font-light mb-2">{collectionMovement[0].title}</h3>
+                          <p className="text-stone-100/80 text-sm">{collectionMovement[0].description}</p>
                         </div>
                       </Link>
-                    ))}
+
+                      {/* Smaller tiles */}
+                      {collectionMovement.slice(1).map((item, index) => (
+                        <Link
+                          key={index}
+                          to={createPageUrl(item.link)}
+                          className="relative aspect-square overflow-hidden group"
+                        >
+                          <img 
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-neutral-900/40 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-4">
+                            <p className="text-stone-50 font-medium mb-1 text-sm">{item.title}</p>
+                            <p className="text-stone-100/70 text-xs line-clamp-2">{item.description}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </section>
@@ -785,15 +788,19 @@ export default function Explore() {
               </section>
 
               {/* Quote Section */}
-              <section className="-mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 py-24 bg-charcoal text-cream">
-                <div className="max-w-3xl mx-auto text-center">
-                  <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-cream/90 italic leading-relaxed mb-8">
-                    "The true value of a collection lies not in what you own, but in what you share. 
-                    Art that is seen, studied, and loved fulfills its purpose."
-                  </blockquote>
-                  <cite className="text-cream/60 text-sm not-italic">
-                    — William Louis-Dreyfus, 1932–2016
-                  </cite>
+              <section className="relative -mx-4 md:-mx-6 lg:-mx-8 xl:-mx-[calc((100vw-1200px)/2+2rem)]">
+                <div className="bg-neutral-900 py-16 md:py-24">
+                  <div className="max-w-[1200px] mx-auto px-4 md:px-6 lg:px-8">
+                    <div className="max-w-3xl mx-auto text-center">
+                      <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl text-stone-100/90 italic leading-relaxed mb-8">
+                        "The true value of a collection lies not in what you own, but in what you share. 
+                        Art that is seen, studied, and loved fulfills its purpose."
+                      </blockquote>
+                      <cite className="text-stone-100/60 text-sm not-italic">
+                        — William Louis-Dreyfus, 1932–2016
+                      </cite>
+                    </div>
+                  </div>
                 </div>
               </section>
             </div>
