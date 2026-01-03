@@ -307,7 +307,7 @@ export default function Explore() {
       {/* Main Layout - Fixed positioning for rail */}
       <div className="relative">
         {/* Desktop Sticky Rail - Fixed position, doesn't affect flow */}
-        <aside className="hidden lg:block fixed left-8 top-40 w-[180px] z-20">
+        <aside className="hidden lg:block fixed left-8 w-[180px] z-20" style={{ top: '180px' }}>
           <nav className="pl-4 border-l border-neutral-300">
                 <p className="text-xs uppercase tracking-[0.15em] text-neutral-500 mb-5 font-normal">
                   Explore Index
