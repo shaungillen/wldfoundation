@@ -15,7 +15,6 @@ import HarlemChildrensZone from './pages/HarlemChildrensZone';
 import Home from './pages/Home';
 import LoanCaseStudy from './pages/LoanCaseStudy';
 import LoanInquiry from './pages/LoanInquiry';
-import News from './pages/News';
 import NotFound from './pages/NotFound';
 import Privacy from './pages/Privacy';
 import Programs from './pages/Programs';
@@ -24,6 +23,7 @@ import Tours from './pages/Tours';
 import VirtualTour from './pages/VirtualTour';
 import Visit from './pages/Visit';
 import William from './pages/William';
+import Stories from './pages/Stories';
 import __Layout from './Layout.jsx';
 
 
@@ -45,7 +45,6 @@ export const PAGES = {
     "Home": Home,
     "LoanCaseStudy": LoanCaseStudy,
     "LoanInquiry": LoanInquiry,
-    "News": News,
     "NotFound": NotFound,
     "Privacy": Privacy,
     "Programs": Programs,
@@ -54,6 +53,7 @@ export const PAGES = {
     "VirtualTour": VirtualTour,
     "Visit": Visit,
     "William": William,
+    "Stories": Stories,
 }
 
 export const pagesConfig = {

@@ -15,7 +15,7 @@ const typeLabels = {
   reflection: 'Reflections',
 };
 
-export default function News() {
+export default function Stories() {
   const [activeType, setActiveType] = useState('all');
 
   const { data: articles = [], isLoading } = useQuery({
@@ -38,7 +38,7 @@ export default function News() {
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl">
             <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              News & Writing
+              Stories & Writing
             </span>
             <H1 className="mb-6">
               Insights from the Collection
