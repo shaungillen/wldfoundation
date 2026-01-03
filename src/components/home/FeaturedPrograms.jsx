@@ -26,7 +26,7 @@ export default function FeaturedPrograms() {
       title: t('home.programs.scholarship.title'),
       description: t('home.programs.scholarship.description'),
       image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80',
-      href: 'News',
+      href: 'Stories',
       icon: Newspaper,
     },
   ];
