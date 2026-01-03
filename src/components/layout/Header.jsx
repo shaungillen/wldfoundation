@@ -25,11 +25,12 @@ export default function Header() {
   const { t } = useLanguage();
 
   const navItems = [
-    { label: t('nav.explore'), href: 'Explore' },
+    { label: t('nav.about'), href: 'About' },
     { label: t('nav.collection'), href: 'Collection' },
+    { label: t('nav.artists'), href: 'Artists' },
     { label: t('nav.programs'), href: 'Programs' },
     { label: t('nav.visit'), href: 'Visit' },
-    { label: t('nav.news'), href: 'News' },
+    { label: t('nav.stories'), href: 'Stories' },
   ];
 
   useEffect(() => {

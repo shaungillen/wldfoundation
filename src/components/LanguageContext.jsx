@@ -5,12 +5,12 @@ const LanguageContext = createContext();
 export const translations = {
   en: {
     nav: {
+      about: 'About',
       collection: 'Collection',
       artists: 'Artists',
-      explore: 'Explore',
       programs: 'Programs',
       visit: 'Visit',
-      news: 'News',
+      stories: 'Stories',
     },
     home: {
       hero1: {
@@ -94,12 +94,12 @@ export const translations = {
   },
   es: {
     nav: {
+      about: 'Acerca de',
       collection: 'Colección',
       artists: 'Artistas',
-      explore: 'Explorar',
       programs: 'Programas',
       visit: 'Visitar',
-      news: 'Noticias',
+      stories: 'Historias',
     },
     home: {
       hero1: {
@@ -183,12 +183,12 @@ export const translations = {
   },
   fr: {
     nav: {
+      about: 'À Propos',
       collection: 'Collection',
       artists: 'Artistes',
-      explore: 'Explorer',
       programs: 'Programmes',
       visit: 'Visiter',
-      news: 'Actualités',
+      stories: 'Histoires',
     },
     home: {
       hero1: {
