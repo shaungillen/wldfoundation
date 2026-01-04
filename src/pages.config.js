@@ -19,11 +19,14 @@ import NotFound from './pages/NotFound';
 import Privacy from './pages/Privacy';
 import Programs from './pages/Programs';
 import Search from './pages/Search';
+import Stories from './pages/Stories';
 import Tours from './pages/Tours';
 import VirtualTour from './pages/VirtualTour';
 import Visit from './pages/Visit';
 import William from './pages/William';
-import Stories from './pages/Stories';
+import VisitHub from './pages/VisitHub';
+import VisitGallery from './pages/VisitGallery';
+import VirtualTourRooms from './pages/VirtualTourRooms';
 import __Layout from './Layout.jsx';
 
 
@@ -49,11 +52,14 @@ export const PAGES = {
     "Privacy": Privacy,
     "Programs": Programs,
     "Search": Search,
+    "Stories": Stories,
     "Tours": Tours,
     "VirtualTour": VirtualTour,
     "Visit": Visit,
     "William": William,
-    "Stories": Stories,
+    "VisitHub": VisitHub,
+    "VisitGallery": VisitGallery,
+    "VirtualTourRooms": VirtualTourRooms,
 }
 
 export const pagesConfig = {
