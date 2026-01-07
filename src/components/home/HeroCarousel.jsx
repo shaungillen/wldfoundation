@@ -70,11 +70,14 @@ export default function HeroCarousel() {
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/70 via-charcoal/40 to-transparent" />
+          {/* Enhanced gradient overlay for better readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/50 to-charcoal/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex items-center">
+      {/* Content with proper spacing from header */}
+      <div className="absolute inset-0 flex items-center pt-[106px]">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 w-full">
           <AnimatePresence mode="wait">
             <motion.div
@@ -85,17 +88,18 @@ export default function HeroCarousel() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="max-w-2xl"
             >
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-cream leading-tight mb-4">
-                {slide.title}
-              </h1>
-              <p className="text-lg md:text-xl text-cream/80 mb-8">
-                {slide.subtitle}
-              </p>
-              <div className="flex flex-wrap gap-4">
+              {/* Translucent panel behind text for extra readability */}
+              <div className="bg-charcoal/30 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-cream/10">
+                <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-cream leading-[1.15] mb-5 drop-shadow-lg">
+                  {slide.title}
+                </h1>
+                <p className="text-base md:text-lg lg:text-xl text-cream/95 mb-8 leading-relaxed drop-shadow-md">
+                  {slide.subtitle}
+                </p>
                 <Button 
                   asChild
                   size="lg"
-                  className="bg-cream text-charcoal hover:bg-cream/90 border-0"
+                  className="bg-cream text-charcoal hover:bg-cream/90 border-0 font-medium px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all"
                 >
                   <Link to={createPageUrl(slide.cta1.href)}>
                     {slide.cta1.label}
