@@ -13,7 +13,7 @@ import { Search } from 'lucide-react';
 import ArtistCard from '@/components/cards/ArtistCard';
 import Modal from '@/components/modals/Modal';
 import ArtistModal from '@/components/modals/ArtistModal';
-import { getArtists } from '@/api/dataSource';
+import { getArtists } from '@/components/data/mockData';
 
 export default function Artists() {
   const [search, setSearch] = useState('');
