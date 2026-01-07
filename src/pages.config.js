@@ -22,11 +22,11 @@ import Search from './pages/Search';
 import Stories from './pages/Stories';
 import Tours from './pages/Tours';
 import VirtualTour from './pages/VirtualTour';
-import Visit from './pages/Visit';
-import William from './pages/William';
-import VisitHub from './pages/VisitHub';
-import VisitGallery from './pages/VisitGallery';
 import VirtualTourRooms from './pages/VirtualTourRooms';
+import Visit from './pages/Visit';
+import VisitGallery from './pages/VisitGallery';
+import VisitHub from './pages/VisitHub';
+import William from './pages/William';
 import __Layout from './Layout.jsx';
 
 
@@ -55,11 +55,11 @@ export const PAGES = {
     "Stories": Stories,
     "Tours": Tours,
     "VirtualTour": VirtualTour,
-    "Visit": Visit,
-    "William": William,
-    "VisitHub": VisitHub,
-    "VisitGallery": VisitGallery,
     "VirtualTourRooms": VirtualTourRooms,
+    "Visit": Visit,
+    "VisitGallery": VisitGallery,
+    "VisitHub": VisitHub,
+    "William": William,
 }
 
 export const pagesConfig = {

@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
 import { H1, Lead, Body } from '@/components/ui/typography';
 import { Input } from "@/components/ui/input";
 import {
@@ -13,9 +11,9 @@ import {
 } from "@/components/ui/select";
 import { Search } from 'lucide-react';
 import ArtistCard from '@/components/cards/ArtistCard';
-import { Skeleton } from "@/components/ui/skeleton";
 import Modal from '@/components/modals/Modal';
 import ArtistModal from '@/components/modals/ArtistModal';
+import { getArtists } from '@/api/dataSource';
 
 export default function Artists() {
   const [search, setSearch] = useState('');
@@ -23,10 +21,7 @@ export default function Artists() {
   const navigate = useNavigate();
   const { artistId } = useParams();
 
-  const { data: artists = [], isLoading } = useQuery({
-    queryKey: ['artists'],
-    queryFn: () => base44.entities.Artist.list('name', 500),
-  });
+  const artists = getArtists();
 
   const filteredArtists = useMemo(() => {
     return artists.filter((artist) => {
@@ -155,17 +150,7 @@ export default function Artists() {
             {filteredArtists.length} {filteredArtists.length === 1 ? 'artist' : 'artists'}
           </p>
 
-          {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-              {Array(8).fill(0).map((_, i) => (
-                <div key={i} className="space-y-4">
-                  <Skeleton className="aspect-[3/4]" />
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                </div>
-              ))}
-            </div>
-          ) : filteredArtists.length > 0 ? (
+          {filteredArtists.length > 0 ? (
             <div className="space-y-16">
               {letters.map((letter) => (
                 <div key={letter} id={`letter-${letter}`}>
