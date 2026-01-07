@@ -1,40 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
-import { H1, H2, H3, Body, Quote, Caption } from '@/components/ui/typography';
+import { H1, H2, Body, Quote, Caption } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, ExternalLink } from 'lucide-react';
-import { Skeleton } from "@/components/ui/skeleton";
+import { Play } from 'lucide-react';
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import ArtistTimeline from '@/components/artist/ArtistTimeline';
+import { getArtist, getArtworks } from '@/components/data/mockData';
 
 export default function ArtistModal({ artistId }) {
-  const { data: artist, isLoading: artistLoading } = useQuery({
-    queryKey: ['artist', artistId],
-    queryFn: () => base44.entities.Artist.filter({ id: artistId }),
-    enabled: !!artistId,
-    select: (data) => data[0],
-  });
-
-  const { data: artworks = [] } = useQuery({
-    queryKey: ['artworks', 'artist', artistId],
-    queryFn: () => base44.entities.Artwork.filter({ artist_id: artistId }, '-year', 100),
-    enabled: !!artistId,
-  });
-
-  const { data: loans = [] } = useQuery({
-    queryKey: ['loans', 'artist', artistId],
-    queryFn: () => base44.entities.LoanCaseStudy.list('-start_date', 100),
-    enabled: !!artistId,
-  });
-
-  const artistLoans = loans.filter(loan => {
-    const loanArtworkIds = loan.artwork_ids || [];
-    return artworks.some(aw => loanArtworkIds.includes(aw.id));
-  });
+  const artist = getArtist(artistId);
+  const artworks = getArtworks({ artistId });
+  const artistLoans = [];
 
   const generateTimeline = () => {
     if (!artist) return [];
@@ -86,21 +62,6 @@ export default function ArtistModal({ artistId }) {
   const isCornerstone = artist?.tier === 'cornerstone';
   const isShowcase = artist?.tier === 'showcase' || isCornerstone;
 
-  if (artistLoading) {
-    return (
-      <div className="p-8">
-        <div className="grid lg:grid-cols-3 gap-12">
-          <Skeleton className="aspect-[3/4]" />
-          <div className="lg:col-span-2 space-y-6">
-            <Skeleton className="h-12 w-64" />
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-40 w-full" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (!artist) {
     return (
       <div className="p-8 text-center">
@@ -125,10 +86,12 @@ export default function ArtistModal({ artistId }) {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-beige to-beige/50">
-                  <span className="font-serif text-6xl text-charcoal/20">
-                    {artist.name?.charAt(0)}
-                  </span>
+                <div className="w-full h-full flex items-center justify-center bg-beige/50 border border-charcoal/10">
+                  <div className="w-32 h-32 rounded-full bg-olive/20 flex items-center justify-center">
+                    <span className="font-serif text-5xl text-olive">
+                      {artist.name?.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
@@ -229,31 +192,7 @@ export default function ArtistModal({ artistId }) {
         </section>
       )}
 
-      {/* Exhibition History */}
-      {isShowcase && artistLoans.length > 0 && (
-        <section className="px-6 md:px-8 lg:px-12 py-8 bg-beige/30">
-          <H2 className="mb-6">Exhibition History</H2>
-          <div className="space-y-3">
-            {artistLoans.slice(0, 3).map((loan) => (
-              <Link 
-                key={loan.id}
-                to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
-                className="block bg-cream p-4 border border-charcoal/10 hover:border-olive/30 transition-colors"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-serif text-lg text-charcoal">{loan.title}</p>
-                    <p className="text-sm text-charcoal/60">
-                      {loan.institution}, {loan.location}
-                    </p>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-charcoal/40" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+
     </div>
   );
 }

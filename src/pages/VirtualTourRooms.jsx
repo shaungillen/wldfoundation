@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
 import { H1, H2, H3, Body, Lead } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { MapPin, X, ArrowRight } from 'lucide-react';
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import Modal from '@/components/modals/Modal';
 import ArtworkModal from '@/components/modals/ArtworkModal';
-import { cn } from "@/lib/utils";
+import { getArtworksByRoomId } from '@/components/data/mockData';
 
 const rooms = [
   {
@@ -43,15 +41,6 @@ export default function VirtualTourRooms() {
   const navigate = useNavigate();
   const { artworkId } = useParams();
 
-  const { data: artworks = [] } = useQuery({
-    queryKey: ['artworks', 'on_view'],
-    queryFn: () => base44.entities.Artwork.filter({ status: 'on_view' }, '-created_date', 100),
-  });
-
-  const getWorksInRoom = (roomCategory) => {
-    return artworks.filter(artwork => artwork.category === roomCategory);
-  };
-
   const handleArtworkClick = (artworkId) => {
     navigate(`/visit/gallery/virtual-tour/${artworkId}`);
   };
@@ -61,7 +50,7 @@ export default function VirtualTourRooms() {
   };
 
   const room = selectedRoom ? rooms.find(r => r.id === selectedRoom) : null;
-  const roomWorks = room ? getWorksInRoom(room.category) : [];
+  const roomWorks = room ? getArtworksByRoomId(room.id) : [];
 
   return (
     <div className="min-h-screen bg-cream">
@@ -111,7 +100,7 @@ export default function VirtualTourRooms() {
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
             {rooms.map((room) => {
-              const works = getWorksInRoom(room.category);
+              const works = getArtworksByRoomId(room.id);
               return (
                 <button
                   key={room.id}

@@ -32,8 +32,8 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-charcoal/20 text-xs uppercase tracking-wider">Image unavailable</span>
+          <div className="w-full h-full flex items-center justify-center bg-beige/50">
+            <span className="text-charcoal/20 text-xs uppercase tracking-wider">No Image</span>
           </div>
         )}
       </div>
