@@ -27,6 +27,7 @@ import Visit from './pages/Visit';
 import VisitGallery from './pages/VisitGallery';
 import VisitHub from './pages/VisitHub';
 import William from './pages/William';
+import NotFoundPage from './pages/NotFoundPage';
 import __Layout from './Layout.jsx';
 
 
@@ -60,6 +61,7 @@ export const PAGES = {
     "VisitGallery": VisitGallery,
     "VisitHub": VisitHub,
     "William": William,
+    "NotFoundPage": NotFoundPage,
 }
 
 export const pagesConfig = {

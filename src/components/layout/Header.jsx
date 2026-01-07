@@ -25,11 +25,11 @@ export default function Header() {
   const { t } = useLanguage();
 
   const navItems = [
-    { label: t('nav.about'), href: 'About' },
+    { label: t('nav.about'), href: 'Explore' },
     { label: t('nav.collection'), href: 'Collection' },
     { label: t('nav.artists'), href: 'Artists' },
     { label: t('nav.programs'), href: 'Programs' },
-    { label: t('nav.visit'), href: 'Visit' },
+    { label: t('nav.visit'), href: 'VisitHub' },
     { label: t('nav.stories'), href: 'Stories' },
   ];
 
