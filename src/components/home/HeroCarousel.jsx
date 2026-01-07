@@ -88,18 +88,24 @@ export default function HeroCarousel() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="max-w-2xl"
             >
-              {/* Translucent panel behind text for extra readability */}
-              <div className="bg-charcoal/30 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-cream/10">
-                <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-cream leading-[1.15] mb-5 drop-shadow-lg">
+              {/* Museum plaque style panel */}
+              <div 
+                className="rounded-md p-8 md:p-10 lg:p-12"
+                style={{
+                  backgroundColor: 'rgba(253, 251, 247, 0.85)',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)'
+                }}
+              >
+                <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-charcoal leading-[1.15] mb-5">
                   {slide.title}
                 </h1>
-                <p className="text-base md:text-lg lg:text-xl text-cream/95 mb-8 leading-relaxed drop-shadow-md">
+                <p className="text-base md:text-lg lg:text-xl text-charcoal/80 mb-8 leading-relaxed max-w-xl">
                   {slide.subtitle}
                 </p>
                 <Button 
                   asChild
                   size="lg"
-                  className="bg-cream text-charcoal hover:bg-cream/90 border-0 font-medium px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all"
+                  className="bg-charcoal text-cream hover:bg-charcoal/90 border-0 font-medium px-7 py-6 text-base shadow-sm hover:shadow-md transition-all"
                 >
                   <Link to={createPageUrl(slide.cta1.href)}>
                     {slide.cta1.label}
