@@ -142,10 +142,6 @@ export default function ArtworkModal({ artworkId }) {
 
           {/* Details */}
           <div>
-            <Badge className={`mb-4 ${status.className}`}>
-              {status.label}
-            </Badge>
-
             <Link 
               to={createPageUrl(`Artists/${artwork.artist_id}`)}
               className="block text-charcoal/60 hover:text-olive transition-colors mb-2"

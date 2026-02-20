@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const statusConfig = {
-  in_collection: { label: 'In Collection', className: 'bg-beige text-charcoal/70' },
+  in_collection: { label: 'Sold', className: 'bg-beige text-charcoal/70' },
   on_view: { label: 'On View', className: 'bg-olive/20 text-olive' },
   on_loan: { label: 'On Loan', className: 'bg-amber-100 text-amber-800' },
   family_office: { label: 'Family Office', className: 'bg-charcoal/10 text-charcoal/60' },
