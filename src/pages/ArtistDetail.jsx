@@ -250,14 +250,42 @@ export default function ArtistDetail() {
                 </div>
               )}
 
-              {/* Interview Link - Showcase+ */}
+              {/* Interview Embed - Showcase+ */}
               {isShowcase && artist.interview_url && (
-                <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream mb-8">
-                  <a href={artist.interview_url} target="_blank" rel="noopener noreferrer">
-                    <Play className="w-4 h-4 mr-2" />
-                    Watch Interview
-                  </a>
-                </Button>
+                <div className="mb-8">
+                  <H3 className="mb-4">In Conversation</H3>
+                  <div className="aspect-video bg-charcoal/5 border border-charcoal/10 overflow-hidden">
+                    {artist.interview_url.includes('youtube.com') || artist.interview_url.includes('youtu.be') ? (
+                      <iframe
+                        src={artist.interview_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={`Interview with ${artist.name}`}
+                      />
+                    ) : artist.interview_url.includes('vimeo.com') ? (
+                      <iframe
+                        src={artist.interview_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                        className="w-full h-full"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title={`Interview with ${artist.name}`}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
+                        <Play className="w-12 h-12 text-olive mb-4" />
+                        <p className="font-medium text-charcoal mb-2">Watch Interview</p>
+                        <p className="text-sm text-charcoal/60 mb-4">In conversation with {artist.name}</p>
+                        <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream">
+                          <a href={artist.interview_url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-4 h-4 mr-2" />
+                            Open Interview
+                          </a>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
 
               {/* Stats */}
@@ -298,14 +326,17 @@ export default function ArtistDetail() {
       )}
 
       {/* Timeline */}
-      {timeline.length > 0 && (
+      {isShowcase && timeline.length > 0 && (
         <section className="py-16 md:py-24 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <div className="max-w-4xl">
+            <div className="max-w-4xl mx-auto">
               <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
                 Timeline
               </span>
-              <H2 className="mb-12">Career Highlights</H2>
+              <H2 className="mb-4">Career Highlights</H2>
+              <Lead className="text-charcoal/70 mb-12">
+                Key moments in {artist.name}'s artistic journey—from early works to major exhibitions and recognition.
+              </Lead>
               <ArtistTimeline events={timeline} />
             </div>
           </div>
@@ -316,38 +347,87 @@ export default function ArtistDetail() {
       {artworks.length > 0 && (
         <section className="py-16 md:py-24 bg-cream">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-              Collection
-            </span>
-            <H2 className="mb-8">Works in the Louis-Dreyfus Collection</H2>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+              <div>
+                <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">
+                  Gallery
+                </span>
+                <H2 className="mb-3">Works in Collection</H2>
+                <Body className="text-charcoal/60">
+                  {artworks.length} {artworks.length === 1 ? 'work' : 'works'} by {artist.name} in the Louis-Dreyfus Collection
+                </Body>
+              </div>
+              {artworks.length > 12 && (
+                <Button asChild variant="outline" className="border-charcoal">
+                  <Link to={createPageUrl('Collection') + `?search=${artist.name}`}>
+                    View All {artworks.length} Works
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              )}
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-              {artworks.map((artwork) => (
+              {artworks.slice(0, 12).map((artwork) => (
                 <ArtworkCard key={artwork.id} artwork={artwork} />
               ))}
             </div>
+            {artworks.length > 12 && (
+              <div className="text-center mt-12">
+                <Button asChild variant="outline" size="lg" className="border-charcoal">
+                  <Link to={createPageUrl('Collection') + `?search=${artist.name}`}>
+                    View All {artworks.length} Works
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       )}
 
       {/* Exhibition History - Showcase+ */}
       {isShowcase && artistLoans.length > 0 && (
-        <section className="py-16 md:py-24 bg-cream">
+        <section className="py-16 md:py-24 bg-beige/20">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <H2 className="mb-8">Exhibition History</H2>
-            <div className="space-y-4">
-              {artistLoans.map((loan) => (
+            <div className="mb-12">
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">
+                Exhibitions
+              </span>
+              <H2 className="mb-4">Notable Exhibitions</H2>
+              <Lead className="text-charcoal/70 max-w-3xl">
+                Major exhibitions where {artist.name}'s work has been featured, sharing this collection with institutions worldwide.
+              </Lead>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {artistLoans.slice(0, 6).map((loan) => (
                 <Link 
                   key={loan.id}
                   to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
-                  className="block bg-white p-4 md:p-6 border border-charcoal/10 hover:border-olive/30 transition-colors"
+                  className="block bg-cream hover:bg-cream/80 border border-charcoal/10 hover:border-olive/40 transition-all group overflow-hidden"
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-serif text-lg text-charcoal">{loan.title}</p>
-                      <p className="text-sm text-charcoal/60">
-                        {loan.institution}, {loan.location}
-                      </p>
+                  {loan.hero_image && (
+                    <div className="aspect-[16/9] overflow-hidden bg-beige/50">
+                      <img 
+                        src={loan.hero_image}
+                        alt={loan.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
                     </div>
+                  )}
+                  <div className="p-6">
+                    <Caption className="text-olive mb-2">
+                      {loan.start_date && new Date(loan.start_date).getFullYear()}
+                    </Caption>
+                    <H3 className="mb-3 group-hover:text-olive transition-colors text-xl">
+                      {loan.title}
+                    </H3>
+                    <Body className="text-charcoal/60 mb-2">
+                      {loan.institution}
+                    </Body>
+                    {loan.location && (
+                      <p className="text-sm text-charcoal/50">{loan.location}</p>
+                    )}
+                  </div>
                     <ExternalLink className="w-5 h-5 text-charcoal/40" />
                   </div>
                 </Link>
