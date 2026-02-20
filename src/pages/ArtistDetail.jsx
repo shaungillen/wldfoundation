@@ -428,8 +428,6 @@ export default function ArtistDetail() {
                       <p className="text-sm text-charcoal/50">{loan.location}</p>
                     )}
                   </div>
-                    <ExternalLink className="w-5 h-5 text-charcoal/40" />
-                  </div>
                 </Link>
               ))}
             </div>
