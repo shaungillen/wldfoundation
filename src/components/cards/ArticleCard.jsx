@@ -17,7 +17,7 @@ export default function ArticleCard({ article, variant = 'default', className })
   const isFeature = variant === 'feature';
 
   return (
-    <Link 
+    <Link
       to={createPageUrl(`ArticleDetail?id=${article.id}`)}
       className={cn(
         "group block",
@@ -28,8 +28,8 @@ export default function ArticleCard({ article, variant = 'default', className })
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <div className="aspect-[4/3] bg-beige/50 overflow-hidden">
             {article.hero_image ? (
-              <img 
-                src={article.hero_image} 
+              <img
+                src={article.hero_image}
                 alt={article.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -42,7 +42,7 @@ export default function ArticleCard({ article, variant = 'default', className })
           </div>
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-4">
-              <Badge className={type.className}>{type.label}</Badge>
+              <Badge variant="secondary" className={type.className} style={{ paddingLeft: 'var(--pill-padding-x)', paddingRight: 'var(--pill-padding-x)', paddingTop: 'var(--pill-padding-y)', paddingBottom: 'var(--pill-padding-y)', borderRadius: 'var(--pill-radius)' }}>{type.label}</Badge>
               {article.date && (
                 <span className="text-sm text-charcoal/50">
                   {format(new Date(article.date), 'MMMM d, yyyy')}
@@ -68,8 +68,8 @@ export default function ArticleCard({ article, variant = 'default', className })
         <>
           <div className="aspect-[16/10] bg-beige/50 overflow-hidden mb-4">
             {article.hero_image ? (
-              <img 
-                src={article.hero_image} 
+              <img
+                src={article.hero_image}
                 alt={article.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -81,7 +81,7 @@ export default function ArticleCard({ article, variant = 'default', className })
             )}
           </div>
           <div className="flex items-center gap-3 mb-2">
-            <Badge className={cn("text-xs", type.className)}>{type.label}</Badge>
+            <Badge variant="secondary" className={cn("text-xs", type.className)} style={{ paddingLeft: 'var(--pill-padding-x)', paddingRight: 'var(--pill-padding-x)', paddingTop: 'var(--pill-padding-y)', paddingBottom: 'var(--pill-padding-y)', borderRadius: 'var(--pill-radius)' }}>{type.label}</Badge>
             {article.date && (
               <span className="text-xs text-charcoal/50">
                 {format(new Date(article.date), 'MMM d, yyyy')}

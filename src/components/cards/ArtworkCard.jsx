@@ -16,7 +16,7 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
   const status = statusConfig[artwork.status] || statusConfig.in_collection;
 
   return (
-    <Link 
+    <Link
       to={createPageUrl(`ArtworkDetail?id=${artwork.id}`)}
       className={cn(
         "group block",
@@ -25,8 +25,8 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
     >
       <div className="relative aspect-[4/5] bg-beige/30 overflow-hidden mb-3 border hairline">
         {artwork.image_url ? (
-          <img 
-            src={artwork.image_url} 
+          <img
+            src={artwork.image_url}
             alt={`${artwork.title} by ${artwork.artist_name}`}
             className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
             loading="lazy"
@@ -37,7 +37,7 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
           </div>
         )}
       </div>
-      
+
       <div className="space-y-1">
         <p className="text-charcoal/60" style={{ fontSize: 'var(--text-small)' }}>
           {artwork.artist_name}
@@ -51,11 +51,19 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
           {artwork.medium && artwork.medium}
         </p>
         {showStatus && artwork.status && (
-          <Badge 
+          <Badge
+            variant="secondary"
             className={cn(
               "text-xs font-normal border hairline mt-2",
               status.className
             )}
+            style={{
+              paddingLeft: 'var(--pill-padding-x)',
+              paddingRight: 'var(--pill-padding-x)',
+              paddingTop: 'var(--pill-padding-y)',
+              paddingBottom: 'var(--pill-padding-y)',
+              borderRadius: 'var(--pill-radius)'
+            }}
           >
             {status.label}
           </Badge>

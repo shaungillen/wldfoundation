@@ -59,6 +59,8 @@
     --pill-padding-x: 16px;
     --pill-padding-y: 8px;
     --pill-radius: 9999px;
+    --section-pad-x: 24px;
+    --section-pad-y: 48px;
   }
 
   .dark {
