@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
@@ -6,16 +6,20 @@ import { useQuery } from '@tanstack/react-query';
 import { H1, H2, H3, Lead, Body, Quote, Caption } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, ExternalLink, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Play, Star } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
 import ArtworkCard from '@/components/cards/ArtworkCard';
 import ArticleCard from '@/components/cards/ArticleCard';
 import ArtistTimeline from '@/components/artist/ArtistTimeline';
 import RelatedArtists from '@/components/artist/RelatedArtists';
+import NotAvailable from '@/components/ui/NotAvailable';
+
+const WORKS_PER_PAGE = 50;
 
 export default function ArtistDetail() {
   const urlParams = new URLSearchParams(window.location.search);
   const artistId = urlParams.get('id');
+  const [worksPage, setWorksPage] = useState(1);
 
   const { data: artist, isLoading: artistLoading } = useQuery({
     queryKey: ['artist', artistId],
@@ -24,9 +28,9 @@ export default function ArtistDetail() {
     select: (data) => data[0],
   });
 
-  const { data: artworks = [] } = useQuery({
+  const { data: rawArtworks = [] } = useQuery({
     queryKey: ['artworks', 'artist', artistId],
-    queryFn: () => base44.entities.Artwork.filter({ artist_id: artistId }, '-year', 100),
+    queryFn: () => base44.entities.Artwork.filter({ artist_id: artistId }, 'year', 500),
     enabled: !!artistId,
   });
 
@@ -48,85 +52,59 @@ export default function ArtistDetail() {
     queryFn: () => base44.entities.Artist.list('name', 500),
   });
 
+  // Sort artworks chronologically ascending (spec requirement)
+  const artworks = useMemo(() => {
+    return [...rawArtworks].sort((a, b) => {
+      const ya = parseInt(a.year) || 9999;
+      const yb = parseInt(b.year) || 9999;
+      return ya - yb;
+    });
+  }, [rawArtworks]);
+
+  // Featured works: data-flagged first, else first 5 alphabetically — stubbed for data flag later
+  const featuredWorks = useMemo(() => {
+    const flagged = artworks.filter(w => w.featured === true);
+    return flagged.length > 0 ? flagged.slice(0, 5) : [];
+  }, [artworks]);
+
+  // Paginated works
+  const totalPages = Math.ceil(artworks.length / WORKS_PER_PAGE);
+  const pagedWorks = artworks.slice((worksPage - 1) * WORKS_PER_PAGE, worksPage * WORKS_PER_PAGE);
+
   // Filter loans that include works by this artist
   const artistLoans = loans.filter(loan => {
     const loanArtworkIds = loan.artwork_ids || [];
     return artworks.some(aw => loanArtworkIds.includes(aw.id));
   });
 
-  // Get related artists
+  // Related artists: explicit IDs → shared tags → shared mediums
   const relatedArtists = allArtists.filter(a => {
     if (a.id === artistId) return false;
     if (artist?.related_artist_ids?.includes(a.id)) return true;
-
-    // Find artists with similar tags/medium focus
     const artistTags = artist?.tags || [];
     const artistMediums = artist?.medium_focus || [];
-    const otherTags = a.tags || [];
-    const otherMediums = a.medium_focus || [];
-
-    const hasCommonTag = artistTags.some(tag => otherTags.includes(tag));
-    const hasCommonMedium = artistMediums.some(m => otherMediums.includes(m));
-
+    const hasCommonTag = artistTags.some(tag => (a.tags || []).includes(tag));
+    const hasCommonMedium = artistMediums.some(m => (a.medium_focus || []).includes(m));
     return hasCommonTag || hasCommonMedium;
   }).slice(0, 6);
 
-  // Generate timeline from artist data and artworks
-  const generateTimeline = () => {
+  // Timeline generation
+  const timeline = useMemo(() => {
     if (!artist) return [];
-
     const events = [];
-
-    // Birth/start
     if (artist.lifespan) {
       const birthYear = artist.lifespan.match(/\d{4}/)?.[0];
-      if (birthYear) {
-        events.push({
-          year: birthYear,
-          title: 'Born',
-          description: `${artist.name} was born`,
-          location: artist.nationality || ''
-        });
-      }
+      if (birthYear) events.push({ year: birthYear, title: 'Born', description: `${artist.name} was born`, location: artist.nationality || '' });
     }
-
-    // Add major works from collection
-    const significantWorks = artworks
-      .filter(aw => aw.year)
-      .sort((a, b) => {
-        const yearA = parseInt(a.year);
-        const yearB = parseInt(b.year);
-        return yearA - yearB;
-      })
-      .slice(0, 5);
-
-    significantWorks.forEach(work => {
-      events.push({
-        year: work.year,
-        title: work.title,
-        description: `Created ${work.medium}`,
-        location: ''
-      });
+    artworks.filter(aw => aw.year).slice(0, 5).forEach(work => {
+      events.push({ year: work.year, title: work.title, description: `Created ${work.medium || ''}`, location: '' });
     });
-
-    // Add exhibition history
     artistLoans.slice(0, 3).forEach(loan => {
       const year = loan.start_date?.split('-')[0];
-      if (year) {
-        events.push({
-          year: year,
-          title: `Exhibition: ${loan.title}`,
-          description: loan.overview || `Work exhibited at ${loan.institution}`,
-          location: loan.location
-        });
-      }
+      if (year) events.push({ year, title: `Exhibition: ${loan.title}`, description: loan.overview || `Work exhibited at ${loan.institution}`, location: loan.location });
     });
-
-    // Sort by year
     return events.sort((a, b) => parseInt(a.year) - parseInt(b.year));
-  };
-
-  const timeline = generateTimeline();
+  }, [artist, artworks, artistLoans]);
 
   if (artistLoading) {
     return (
@@ -145,20 +123,14 @@ export default function ArtistDetail() {
     );
   }
 
-  if (!artist) {
+  if (!artistId || !artist) {
     return (
-      <div className="min-h-screen py-24 bg-cream text-center">
-        <div className="max-w-xl mx-auto px-4">
-          <H1 className="mb-4">Artist Not Found</H1>
-          <Body className="mb-8">The requested artist could not be found.</Body>
-          <Button asChild>
-            <Link to={createPageUrl('Artists')}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Artists
-            </Link>
-          </Button>
-        </div>
-      </div>
+      <NotAvailable
+        title="Artist Not Found"
+        message="The requested artist could not be found in the collection."
+        backLabel="Back to Artists"
+        backHref="Artists"
+      />
     );
   }
 
@@ -186,16 +158,10 @@ export default function ArtistDetail() {
             <div>
               <div className="aspect-[3/4] bg-beige/50 overflow-hidden sticky top-24">
                 {artist.portrait_url ? (
-                  <img
-                    src={artist.portrait_url}
-                    alt={artist.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={artist.portrait_url} alt={artist.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-beige to-beige/50">
-                    <span className="font-serif text-6xl text-charcoal/20">
-                      {artist.name?.charAt(0)}
-                    </span>
+                    <span className="font-serif text-6xl text-charcoal/20">{artist.name?.charAt(0)}</span>
                   </div>
                 )}
               </div>
@@ -203,54 +169,28 @@ export default function ArtistDetail() {
 
             {/* Info */}
             <div className="lg:col-span-2 py-4 lg:py-8">
-              {/* Badges */}
               <div className="flex flex-wrap gap-2 mb-4">
-                {artist.nationality && (
-                  <Badge variant="outline" className="border-charcoal/20">
-                    {artist.nationality}
-                  </Badge>
-                )}
+                {artist.nationality && <Badge variant="outline" className="border-charcoal/20">{artist.nationality}</Badge>}
                 {artist.medium_focus?.map((medium) => (
-                  <Badge key={medium} variant="outline" className="border-charcoal/20">
-                    {medium}
-                  </Badge>
+                  <Badge key={medium} variant="outline" className="border-charcoal/20">{medium}</Badge>
                 ))}
               </div>
 
-              {/* Name */}
               <H1 className="mb-2">{artist.name}</H1>
-              {artist.lifespan && (
-                <p className="text-lg text-charcoal/60 mb-6">{artist.lifespan}</p>
-              )}
-
-              {/* Short Bio */}
-              {artist.bio_short && (
-                <Lead className="mb-8">{artist.bio_short}</Lead>
-              )}
-
-              {/* Quote */}
-              {artist.quote && (
-                <Quote author={artist.name} className="mb-8">
-                  {artist.quote}
-                </Quote>
-              )}
-
-              {/* Long Bio */}
+              {artist.lifespan && <p className="text-lg text-charcoal/60 mb-6">{artist.lifespan}</p>}
+              {artist.bio_short && <Lead className="mb-8">{artist.bio_short}</Lead>}
+              {artist.quote && <Quote author={artist.name} className="mb-8">{artist.quote}</Quote>}
               {artist.bio_long && (
                 <div className="prose prose-charcoal max-w-none mb-8">
                   <Body className="whitespace-pre-line">{artist.bio_long}</Body>
                 </div>
               )}
-
-              {/* Relationship with WLD - Cornerstone only */}
               {isCornerstone && artist.wld_relationship && (
                 <div className="bg-beige/30 p-6 mb-8">
                   <H3 className="mb-4">Relationship with William Louis-Dreyfus</H3>
                   <Body>{artist.wld_relationship}</Body>
                 </div>
               )}
-
-              {/* Interview Embed - Showcase+ */}
               {isShowcase && artist.interview_url && (
                 <div className="mb-8">
                   <H3 className="mb-4">In Conversation</H3>
@@ -275,13 +215,10 @@ export default function ArtistDetail() {
                       <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
                         <Play className="w-12 h-12 text-olive mb-4" />
                         <p className="font-medium text-charcoal mb-2">Watch Interview</p>
-                        <p className="text-sm text-charcoal/60 mb-4">In conversation with {artist.name}</p>
-                        <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream">
-                          <a href={artist.interview_url} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-4 h-4 mr-2" />
-                            Open Interview
-                          </a>
-                        </Button>
+                        <a href={artist.interview_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-olive hover:underline">
+                          <ExternalLink className="w-4 h-4" />
+                          Open Interview
+                        </a>
                       </div>
                     )}
                   </div>
@@ -292,12 +229,12 @@ export default function ArtistDetail() {
               <div className="flex gap-8 py-6 border-t border-charcoal/10">
                 <div>
                   <p className="font-serif text-3xl text-charcoal">{artworks.length}</p>
-                  <Caption>Works Acquired</Caption>
+                  <Caption className="">Works in Collection</Caption>
                 </div>
                 {artistLoans.length > 0 && (
                   <div>
                     <p className="font-serif text-3xl text-charcoal">{artistLoans.length}</p>
-                    <Caption>Exhibition Loans</Caption>
+                    <Caption className="">Exhibition Loans</Caption>
                   </div>
                 )}
               </div>
@@ -306,20 +243,18 @@ export default function ArtistDetail() {
         </div>
       </section>
 
-      {/* Biography Section */}
-      {artist.bio_long && (
-        <section className="py-16 md:py-24 bg-cream">
+      {/* Featured Works — stub section, shown when data flag available */}
+      {featuredWorks.length > 0 && (
+        <section className="py-12 md:py-16 bg-beige/20 border-t border-charcoal/10">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                Biography
-              </span>
-              <H2 className="mb-8">Life & Work</H2>
-              <div className="prose prose-lg prose-charcoal max-w-none">
-                <Body className="text-lg leading-relaxed whitespace-pre-line">
-                  {artist.bio_long}
-                </Body>
-              </div>
+            <div className="flex items-center gap-3 mb-8">
+              <Star className="w-4 h-4 text-olive" />
+              <span className="text-xs uppercase tracking-[0.2em] text-olive">Featured Works</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+              {featuredWorks.map((artwork) => (
+                <ArtworkCard key={artwork.id} artwork={artwork} showStatus={false} className="" />
+              ))}
             </div>
           </div>
         </section>
@@ -330,9 +265,7 @@ export default function ArtistDetail() {
         <section className="py-16 md:py-24 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
-              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                Timeline
-              </span>
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">Timeline</span>
               <H2 className="mb-4">Career Highlights</H2>
               <Lead className="text-charcoal/70 mb-12">
                 Key moments in {artist.name}'s artistic journey—from early works to major exhibitions and recognition.
@@ -343,56 +276,75 @@ export default function ArtistDetail() {
         </section>
       )}
 
-      {/* Works Gallery */}
-      {artworks.length > 0 && (
-        <section className="py-16 md:py-24 bg-cream">
-          <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-              <div>
-                <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">
-                  Gallery
-                </span>
-                <H2 className="mb-3">Works in Collection</H2>
-                <Body className="text-charcoal/60">
-                  {artworks.length} {artworks.length === 1 ? 'work' : 'works'} by {artist.name} in the Louis-Dreyfus Collection
-                </Body>
-              </div>
-              {artworks.length > 12 && (
-                <Button asChild variant="outline" className="border-charcoal">
-                  <Link to={createPageUrl('Collection') + `?search=${artist.name}`}>
-                    View All {artworks.length} Works
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
-              )}
+      {/* Works Gallery — paginated, chronological asc */}
+      <section className="py-16 md:py-24 bg-cream">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">Gallery</span>
+              <H2 className="mb-3">Works in Collection</H2>
+              <Body className="text-charcoal/60">
+                {artworks.length} {artworks.length === 1 ? 'work' : 'works'} by {artist.name} · Chronological order
+              </Body>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-              {artworks.slice(0, 12).map((artwork) => (
-                <ArtworkCard key={artwork.id} artwork={artwork} className="" />
-              ))}
-            </div>
-            {artworks.length > 12 && (
-              <div className="text-center mt-12">
-                <Button asChild variant="outline" size="lg" className="border-charcoal">
-                  <Link to={createPageUrl('Collection') + `?search=${artist.name}`}>
-                    View All {artworks.length} Works
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
-              </div>
-            )}
+            <Link
+              to={createPageUrl('Collection') + `?search=${encodeURIComponent(artist.name)}`}
+              className="inline-flex items-center text-sm text-charcoal/60 hover:text-olive transition-colors border border-charcoal/20 hover:border-olive/40 px-4 py-2"
+            >
+              Filter in Collection
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
           </div>
-        </section>
-      )}
+
+          {artworks.length === 0 ? (
+            <div className="py-16 text-center border border-charcoal/10 bg-beige/20">
+              <p className="text-sm text-charcoal/40 italic">No works currently in the collection database.</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+                {pagedWorks.map((artwork) => (
+                  <ArtworkCard key={artwork.id} artwork={artwork} className="" />
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-12">
+                  <button
+                    onClick={() => setWorksPage(p => Math.max(1, p - 1))}
+                    disabled={worksPage === 1}
+                    className="inline-flex items-center gap-2 text-sm text-charcoal/60 hover:text-charcoal disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-charcoal/20 hover:border-charcoal/40 px-4 py-2"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </button>
+                  <span className="text-sm text-charcoal/60">
+                    Page {worksPage} of {totalPages}
+                    <span className="mx-2 text-charcoal/30">·</span>
+                    {artworks.length} works
+                  </span>
+                  <button
+                    onClick={() => setWorksPage(p => Math.min(totalPages, p + 1))}
+                    disabled={worksPage === totalPages}
+                    className="inline-flex items-center gap-2 text-sm text-charcoal/60 hover:text-charcoal disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-charcoal/20 hover:border-charcoal/40 px-4 py-2"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
 
       {/* Exhibition History - Showcase+ */}
       {isShowcase && artistLoans.length > 0 && (
         <section className="py-16 md:py-24 bg-beige/20">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
             <div className="mb-12">
-              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">
-                Exhibitions
-              </span>
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-3 block">Exhibitions</span>
               <H2 className="mb-4">Notable Exhibitions</H2>
               <Lead className="text-charcoal/70 max-w-3xl">
                 Major exhibitions where {artist.name}'s work has been featured, sharing this collection with institutions worldwide.
@@ -407,26 +359,14 @@ export default function ArtistDetail() {
                 >
                   {loan.hero_image && (
                     <div className="aspect-[16/9] overflow-hidden bg-beige/50">
-                      <img
-                        src={loan.hero_image}
-                        alt={loan.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                      <img src={loan.hero_image} alt={loan.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                     </div>
                   )}
                   <div className="p-6">
-                    <Caption className="text-olive mb-2">
-                      {loan.start_date && new Date(loan.start_date).getFullYear()}
-                    </Caption>
-                    <H3 className="mb-3 group-hover:text-olive transition-colors text-xl">
-                      {loan.title}
-                    </H3>
-                    <Body className="text-charcoal/60 mb-2">
-                      {loan.institution}
-                    </Body>
-                    {loan.location && (
-                      <p className="text-sm text-charcoal/50">{loan.location}</p>
-                    )}
+                    <Caption className="text-olive mb-2">{loan.start_date && new Date(loan.start_date).getFullYear()}</Caption>
+                    <H3 className="mb-3 group-hover:text-olive transition-colors text-xl">{loan.title}</H3>
+                    <Body className="text-charcoal/60 mb-2">{loan.institution}</Body>
+                    {loan.location && <p className="text-sm text-charcoal/50">{loan.location}</p>}
                   </div>
                 </Link>
               ))}
@@ -441,16 +381,10 @@ export default function ArtistDetail() {
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <H2>Related Writing</H2>
-              <Button asChild variant="outline" className="border-charcoal/20">
-                <Link to={createPageUrl('News')}>
-                  View All
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {articles.slice(0, 3).map((article) => (
-                <ArticleCard key={article.id} article={article} />
+                <ArticleCard key={article.id} article={article} className="" />
               ))}
             </div>
           </div>
@@ -462,13 +396,9 @@ export default function ArtistDetail() {
         <section className="py-16 md:py-24 bg-beige/30">
           <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
             <div className="mb-12">
-              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">
-                Related Artists
-              </span>
+              <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">Related Artists</span>
               <H2 className="mb-2">Explore Similar Artists</H2>
-              <Body className="text-charcoal/60">
-                Discover other artists with similar styles, movements, or mediums
-              </Body>
+              <Body className="text-charcoal/60">Discover other artists with similar styles, movements, or mediums</Body>
             </div>
             <RelatedArtists artists={relatedArtists} />
           </div>
@@ -479,12 +409,13 @@ export default function ArtistDetail() {
       <section className="py-16 md:py-24 bg-cream">
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <H2 className="mb-6">Explore More Artists</H2>
-          <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream">
-            <Link to={createPageUrl('Artists')}>
-              View All Artists
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
-          </Button>
+          <Link
+            to={createPageUrl('Artists')}
+            className="inline-flex items-center gap-2 text-charcoal hover:text-olive transition-colors border border-charcoal/20 hover:border-olive/40 px-6 py-3"
+          >
+            View All Artists
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </div>
