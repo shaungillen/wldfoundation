@@ -94,7 +94,7 @@ export default function ArtworkDetail() {
     <div className="min-h-screen bg-cream">
       {/* Back Link */}
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-6">
-        <Link 
+        <Link
           to={createPageUrl('Collection')}
           className="inline-flex items-center text-sm text-charcoal/60 hover:text-charcoal transition-colors"
         >
@@ -115,7 +115,7 @@ export default function ArtworkDetail() {
                   {artwork.image_url ? (
                     <>
                       <Zoom>
-                        <img 
+                        <img
                           src={artwork.image_url}
                           alt={`${artwork.title} by ${artwork.artist_name}`}
                           className="w-full h-full object-contain"
@@ -140,7 +140,7 @@ export default function ArtworkDetail() {
                       onClick={() => setSelectedImage(0)}
                       className={`aspect-square border-2 transition-colors ${selectedImage === 0 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
                     >
-                      <img 
+                      <img
                         src={artwork.image_url}
                         alt="Main view"
                         className="w-full h-full object-cover"
@@ -152,7 +152,7 @@ export default function ArtworkDetail() {
                         onClick={() => setSelectedImage(idx + 1)}
                         className={`aspect-square border-2 transition-colors ${selectedImage === idx + 1 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
                       >
-                        <img 
+                        <img
                           src={img}
                           alt={`View ${idx + 2}`}
                           className="w-full h-full object-cover"
@@ -172,7 +172,7 @@ export default function ArtworkDetail() {
               </Badge>
 
               {/* Artist */}
-              <Link 
+              <Link
                 to={createPageUrl(`ArtistDetail?id=${artwork.artist_id}`)}
                 className="block text-charcoal/60 hover:text-olive transition-colors mb-2"
               >
@@ -227,7 +227,7 @@ export default function ArtworkDetail() {
                     <Building className="w-4 h-4 text-olive" />
                     <Caption>Provenance & History</Caption>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {artwork.acquisition_year && (
                       <div className="flex items-start gap-3">
@@ -244,7 +244,7 @@ export default function ArtworkDetail() {
                         </div>
                       </div>
                     )}
-                    
+
                     {artwork.provenance && (
                       <div className="pt-3 border-t border-charcoal/10">
                         <p className="text-sm text-charcoal/70 leading-relaxed whitespace-pre-line">
@@ -252,7 +252,7 @@ export default function ArtworkDetail() {
                         </p>
                       </div>
                     )}
-                    
+
                     {!artwork.acquisition_year && !artwork.acquisition_source && !artwork.provenance && (
                       <p className="text-sm text-charcoal/50 italic">
                         Part of the William Louis-Dreyfus Foundation Collection
@@ -312,7 +312,7 @@ export default function ArtworkDetail() {
             </div>
             <div className="space-y-4">
               {relatedLoans.map((loan) => (
-                <Link 
+                <Link
                   key={loan.id}
                   to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
                   className="block bg-white p-6 border border-charcoal/10 hover:border-olive/30 transition-all duration-200 group"
@@ -367,7 +367,7 @@ export default function ArtworkDetail() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {otherArtworks.map((work) => (
-                <ArtworkCard key={work.id} artwork={work} showStatus={false} />
+                <ArtworkCard key={work.id} artwork={work} showStatus={false} className="" />
               ))}
             </div>
           </div>

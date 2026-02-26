@@ -58,25 +58,25 @@ export default function ArtistDetail() {
   const relatedArtists = allArtists.filter(a => {
     if (a.id === artistId) return false;
     if (artist?.related_artist_ids?.includes(a.id)) return true;
-    
+
     // Find artists with similar tags/medium focus
     const artistTags = artist?.tags || [];
     const artistMediums = artist?.medium_focus || [];
     const otherTags = a.tags || [];
     const otherMediums = a.medium_focus || [];
-    
+
     const hasCommonTag = artistTags.some(tag => otherTags.includes(tag));
     const hasCommonMedium = artistMediums.some(m => otherMediums.includes(m));
-    
+
     return hasCommonTag || hasCommonMedium;
   }).slice(0, 6);
 
   // Generate timeline from artist data and artworks
   const generateTimeline = () => {
     if (!artist) return [];
-    
+
     const events = [];
-    
+
     // Birth/start
     if (artist.lifespan) {
       const birthYear = artist.lifespan.match(/\d{4}/)?.[0];
@@ -89,7 +89,7 @@ export default function ArtistDetail() {
         });
       }
     }
-    
+
     // Add major works from collection
     const significantWorks = artworks
       .filter(aw => aw.year)
@@ -99,7 +99,7 @@ export default function ArtistDetail() {
         return yearA - yearB;
       })
       .slice(0, 5);
-    
+
     significantWorks.forEach(work => {
       events.push({
         year: work.year,
@@ -108,7 +108,7 @@ export default function ArtistDetail() {
         location: ''
       });
     });
-    
+
     // Add exhibition history
     artistLoans.slice(0, 3).forEach(loan => {
       const year = loan.start_date?.split('-')[0];
@@ -121,7 +121,7 @@ export default function ArtistDetail() {
         });
       }
     });
-    
+
     // Sort by year
     return events.sort((a, b) => parseInt(a.year) - parseInt(b.year));
   };
@@ -169,7 +169,7 @@ export default function ArtistDetail() {
     <div className="min-h-screen bg-cream">
       {/* Back Link */}
       <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-6">
-        <Link 
+        <Link
           to={createPageUrl('Artists')}
           className="inline-flex items-center text-sm text-charcoal/60 hover:text-charcoal transition-colors"
         >
@@ -186,7 +186,7 @@ export default function ArtistDetail() {
             <div>
               <div className="aspect-[3/4] bg-beige/50 overflow-hidden sticky top-24">
                 {artist.portrait_url ? (
-                  <img 
+                  <img
                     src={artist.portrait_url}
                     alt={artist.name}
                     className="w-full h-full object-cover"
@@ -368,7 +368,7 @@ export default function ArtistDetail() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
               {artworks.slice(0, 12).map((artwork) => (
-                <ArtworkCard key={artwork.id} artwork={artwork} />
+                <ArtworkCard key={artwork.id} artwork={artwork} className="" />
               ))}
             </div>
             {artworks.length > 12 && (
@@ -400,14 +400,14 @@ export default function ArtistDetail() {
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {artistLoans.slice(0, 6).map((loan) => (
-                <Link 
+                <Link
                   key={loan.id}
                   to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
                   className="block bg-cream hover:bg-cream/80 border border-charcoal/10 hover:border-olive/40 transition-all group overflow-hidden"
                 >
                   {loan.hero_image && (
                     <div className="aspect-[16/9] overflow-hidden bg-beige/50">
-                      <img 
+                      <img
                         src={loan.hero_image}
                         alt={loan.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
