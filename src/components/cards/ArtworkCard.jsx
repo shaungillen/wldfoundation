@@ -52,6 +52,7 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
         </p>
         {showStatus && artwork.status && (
           <Badge
+            variant="secondary"
             className={cn(
               "text-xs font-normal border hairline mt-2",
               status.className
