@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const statusConfig = {
-  in_collection: { label: 'Sold', className: 'bg-beige text-charcoal/70' },
+  in_collection: { label: 'In Collection', className: 'bg-beige text-charcoal/70' },
   on_view: { label: 'On View', className: 'bg-olive/20 text-olive' },
   on_loan: { label: 'On Loan', className: 'bg-amber-100 text-amber-800' },
   family_office: { label: 'Family Office', className: 'bg-charcoal/10 text-charcoal/60' },
@@ -18,17 +18,15 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
   return (
     <Link
       to={createPageUrl(`ArtworkDetail?id=${artwork.id}`)}
-      className={cn(
-        "group block",
-        className
-      )}
+      className={cn("group block", className)}
     >
+      {/* Image with hover medium overlay */}
       <div className="relative aspect-[4/5] bg-beige/30 overflow-hidden mb-3 border hairline">
         {artwork.image_url ? (
           <img
             src={artwork.image_url}
             alt={`${artwork.title} by ${artwork.artist_name}`}
-            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
             loading="lazy"
           />
         ) : (
@@ -36,33 +34,39 @@ export default function ArtworkCard({ artwork, showStatus = true, className }) {
             <span className="text-charcoal/20 text-xs uppercase tracking-wider">No Image</span>
           </div>
         )}
+        {/* Hover medium reveal — slides up from bottom */}
+        {artwork.medium && (
+          <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-charcoal/90 px-3 py-2">
+            <p className="text-cream text-xs leading-snug line-clamp-2">{artwork.medium}</p>
+          </div>
+        )}
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-0.5">
         <p className="text-charcoal/60" style={{ fontSize: 'var(--text-small)' }}>
           {artwork.artist_name}
         </p>
-        <h3 className="font-serif text-charcoal group-hover:underline transition-all duration-150 line-clamp-2" style={{ fontSize: '18px', lineHeight: '1.4' }}>
+        <h3
+          className="font-serif text-charcoal group-hover:underline transition-all duration-150 line-clamp-2"
+          style={{ fontSize: '18px', lineHeight: '1.4' }}
+        >
           {artwork.title}
         </h3>
-        <p className="text-charcoal/50" style={{ fontSize: 'var(--text-small)' }}>
-          {artwork.year && artwork.year}
-          {artwork.year && artwork.medium && ' · '}
-          {artwork.medium && artwork.medium}
-        </p>
+        {artwork.year && (
+          <p className="text-charcoal/50" style={{ fontSize: 'var(--text-small)' }}>
+            {artwork.year}
+          </p>
+        )}
         {showStatus && artwork.status && (
           <Badge
             variant="secondary"
-            className={cn(
-              "text-xs font-normal border hairline mt-2",
-              status.className
-            )}
+            className={cn("text-xs font-normal border hairline mt-2", status.className)}
             style={{
               paddingLeft: 'var(--pill-padding-x)',
               paddingRight: 'var(--pill-padding-x)',
               paddingTop: 'var(--pill-padding-y)',
               paddingBottom: 'var(--pill-padding-y)',
-              borderRadius: 'var(--pill-radius)'
+              borderRadius: 'var(--pill-radius)',
             }}
           >
             {status.label}

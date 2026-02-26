@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ArrowRight, MapPin, ExternalLink, ZoomIn, Calendar, Building } from 'lucide-react';
 import { Skeleton } from "@/components/ui/skeleton";
 import ArtworkCard from '@/components/cards/ArtworkCard';
+import RelatedWorks from '@/components/artwork/RelatedWorks';
+import NotAvailable from '@/components/ui/NotAvailable';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
@@ -19,6 +21,45 @@ const statusConfig = {
   family_office: { label: 'Family Office', className: 'bg-charcoal/10 text-charcoal/60' },
   formerly_in_collection: { label: 'Formerly in Collection', className: 'bg-charcoal/5 text-charcoal/40' },
 };
+
+// Uncertainty prefixes that are non-clickable per spec
+const UNCERTAINTY_PREFIXES = [
+  'Workshop of',
+  'Follower of',
+  'Attributed to',
+  'Circle of',
+  'After',
+  'Style of',
+  'School of',
+];
+
+/**
+ * Format a single artist name string into a link or plain text.
+ * Names starting with uncertainty prefixes are rendered as non-clickable.
+ */
+function ArtistAttribution({ name, id, isLast }) {
+  if (!name) return null;
+  const prefix = UNCERTAINTY_PREFIXES.find(p => name.startsWith(p));
+  const separator = isLast ? '' : ', ';
+  if (prefix || !id) {
+    return (
+      <span className="text-charcoal/60">
+        {name}{separator}
+      </span>
+    );
+  }
+  return (
+    <>
+      <Link
+        to={createPageUrl(`ArtistDetail?id=${id}`)}
+        className="text-charcoal/60 hover:text-olive transition-colors underline underline-offset-2"
+      >
+        {name}
+      </Link>
+      {separator}
+    </>
+  );
+}
 
 export default function ArtworkDetail() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -70,20 +111,14 @@ export default function ArtworkDetail() {
     );
   }
 
-  if (!artwork) {
+  if (!artworkId || !artwork) {
     return (
-      <div className="min-h-screen py-24 bg-cream text-center">
-        <div className="max-w-xl mx-auto px-4">
-          <H1 className="mb-4">Artwork Not Found</H1>
-          <Body className="mb-8">The requested artwork could not be found.</Body>
-          <Button asChild>
-            <Link to={createPageUrl('Collection')}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Collection
-            </Link>
-          </Button>
-        </div>
-      </div>
+      <NotAvailable
+        title="Artwork Not Found"
+        message="The requested artwork could not be found in the collection."
+        backLabel="Back to Collection"
+        backHref="Collection"
+      />
     );
   }
 
@@ -171,13 +206,21 @@ export default function ArtworkDetail() {
                 {status.label}
               </Badge>
 
-              {/* Artist */}
-              <Link
-                to={createPageUrl(`ArtistDetail?id=${artwork.artist_id}`)}
-                className="block text-charcoal/60 hover:text-olive transition-colors mb-2"
-              >
-                {artwork.artist_name}
-              </Link>
+              {/* Artist attribution — uncertainty prefix + multi-artist */}
+              <div className="mb-2">
+                {
+                  Array.isArray(artwork.artist_ids) && artwork.artist_ids.length > 1
+                    ? artwork.artist_ids.map((aid, idx) => (
+                      <ArtistAttribution
+                        key={aid}
+                        name={artwork.artist_names?.[idx] || artwork.artist_name}
+                        id={aid}
+                        isLast={idx === artwork.artist_ids.length - 1}
+                      />
+                    ))
+                    : <ArtistAttribution name={artwork.artist_name} id={artwork.artist_id} isLast />
+                }
+              </div>
 
               {/* Title */}
               <H1 className="mb-2">{artwork.title}</H1>
@@ -373,6 +416,19 @@ export default function ArtworkDetail() {
           </div>
         </section>
       )}
+      {/* Related Works */}
+      <section className="py-16 md:py-24 bg-cream">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="mb-8">
+            <span className="text-xs uppercase tracking-[0.2em] text-olive mb-4 block">Related Works</span>
+          </div>
+          <RelatedWorks
+            sameArtistWorks={otherArtworks}
+            artistName={artwork.artist_name}
+            artistId={artwork.artist_id}
+          />
+        </div>
+      </section>
     </div>
   );
 }
