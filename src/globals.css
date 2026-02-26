@@ -47,6 +47,8 @@
     --color-text-inverse: #FFFFFF;
     --color-border-subtle: rgba(0, 0, 0, 0.1);
     --color-border-strong: #2C2C2C;
+    --color-accent-primary: #A29C64;
+    --color-accent-hover: #8B8550;
   }
 
   .dark {
