@@ -81,6 +81,7 @@ export default function Artists() {
       <Modal
         isOpen={!!artistId}
         onClose={handleCloseModal}
+        title="Artist"
         size="xl"
       >
         {artistId && <ArtistModal artistId={artistId} />}
@@ -167,7 +168,7 @@ export default function Artists() {
                         onClick={() => handleArtistClick(artist.id)}
                         className="cursor-pointer"
                       >
-                        <ArtistCard artist={artist} />
+                        <ArtistCard artist={artist} className="" />
                       </div>
                     ))}
                   </div>

@@ -164,6 +164,7 @@ export default function Collection() {
       <Modal
         isOpen={!!artworkId}
         onClose={handleCloseModal}
+        title="Artwork"
         size="xl"
       >
         {artworkId && <ArtworkModal artworkId={artworkId} />}
@@ -238,7 +239,7 @@ export default function Collection() {
                   onClick={() => handleArtworkClick(artwork.id)}
                   className="cursor-pointer"
                 >
-                  <ArtworkCard artwork={artwork} />
+                  <ArtworkCard artwork={artwork} className="" />
                 </div>
               ))
             ) : (
