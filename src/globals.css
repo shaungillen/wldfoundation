@@ -45,6 +45,7 @@
     --color-text-primary: #2C2C2C;
     --color-text-muted: #C2B7A0;
     --color-text-inverse: #FFFFFF;
+    --color-border-subtle: rgba(0, 0, 0, 0.1);
   }
 
   .dark {
