@@ -49,6 +49,16 @@
     --color-border-strong: #2C2C2C;
     --color-accent-primary: #A29C64;
     --color-accent-hover: #8B8550;
+    --color-accent-active: #73704A;
+    --color-rust: #B2563D;
+    --color-focus-outline: #E5D7C5;
+    --nav-height: 80px;
+    --container-max-width: 1440px;
+    --card-padding: 24px;
+    --card-radius: 16px;
+    --pill-padding-x: 16px;
+    --pill-padding-y: 8px;
+    --pill-radius: 9999px;
   }
 
   .dark {
