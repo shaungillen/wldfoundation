@@ -41,6 +41,7 @@
     /* === WLDF Design Tokens === */
     --color-bg-canvas: #F3F0EC;
     --color-bg-surface: #FFFFFF;
+    --color-bg-inverse: #1E1E1E;
   }
 
   .dark {
