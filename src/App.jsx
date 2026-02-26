@@ -3,7 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -58,6 +58,19 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      {/* Lowercase alias routes for deep-linkable hub pages */}
+      <Route path="/collection" element={<Navigate to="/Collection" replace />} />
+      <Route path="/collection/:artworkId" element={
+        <LayoutWrapper currentPageName="Collection">
+          <Pages.Collection />
+        </LayoutWrapper>
+      } />
+      <Route path="/artists" element={<Navigate to="/Artists" replace />} />
+      <Route path="/artists/:artistId" element={
+        <LayoutWrapper currentPageName="Artists">
+          <Pages.Artists />
+        </LayoutWrapper>
+      } />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
