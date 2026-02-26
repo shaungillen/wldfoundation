@@ -19,6 +19,7 @@ export default function ProgramCard({
         "group block bg-white border border-charcoal/10 overflow-hidden transition-shadow duration-300 hover:shadow-lg",
         className
       )}
+      style={{ borderRadius: 'var(--card-radius)' }}
     >
       {image && (
         <div className="aspect-[16/10] overflow-hidden">
@@ -31,7 +32,7 @@ export default function ProgramCard({
         </div>
       )}
       
-      <div className="p-6">
+      <div style={{ padding: 'var(--card-padding)' }}>
         {Icon && (
           <div className="w-10 h-10 rounded-full bg-olive/10 flex items-center justify-center mb-4">
             <Icon className="w-5 h-5 text-olive" />
