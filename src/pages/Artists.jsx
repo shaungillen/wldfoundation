@@ -28,7 +28,7 @@ export default function Artists() {
       // Search filter
       if (search) {
         const searchLower = search.toLowerCase();
-        const matchesSearch = 
+        const matchesSearch =
           artist.name?.toLowerCase().includes(searchLower) ||
           artist.nationality?.toLowerCase().includes(searchLower) ||
           artist.bio_short?.toLowerCase().includes(searchLower);
@@ -64,17 +64,22 @@ export default function Artists() {
   const letters = Object.keys(groupedArtists).sort();
 
   const handleArtistClick = (artistId) => {
+    sessionStorage.setItem('artists_scroll', window.scrollY.toString());
     navigate(`/artists/${artistId}`);
   };
 
   const handleCloseModal = () => {
+    const savedScroll = sessionStorage.getItem('artists_scroll');
     navigate('/artists', { replace: true });
+    if (savedScroll !== null) {
+      requestAnimationFrame(() => window.scrollTo(0, parseInt(savedScroll, 10)));
+    }
   };
 
   return (
     <div className="min-h-screen bg-cream">
-      <Modal 
-        isOpen={!!artistId} 
+      <Modal
+        isOpen={!!artistId}
         onClose={handleCloseModal}
         size="xl"
       >
@@ -92,8 +97,8 @@ export default function Artists() {
               The Artists in Our Collection
             </H1>
             <Lead>
-              Over four decades, William Louis-Dreyfus developed relationships 
-              with artists whose work spoke to him personally—many of whom 
+              Over four decades, William Louis-Dreyfus developed relationships
+              with artists whose work spoke to him personally—many of whom
               were underrepresented in major institutions at the time.
             </Lead>
           </div>

@@ -44,7 +44,7 @@ export default function Collection() {
       // Search filter
       if (search) {
         const searchLower = search.toLowerCase();
-        const matchesSearch = 
+        const matchesSearch =
           artwork.title?.toLowerCase().includes(searchLower) ||
           artwork.artist_name?.toLowerCase().includes(searchLower) ||
           artwork.themes?.some(t => t.toLowerCase().includes(searchLower)) ||
@@ -86,7 +86,7 @@ export default function Collection() {
       if (filters.period !== 'all') {
         const artworkYear = parseInt(artwork.year);
         if (!artworkYear) return false;
-        
+
         const periodRanges = {
           'pre-1950': [0, 1949],
           '1950s': [1950, 1959],
@@ -98,7 +98,7 @@ export default function Collection() {
           '2010s': [2010, 2019],
           '2020s': [2020, 2029],
         };
-        
+
         const [start, end] = periodRanges[filters.period] || [0, 9999];
         if (artworkYear < start || artworkYear > end) return false;
       }
@@ -129,8 +129,8 @@ export default function Collection() {
     return results;
   }, [artworks, search, filters, sortBy, yearRange]);
 
-  const activeFilterCount = Object.values(filters).filter(v => v !== 'all').length + 
-    (search ? 1 : 0) + 
+  const activeFilterCount = Object.values(filters).filter(v => v !== 'all').length +
+    (search ? 1 : 0) +
     (yearRange[0] !== 1900 || yearRange[1] !== 2025 ? 1 : 0);
 
   const clearFilters = () => {
@@ -147,17 +147,22 @@ export default function Collection() {
   };
 
   const handleArtworkClick = (artworkId) => {
+    sessionStorage.setItem('collection_scroll', window.scrollY.toString());
     navigate(`/collection/${artworkId}`);
   };
 
   const handleCloseModal = () => {
+    const savedScroll = sessionStorage.getItem('collection_scroll');
     navigate('/collection');
+    if (savedScroll !== null) {
+      requestAnimationFrame(() => window.scrollTo(0, parseInt(savedScroll, 10)));
+    }
   };
 
   return (
     <div className="min-h-screen">
-      <Modal 
-        isOpen={!!artworkId} 
+      <Modal
+        isOpen={!!artworkId}
         onClose={handleCloseModal}
         size="xl"
       >
@@ -174,13 +179,13 @@ export default function Collection() {
               Four Decades of Contemporary Art
             </H1>
             <Lead className="mb-6">
-              Assembled over forty years, this collection reflects one 
+              Assembled over forty years, this collection reflects one
               collector's passionate engagement with contemporary art—
               particularly artists working outside the mainstream.
             </Lead>
             <Body>
-              Works are actively shared through our Art Loan Program, 
-              with pieces regularly traveling to museums and institutions 
+              Works are actively shared through our Art Loan Program,
+              with pieces regularly traveling to museums and institutions
               worldwide.{' '}
               <Link to={createPageUrl('ArtLoanProgram')} className="text-olive hover:underline">
                 Learn about the Art Loan Program →
@@ -260,9 +265,9 @@ export default function Collection() {
               </span>
               <H2 className="mb-6">Art That Travels</H2>
               <Body className="mb-6">
-                Works from this collection regularly travel to museums, 
-                universities, and cultural institutions. If you're a 
-                curator or exhibition organizer interested in borrowing 
+                Works from this collection regularly travel to museums,
+                universities, and cultural institutions. If you're a
+                curator or exhibition organizer interested in borrowing
                 from the collection, we welcome your inquiry.
               </Body>
               <div className="flex flex-wrap gap-4">
@@ -275,7 +280,7 @@ export default function Collection() {
               </div>
             </div>
             <div className="aspect-[4/3] bg-beige/50 overflow-hidden">
-              <img 
+              <img
                 src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"
                 alt="Museum installation"
                 className="w-full h-full object-cover"
