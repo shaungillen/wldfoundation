@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { H1, H2, Lead, Body } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import ArtworkCard from '@/components/cards/ArtworkCard';
 import { Skeleton } from "@/components/ui/skeleton";
 import Modal from '@/components/modals/Modal';
 import ArtworkModal from '@/components/modals/ArtworkModal';
+import { getArtworks, getArtists } from '@/components/data/mockData';
 
 export default function Collection() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -31,12 +31,12 @@ export default function Collection() {
 
   const { data: artworks = [], isLoading: artworksLoading } = useQuery({
     queryKey: ['artworks'],
-    queryFn: () => base44.entities.Artwork.list('-created_date', 500),
+    queryFn: async () => getArtworks(),
   });
 
   const { data: artists = [] } = useQuery({
     queryKey: ['artists'],
-    queryFn: () => base44.entities.Artist.list('name', 500),
+    queryFn: async () => getArtists(),
   });
 
   const filteredArtworks = useMemo(() => {
@@ -239,7 +239,7 @@ export default function Collection() {
                   onClick={() => handleArtworkClick(artwork.id)}
                   className="cursor-pointer"
                 >
-                  <ArtworkCard artwork={artwork} className="" />
+                  <ArtworkCard artwork={artwork} mode="modal" />
                 </div>
               ))
             ) : (

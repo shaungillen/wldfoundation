@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { base44 } from '@/api/base44Client';
+import { getArtwork, getArtworks, getArtist } from '@/components/data/mockData';
 import { useQuery } from '@tanstack/react-query';
 import { H1, H2, Body, Caption } from '@/components/ui/typography';
 import { Button } from "@/components/ui/button";
@@ -25,28 +25,43 @@ export default function ArtworkModal({ artworkId }) {
 
   const { data: artwork, isLoading: artworkLoading } = useQuery({
     queryKey: ['artwork', artworkId],
-    queryFn: () => base44.entities.Artwork.filter({ id: artworkId }),
+    queryFn: async () => getArtwork(artworkId),
     enabled: !!artworkId,
-    select: (data) => data[0],
   });
 
   const { data: relatedArtworks = [] } = useQuery({
-    queryKey: ['artworks', 'related', artwork?.artist_id],
-    queryFn: () => base44.entities.Artwork.filter({ artist_id: artwork.artist_id }, '-created_date', 5),
-    enabled: !!artwork?.artist_id,
+    queryKey: ['artworks', 'related', artwork?.id],
+    queryFn: async () => {
+      const all = getArtworks();
+      return all
+        .filter(a => a.id !== artwork.id)
+        .map(a => {
+          let score = 0;
+          if (a.artist_id === artwork.artist_id) score += 2; // Primary match
+          if (a.medium === artwork.medium) score += 1;
+
+          const aTags = Array.isArray(a.tags) ? a.tags : [];
+          const currTags = Array.isArray(artwork.tags) ? artwork.tags : [];
+          if (aTags.some(t => currTags.includes(t))) score += 1;
+
+          return { ...a, _score: score };
+        })
+        .filter(a => a._score > 0)
+        .sort((a, b) => b._score - a._score)
+        .slice(0, 5); // top 5 recommendations
+    },
+    enabled: !!artwork?.id,
   });
 
   const { data: artist } = useQuery({
     queryKey: ['artist', artwork?.artist_id],
-    queryFn: () => base44.entities.Artist.filter({ id: artwork.artist_id }),
+    queryFn: async () => getArtist(artwork?.artist_id),
     enabled: !!artwork?.artist_id,
-    select: (data) => data[0],
   });
 
   const { data: relatedLoans = [] } = useQuery({
     queryKey: ['loans', 'artwork', artworkId],
-    queryFn: () => base44.entities.LoanCaseStudy.list('-start_date', 100),
-    select: (data) => data.filter(loan => loan.artwork_ids?.includes(artworkId)),
+    queryFn: async () => [],
     enabled: !!artworkId,
   });
 
@@ -91,7 +106,7 @@ export default function ArtworkModal({ artworkId }) {
                 {artwork.image_url ? (
                   <>
                     <Zoom>
-                      <img 
+                      <img
                         src={artwork.image_url}
                         alt={`${artwork.title} by ${artwork.artist_name}`}
                         className="w-full h-full object-contain"
@@ -116,7 +131,7 @@ export default function ArtworkModal({ artworkId }) {
                     onClick={() => setSelectedImage(0)}
                     className={`aspect-square border-2 transition-colors ${selectedImage === 0 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
                   >
-                    <img 
+                    <img
                       src={artwork.image_url}
                       alt="Main view"
                       className="w-full h-full object-cover"
@@ -128,7 +143,7 @@ export default function ArtworkModal({ artworkId }) {
                       onClick={() => setSelectedImage(idx + 1)}
                       className={`aspect-square border-2 transition-colors ${selectedImage === idx + 1 ? 'border-olive' : 'border-charcoal/10 hover:border-charcoal/30'}`}
                     >
-                      <img 
+                      <img
                         src={img}
                         alt={`View ${idx + 2}`}
                         className="w-full h-full object-cover"
@@ -142,7 +157,7 @@ export default function ArtworkModal({ artworkId }) {
 
           {/* Details */}
           <div>
-            <Link 
+            <Link
               to={createPageUrl(`Artists/${artwork.artist_id}`)}
               className="block text-charcoal/60 hover:text-olive transition-colors mb-2"
             >
@@ -231,7 +246,7 @@ export default function ArtworkModal({ artworkId }) {
           <H2 className="mb-6">Exhibition History</H2>
           <div className="space-y-3">
             {relatedLoans.slice(0, 3).map((loan) => (
-              <Link 
+              <Link
                 key={loan.id}
                 to={createPageUrl(`LoanCaseStudy?id=${loan.id}`)}
                 className="block bg-cream p-4 border border-charcoal/10 hover:border-olive/30 transition-colors group"

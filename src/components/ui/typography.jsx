@@ -1,9 +1,9 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 
-export function H1({ children, className, ...props }) {
+export function H1({ children, className = '', ...props }) {
   return (
-    <h1 
+    <h1
       className={cn(
         "font-serif text-charcoal font-light tracking-tight",
         className
@@ -16,9 +16,9 @@ export function H1({ children, className, ...props }) {
   );
 }
 
-export function H2({ children, className, ...props }) {
+export function H2({ children, className = '', ...props }) {
   return (
-    <h2 
+    <h2
       className={cn(
         "font-serif text-charcoal font-light tracking-tight",
         className
@@ -31,9 +31,9 @@ export function H2({ children, className, ...props }) {
   );
 }
 
-export function H3({ children, className, ...props }) {
+export function H3({ children, className = '', ...props }) {
   return (
-    <h3 
+    <h3
       className={cn(
         "font-serif text-charcoal font-light",
         className
@@ -46,13 +46,13 @@ export function H3({ children, className, ...props }) {
   );
 }
 
-export function H4({ children, className, ...props }) {
+export function H4({ children, className = '', ...props }) {
   return (
-    <h4 
+    <h4
       className={cn(
         "font-serif text-xl md:text-2xl font-normal text-charcoal leading-snug",
         className
-      )} 
+      )}
       {...props}
     >
       {children}
@@ -60,9 +60,9 @@ export function H4({ children, className, ...props }) {
   );
 }
 
-export function Lead({ children, className, ...props }) {
+export function Lead({ children, className = '', ...props }) {
   return (
-    <p 
+    <p
       className={cn(
         "text-charcoal/80 font-light",
         className
@@ -75,9 +75,9 @@ export function Lead({ children, className, ...props }) {
   );
 }
 
-export function Body({ children, className, ...props }) {
+export function Body({ children, className = '', ...props }) {
   return (
-    <p 
+    <p
       className={cn(
         "text-charcoal/70",
         className
@@ -90,9 +90,9 @@ export function Body({ children, className, ...props }) {
   );
 }
 
-export function Small({ children, className, ...props }) {
+export function Small({ children, className = '', ...props }) {
   return (
-    <p 
+    <p
       className={cn(
         "text-charcoal/60",
         className
@@ -105,13 +105,13 @@ export function Small({ children, className, ...props }) {
   );
 }
 
-export function Caption({ children, className, ...props }) {
+export function Caption({ children, className = '', ...props }) {
   return (
-    <span 
+    <span
       className={cn(
         "text-xs uppercase tracking-widest text-charcoal/50 font-medium",
         className
-      )} 
+      )}
       {...props}
     >
       {children}
@@ -119,13 +119,13 @@ export function Caption({ children, className, ...props }) {
   );
 }
 
-export function Quote({ children, author, className, ...props }) {
+export function Quote({ children, author, className = '', ...props }) {
   return (
-    <blockquote 
+    <blockquote
       className={cn(
         "border-l-2 border-olive pl-6 py-2",
         className
-      )} 
+      )}
       {...props}
     >
       <p className="font-serif text-xl md:text-2xl text-charcoal/80 italic leading-relaxed">

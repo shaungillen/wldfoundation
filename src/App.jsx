@@ -16,13 +16,14 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
   <Layout currentPageName={currentPageName}>{children}</Layout>
   : <>{children}</>;
 
-/**
- * Redirect /artworks/:id → /ArtworkDetail?id=:id
- * Keeps the canonical query-param resolver intact.
- */
 const ArtworkDetailRouted = () => {
   const { artworkId } = useParams();
-  return <Navigate to={`/ArtworkDetail?id=${artworkId}`} replace />;
+  return <Navigate to={`/collection/${artworkId}`} replace />;
+};
+
+const ArtistDetailRouted = () => {
+  const { artistId } = useParams();
+  return <Navigate to={`/artists/${artistId}`} replace />;
 };
 
 const AuthenticatedApp = () => {
@@ -52,6 +53,10 @@ const AuthenticatedApp = () => {
           <MainPage />
         </LayoutWrapper>
       } />
+      <Route path="/MissionControl" element={
+        <Pages.MissionControl />
+      } />
+
       {Object.entries(Pages).map(([path, Page]) => (
         <Route
           key={path}
@@ -64,17 +69,18 @@ const AuthenticatedApp = () => {
         />
       ))}
 
-      {/* /artworks/:id — redirects to /ArtworkDetail?id=:id */}
-      <Route path="/artworks" element={<Navigate to="/Collection" replace />} />
+      {/* /artworks/:id — redirects to /collection/:id (modal first concept) */}
+      <Route path="/artworks" element={<Navigate to="/collection" replace />} />
       <Route path="/artworks/:artworkId" element={<ArtworkDetailRouted />} />
 
-      {/* Lowercase alias routes for deep-linkable hub pages */}
+      {/* Lowercase alias routes for deep-linkable hub pages (MODAL FIRST) */}
       <Route path="/collection" element={<Navigate to="/Collection" replace />} />
       <Route path="/collection/:artworkId" element={
         <LayoutWrapper currentPageName="Collection">
           <Pages.Collection />
         </LayoutWrapper>
       } />
+
       <Route path="/artists" element={<Navigate to="/Artists" replace />} />
       <Route path="/artists/:artistId" element={
         <LayoutWrapper currentPageName="Artists">

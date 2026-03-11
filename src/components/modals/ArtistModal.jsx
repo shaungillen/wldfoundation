@@ -14,9 +14,9 @@ export default function ArtistModal({ artistId }) {
 
   const generateTimeline = () => {
     if (!artist) return [];
-    
+
     const events = [];
-    
+
     if (artist.lifespan) {
       const birthYear = artist.lifespan.match(/\d{4}/)?.[0];
       if (birthYear) {
@@ -28,12 +28,12 @@ export default function ArtistModal({ artistId }) {
         });
       }
     }
-    
+
     const significantWorks = artworks
       .filter(aw => aw.year)
       .sort((a, b) => parseInt(a.year) - parseInt(b.year))
       .slice(0, 5);
-    
+
     significantWorks.forEach(work => {
       events.push({
         year: work.year,
@@ -42,7 +42,7 @@ export default function ArtistModal({ artistId }) {
         location: ''
       });
     });
-    
+
     artistLoans.slice(0, 3).forEach(loan => {
       const year = loan.start_date?.split('-')[0];
       if (year) {
@@ -54,7 +54,7 @@ export default function ArtistModal({ artistId }) {
         });
       }
     });
-    
+
     return events.sort((a, b) => parseInt(a.year) - parseInt(b.year));
   };
 
@@ -80,7 +80,7 @@ export default function ArtistModal({ artistId }) {
           <div>
             <div className="aspect-[3/4] bg-beige/50 overflow-hidden">
               {artist.portrait_url ? (
-                <img 
+                <img
                   src={artist.portrait_url}
                   alt={artist.name}
                   className="w-full h-full object-cover"
@@ -179,7 +179,7 @@ export default function ArtistModal({ artistId }) {
           <H2 className="mb-6">Works in Collection</H2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {artworks.slice(0, 6).map((artwork) => (
-              <ArtworkCard key={artwork.id} artwork={artwork} />
+              <ArtworkCard key={artwork.id} artwork={artwork} mode="modal" />
             ))}
           </div>
           {artworks.length > 6 && (

@@ -12,13 +12,16 @@ export default function Layout({ children }) {
     <LanguageProvider>
       <div className="min-h-screen flex flex-col bg-cream">
         <ScrollToTop />
-      <style>{`
+        <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Poiret+One&display=swap');
+
         :root {
-          --color-cream: #FDFBF7;
-          --color-charcoal: #2C2C2C;
-          --color-olive: #6B7C5E;
-          --color-beige: #E8E4DC;
-          --color-warm-gray: #A8A29E;
+          /* Swiss Style / Minimalist Gallery Theme */
+          --color-cream: #FAFAFA;
+          --color-charcoal: #18181B;
+          --color-olive: #09090B;
+          --color-beige: #F4F4F5;
+          --color-warm-gray: #A1A1AA;
 
           /* Layout System */
           --container-max: 1200px;
@@ -61,12 +64,14 @@ export default function Layout({ children }) {
         .border-cream { border-color: var(--color-cream); }
         .border-beige { border-color: var(--color-beige); }
 
-        .font-serif {
-          font-family: 'Cormorant Garamond', Georgia, serif;
+        .font-serif, h1, h2, h3, h4, h5, h6 {
+          font-family: 'Poiret One', cursive, sans-serif;
+          font-weight: 400;
+          letter-spacing: 0.02em;
         }
 
         body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-family: 'Didact Gothic', sans-serif;
           font-size: var(--text-body);
           line-height: var(--line-body);
         }
@@ -139,17 +144,17 @@ export default function Layout({ children }) {
           }
         }
       `}</style>
-      
-      <SkipLink />
-      <Header />
-      
-      <main id="main-content" className="flex-1 pt-[106px]">
-        {children}
-      </main>
-      
-      <Footer />
-      <CookieBanner />
-      <Toaster position="bottom-right" />
+
+        <SkipLink />
+        <Header />
+
+        <main id="main-content" className="flex-1 pt-[106px]">
+          {children}
+        </main>
+
+        <Footer />
+        <CookieBanner />
+        <Toaster position="bottom-right" />
       </div>
     </LanguageProvider>
   );

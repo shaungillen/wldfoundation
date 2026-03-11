@@ -168,7 +168,7 @@ export default function Artists() {
                         onClick={() => handleArtistClick(artist.id)}
                         className="cursor-pointer"
                       >
-                        <ArtistCard artist={artist} className="" />
+                        <ArtistCard artist={artist} mode="modal" />
                       </div>
                     ))}
                   </div>
