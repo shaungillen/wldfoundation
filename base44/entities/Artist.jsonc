@@ -1,0 +1,85 @@
+{
+  "name": "Artist",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the artist"
+    },
+    "lifespan": {
+      "type": "string",
+      "description": "Birth-death years, e.g., '1923-2019' or 'b. 1965'"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "core",
+        "showcase",
+        "cornerstone"
+      ],
+      "default": "core",
+      "description": "Display tier determining page template richness"
+    },
+    "bio_short": {
+      "type": "string",
+      "description": "Brief 1-2 sentence description"
+    },
+    "bio_long": {
+      "type": "string",
+      "description": "Full biographical essay"
+    },
+    "portrait_url": {
+      "type": "string",
+      "description": "URL to artist portrait image"
+    },
+    "nationality": {
+      "type": "string",
+      "description": "Artist nationality"
+    },
+    "active_period": {
+      "type": "string",
+      "description": "Period of activity, e.g., 'Contemporary' or '1950s-1980s'"
+    },
+    "medium_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Primary mediums the artist works in"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categorization tags"
+    },
+    "quote": {
+      "type": "string",
+      "description": "Notable quote by or about the artist"
+    },
+    "wld_relationship": {
+      "type": "string",
+      "description": "Description of relationship with William Louis-Dreyfus"
+    },
+    "interview_url": {
+      "type": "string",
+      "description": "URL to interview video or transcript"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to feature on homepage"
+    },
+    "related_artist_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of related artists"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

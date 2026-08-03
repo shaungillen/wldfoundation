@@ -1,0 +1,110 @@
+{
+  "name": "Artwork",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the artwork"
+    },
+    "artist_id": {
+      "type": "string",
+      "description": "Reference to the artist"
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "Artist name for display"
+    },
+    "year": {
+      "type": "string",
+      "description": "Year created, e.g., '1985' or 'c. 1960'"
+    },
+    "medium": {
+      "type": "string",
+      "description": "Medium/materials used"
+    },
+    "dimensions": {
+      "type": "string",
+      "description": "Physical dimensions"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_collection",
+        "on_view",
+        "on_loan",
+        "family_office",
+        "formerly_in_collection"
+      ],
+      "default": "in_collection",
+      "description": "Current status of the work"
+    },
+    "location": {
+      "type": "string",
+      "description": "Current location if on view or loan"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Primary image URL"
+    },
+    "additional_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional image URLs"
+    },
+    "acquisition_year": {
+      "type": "string",
+      "description": "Year acquired"
+    },
+    "acquisition_source": {
+      "type": "string",
+      "description": "Source of acquisition"
+    },
+    "provenance": {
+      "type": "string",
+      "description": "Provenance notes"
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Thematic tags"
+    },
+    "nationality": {
+      "type": "string",
+      "description": "Nationality context"
+    },
+    "period": {
+      "type": "string",
+      "description": "Art historical period"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "painting",
+        "sculpture",
+        "works_on_paper",
+        "photography",
+        "mixed_media",
+        "installation",
+        "other"
+      ],
+      "description": "Artwork category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Curatorial description"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured on homepage"
+    }
+  },
+  "required": [
+    "title",
+    "artist_name"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "NewsletterSubscription",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Subscriber email"
+    },
+    "name": {
+      "type": "string",
+      "description": "Subscriber name"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Areas of interest"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "unsubscribed"
+      ],
+      "default": "active",
+      "description": "Subscription status"
+    }
+  },
+  "required": [
+    "email"
+  ]
+}

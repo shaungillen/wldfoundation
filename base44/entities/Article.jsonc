@@ -1,0 +1,83 @@
+{
+  "name": "Article",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Article title"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "news",
+        "essay",
+        "scholarship",
+        "reflection"
+      ],
+      "default": "news",
+      "description": "Content type"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Publication date"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author name"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Short preview text"
+    },
+    "body": {
+      "type": "string",
+      "description": "Full article content (markdown)"
+    },
+    "hero_image": {
+      "type": "string",
+      "description": "Featured image URL"
+    },
+    "pull_quote": {
+      "type": "string",
+      "description": "Highlighted quote from article"
+    },
+    "related_artist_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related artist IDs"
+    },
+    "related_artwork_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related artwork IDs"
+    },
+    "related_loan_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related loan case study IDs"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Content tags"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured on homepage"
+    }
+  },
+  "required": [
+    "title",
+    "type"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "name": "LoanCaseStudy",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Exhibition or loan title"
+    },
+    "institution": {
+      "type": "string",
+      "description": "Partner institution name"
+    },
+    "institution_logo": {
+      "type": "string",
+      "description": "Logo URL"
+    },
+    "location": {
+      "type": "string",
+      "description": "City, Country"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Loan start date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Loan end date"
+    },
+    "artwork_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of loaned artworks"
+    },
+    "hero_image": {
+      "type": "string",
+      "description": "Primary exhibition image"
+    },
+    "installation_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Installation view images"
+    },
+    "overview": {
+      "type": "string",
+      "description": "Why this partnership existed"
+    },
+    "exhibition_context": {
+      "type": "string",
+      "description": "How works were presented"
+    },
+    "impact": {
+      "type": "string",
+      "description": "Educational/public significance"
+    },
+    "print_materials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Catalogs, wall text, PDFs"
+    },
+    "external_link": {
+      "type": "string",
+      "description": "Institution exhibition page"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured on program page"
+    },
+    "visitor_count": {
+      "type": "number",
+      "description": "Estimated visitors"
+    }
+  },
+  "required": [
+    "title",
+    "institution"
+  ]
+}

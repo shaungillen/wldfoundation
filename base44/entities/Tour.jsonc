@@ -1,0 +1,65 @@
+{
+  "name": "Tour",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Tour name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "in_person",
+        "virtual",
+        "thematic"
+      ],
+      "default": "in_person",
+      "description": "Tour type"
+    },
+    "description": {
+      "type": "string",
+      "description": "Tour description"
+    },
+    "duration": {
+      "type": "string",
+      "description": "Estimated duration"
+    },
+    "capacity": {
+      "type": "number",
+      "description": "Maximum group size"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Tour preview image"
+    },
+    "featured_artwork_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Artworks featured on this tour"
+    },
+    "virtual_tour_url": {
+      "type": "string",
+      "description": "URL for virtual tour experience"
+    },
+    "floor_plan_url": {
+      "type": "string",
+      "description": "Gallery floor plan image"
+    },
+    "available": {
+      "type": "boolean",
+      "default": true,
+      "description": "Currently available"
+    },
+    "booking_required": {
+      "type": "boolean",
+      "default": true,
+      "description": "Requires advance booking"
+    }
+  },
+  "required": [
+    "title",
+    "type"
+  ]
+}

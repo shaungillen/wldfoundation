@@ -1,0 +1,58 @@
+{
+  "name": "LoanInquiry",
+  "type": "object",
+  "properties": {
+    "institution_name": {
+      "type": "string",
+      "description": "Requesting institution"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Primary contact name"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "contact_title": {
+      "type": "string",
+      "description": "Contact job title"
+    },
+    "exhibition_title": {
+      "type": "string",
+      "description": "Proposed exhibition title"
+    },
+    "exhibition_dates": {
+      "type": "string",
+      "description": "Proposed exhibition dates"
+    },
+    "requested_artworks": {
+      "type": "string",
+      "description": "Description of requested works"
+    },
+    "exhibition_context": {
+      "type": "string",
+      "description": "Exhibition context and purpose"
+    },
+    "venue_details": {
+      "type": "string",
+      "description": "Venue information"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "under_review",
+        "approved",
+        "declined"
+      ],
+      "default": "pending",
+      "description": "Inquiry status"
+    }
+  },
+  "required": [
+    "institution_name",
+    "contact_name",
+    "contact_email"
+  ]
+}

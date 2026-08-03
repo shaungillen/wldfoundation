@@ -1,0 +1,70 @@
+{
+  "name": "TourRequest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Requester name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Organization if applicable"
+    },
+    "tour_type": {
+      "type": "string",
+      "enum": [
+        "in_person",
+        "virtual",
+        "thematic",
+        "group"
+      ],
+      "description": "Requested tour type"
+    },
+    "preferred_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Preferred visit date"
+    },
+    "alternate_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Alternate date"
+    },
+    "group_size": {
+      "type": "number",
+      "description": "Number of visitors"
+    },
+    "special_interests": {
+      "type": "string",
+      "description": "Particular interests or accessibility needs"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "completed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Request status"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Internal notes"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "tour_type"
+  ]
+}
