@@ -224,7 +224,7 @@ export default function LibraryArchive() {
 
         {featured && !articlesQuery.isError && (
           <section aria-label="Featured Library resource" className="py-10 md:py-12">
-            <p className="text-[11px] uppercase tracking-[.08em] text-[#88827C] mb-6">Featured {resourceLabel(resourceKind(featured)).replace(/s$/, '')}</p>
+            <p className="text-[11px] uppercase tracking-[.08em] text-[#88827C] mb-6">Featured {({ publications: 'Publication', essays: 'Essay', interviews: 'Interview', video: 'Video', audio: 'Audio', photography: 'Photography', stories: 'Story' })[resourceKind(featured)]}</p>
             <div className="grid gap-7 md:gap-12 md:grid-cols-[minmax(0,35%)_minmax(0,1fr)] items-center">
               <div className="aspect-[5/4] bg-[#E9E5DE] overflow-hidden flex items-center justify-center">
                 {featured.hero_image ? (
