@@ -23,6 +23,9 @@ const typeConfig = {
 export default function ArticleDetail() {
   const urlParams = new URLSearchParams(window.location.search);
   const articleId = urlParams.get('id');
+  const fromLibrary = urlParams.get('from') === 'library';
+  const returnPath = fromLibrary ? '/library' : createPageUrl('Stories');
+  const returnLabel = fromLibrary ? 'Back to Library' : 'Back to Stories & Writing';
 
   const { data: article, isLoading: articleLoading } = useQuery({
     queryKey: ['article', articleId],
@@ -68,9 +71,9 @@ export default function ArticleDetail() {
           <H1 className="mb-4">Article Not Found</H1>
           <Body className="mb-8">The requested article could not be found.</Body>
           <Button asChild>
-            <Link to={createPageUrl('News')}>
+            <Link to={returnPath}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to News
+              {returnLabel}
             </Link>
           </Button>
         </div>
@@ -85,11 +88,11 @@ export default function ArticleDetail() {
       {/* Back Link */}
       <div className="max-w-3xl mx-auto px-4 md:px-6 lg:px-8 py-6">
         <Link 
-          to={createPageUrl('News')}
+          to={returnPath}
           className="inline-flex items-center text-sm text-charcoal/60 hover:text-charcoal transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to News & Writing
+          {returnLabel}
         </Link>
       </div>
 
@@ -201,7 +204,7 @@ export default function ArticleDetail() {
         <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <H2 className="mb-6">Continue Reading</H2>
           <Button asChild className="bg-charcoal hover:bg-charcoal/90 text-cream">
-            <Link to={createPageUrl('News')}>
+            <Link to={returnPath}>
               View All Articles
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
