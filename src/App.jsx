@@ -5,6 +5,7 @@ import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
+import LibraryArchive from './pages/LibraryArchive';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
@@ -63,6 +64,13 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+
+      {/* Additive WLDF Library pilot; existing Collection route remains unchanged */}
+      <Route path="/library" element={
+        <LayoutWrapper currentPageName="Collection">
+          <LibraryArchive />
+        </LayoutWrapper>
+      } />
 
       {/* /artworks/:id — redirects to /ArtworkDetail?id=:id */}
       <Route path="/artworks" element={<Navigate to="/Collection" replace />} />
