@@ -25,7 +25,7 @@ const resourceLabel = (kind) =>
 
 function ResourceCard({ resource }) {
   const kind = resourceKind(resource);
-  const link = resource.id ? `/ArticleDetail?id=${encodeURIComponent(resource.id)}` : null;
+  const link = resource.id ? `/ArticleDetail?id=${encodeURIComponent(resource.id)}&from=library` : null;
   return (
     <article className="min-w-0">
       {resource.hero_image ? (
@@ -238,7 +238,7 @@ export default function LibraryArchive() {
                 </p>
                 {featured.excerpt && <p className="mt-6 text-[15px] leading-[1.75] text-[#5D5854] max-w-[680px]">{featured.excerpt}</p>}
                 {featured.id && (
-                  <Link to={`/ArticleDetail?id=${encodeURIComponent(featured.id)}`} className="mt-6 inline-flex items-center gap-2 min-h-11 px-5 text-white text-[13px] font-medium hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E1E1E]" style={{ backgroundColor: tone.accent }}>
+                  <Link to={`/ArticleDetail?id=${encodeURIComponent(featured.id)}&from=library`} className="mt-6 inline-flex items-center gap-2 min-h-11 px-5 text-white text-[13px] font-medium hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E1E1E]" style={{ backgroundColor: tone.accent }}>
                     Read Resource <ArrowRight aria-hidden="true" size={15} />
                   </Link>
                 )}
