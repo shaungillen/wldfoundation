@@ -77,6 +77,8 @@ export default function ArtworkModal({ artworkId }) {
 
   const status = statusConfig[artwork.status] || statusConfig.in_collection;
   const otherArtworks = relatedArtworks.filter(a => a.id !== artwork.id).slice(0, 4);
+  const imageChoices = [artwork.image_url, ...(artwork.additional_images || [])].filter(Boolean);
+  const activeImage = imageChoices[selectedImage] || imageChoices[0];
 
   return (
     <div>
@@ -88,11 +90,11 @@ export default function ArtworkModal({ artworkId }) {
             <div className="space-y-4">
               {/* Main Image */}
               <div className="aspect-[4/5] bg-beige/50 overflow-hidden relative group border border-charcoal/10">
-                {artwork.image_url ? (
+                {activeImage ? (
                   <>
                     <Zoom>
                       <img 
-                        src={artwork.image_url}
+                        src={activeImage}
                         alt={`${artwork.title} by ${artwork.artist_name}`}
                         className="w-full h-full object-contain"
                       />
@@ -143,7 +145,7 @@ export default function ArtworkModal({ artworkId }) {
           {/* Details */}
           <div>
             <Link 
-              to={createPageUrl(`Artists/${artwork.artist_id}`)}
+              to={createPageUrl(`ArtistDetail?id=${artwork.artist_id}`)}
               className="block text-charcoal/60 hover:text-olive transition-colors mb-2"
             >
               {artwork.artist_name}
@@ -214,7 +216,7 @@ export default function ArtworkModal({ artworkId }) {
               )}
               {artist && (
                 <Button asChild variant="outline" className="border-charcoal/20">
-                  <Link to={createPageUrl(`Artists/${artwork.artist_id}`)}>
+                  <Link to={createPageUrl(`ArtistDetail?id=${artwork.artist_id}`)}>
                     About {artist.name}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
@@ -259,7 +261,7 @@ export default function ArtworkModal({ artworkId }) {
           <div className="flex items-center justify-between mb-6">
             <H2>More by {artwork.artist_name}</H2>
             <Button asChild variant="outline" className="border-charcoal/20" size="sm">
-              <Link to={createPageUrl(`Artists/${artwork.artist_id}`)}>
+              <Link to={createPageUrl(`ArtistDetail?id=${artwork.artist_id}`)}>
                 View All
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
